@@ -2,19 +2,23 @@ package com.ccnu.xiahongyun.stmanagementsystem.model;
 
 public class Examroom {
     Integer id;
-    Integer tid;
-    Integer cid;
-    Integer number;
+    Teacher tea;
+    Classroom classroom;
 
     public Examroom() {
+    }
+
+    public Integer getId() {
+
+        return id;
     }
 
     @Override
     public String toString() {
         return "Examroom{" +
                 "id=" + id +
-                ", tid=" + tid +
-                ", cid=" + cid +
+                ", tea=" + tea +
+                ", classroom=" + classroom +
                 ", number=" + number +
                 '}';
     }
@@ -27,43 +31,40 @@ public class Examroom {
         Examroom examroom = (Examroom) o;
 
         if (getId() != null ? !getId().equals(examroom.getId()) : examroom.getId() != null) return false;
-        if (getTid() != null ? !getTid().equals(examroom.getTid()) : examroom.getTid() != null) return false;
-        if (getCid() != null ? !getCid().equals(examroom.getCid()) : examroom.getCid() != null) return false;
+        if (getTea() != null ? !getTea().equals(examroom.getTea()) : examroom.getTea() != null) return false;
+        if (getClassroom() != null ? !getClassroom().equals(examroom.getClassroom()) : examroom.getClassroom() != null)
+            return false;
         return getNumber() != null ? getNumber().equals(examroom.getNumber()) : examroom.getNumber() == null;
     }
 
     @Override
     public int hashCode() {
         int result = getId() != null ? getId().hashCode() : 0;
-        result = 31 * result + (getTid() != null ? getTid().hashCode() : 0);
-        result = 31 * result + (getCid() != null ? getCid().hashCode() : 0);
+        result = 31 * result + (getTea() != null ? getTea().hashCode() : 0);
+        result = 31 * result + (getClassroom() != null ? getClassroom().hashCode() : 0);
         result = 31 * result + (getNumber() != null ? getNumber().hashCode() : 0);
         return result;
     }
 
-    public Integer getId() {
-
-        return id;
-    }
-
     public void setId(Integer id) {
+
         this.id = id;
     }
 
-    public Integer getTid() {
-        return tid;
+    public Teacher getTea() {
+        return tea;
     }
 
-    public void setTid(Integer tid) {
-        this.tid = tid;
+    public void setTea(Teacher tea) {
+        this.tea = tea;
     }
 
-    public Integer getCid() {
-        return cid;
+    public Classroom getClassroom() {
+        return classroom;
     }
 
-    public void setCid(Integer cid) {
-        this.cid = cid;
+    public void setClassroom(Classroom classroom) {
+        this.classroom = classroom;
     }
 
     public Integer getNumber() {
@@ -74,11 +75,15 @@ public class Examroom {
         this.number = number;
     }
 
-    public Examroom(Integer id, Integer tid, Integer cid, Integer number) {
+    public Examroom(Integer id, Teacher tea, Classroom classroom, Integer number) {
 
         this.id = id;
-        this.tid = tid;
-        this.cid = cid;
+        this.tea = tea;
+        this.classroom = classroom;
         this.number = number;
     }
+
+    Integer number;
+
+
 }

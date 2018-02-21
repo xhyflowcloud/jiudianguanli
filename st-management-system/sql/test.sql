@@ -4,7 +4,7 @@ use test;
 CREATE TABLE `subject` (
   id int AUTO_INCREMENT PRIMARY KEY ,
   name VARCHAR(20),
-  starttime DATETIME,
+  starttime BIGINT,
   duration int ,
   number int
 );
@@ -46,7 +46,7 @@ CREATE TABLE `register` (
 );
 
 CREATE TABLE `student`(
-  examid BIGINT PRIMARY KEY ,
+  examid INT PRIMARY KEY ,
   name VARCHAR(50) ,
   id VARCHAR(30),
   sid BIGINT AUTO_INCREMENT
@@ -54,7 +54,7 @@ CREATE TABLE `student`(
 
 
 CREATE TABLE `studentinformation` (
-  examid BIGINT ,
+  examid INT ,
   sbid int ,
   FOREIGN KEY (examid) REFERENCES student(examid),
   FOREIGN KEY (sbid) REFERENCES subject(id),

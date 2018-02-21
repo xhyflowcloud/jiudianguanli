@@ -1,6 +1,8 @@
 package com.ccnu.xiahongyun.stmanagementsystem;
 
+import com.ccnu.xiahongyun.stmanagementsystem.mapper.ClassroomMapper;
 import com.ccnu.xiahongyun.stmanagementsystem.mapper.UserMapper;
+import com.ccnu.xiahongyun.stmanagementsystem.model.Classroom;
 import com.ccnu.xiahongyun.stmanagementsystem.model.User;
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,7 +19,7 @@ import java.util.List;
 public class StManagementSystemApplicationTests {
 
 	@Autowired
-	private UserMapper userMapper;
+	private ClassroomMapper cs;
 
 	@Test
 	public void contextLoads() {
@@ -26,10 +28,17 @@ public class StManagementSystemApplicationTests {
 
 	@Test
 	@Rollback
+	public void insertClassroom() throws Exception {
+
+	    cs.insertClassroom(20,"jianren");
+
+    }
+	@Test
+	@Rollback
 	public void findByName() throws Exception {
 
-	    userMapper.insertUser(1L,"AAAAA", 12);
-        User e = userMapper.findUserById(1L);
-        System.out.println(e.getName());
-    }
+		Classroom c= cs.findClassroomById(1);
+		System.out.println(c.getPosition());
+
+	}
 }

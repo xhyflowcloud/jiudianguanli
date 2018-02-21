@@ -11,6 +11,6 @@ public interface UserMapper {
     @Select("select * from User where id = #{id}")
     User findUserById(@Param("id") Long id);
 
-    @Insert("insert into User(id, name, age) values(#{id}, #{name}, #{age})")
+    @Insert(" insert into User(id, name, age) values(#{id}, #{name}, #{age})")
     void insertUser(@Param("id") Long id, @Param("name") String name, @Param("age") Integer age);
 }

@@ -1,7 +1,7 @@
 package com.ccnu.xiahongyun.stmanagementsystem.model;
 
 public class StudentImformation {
-    Integer examid;
+    Long examid;
     Integer sbid;
 
     @Override
@@ -30,12 +30,16 @@ public class StudentImformation {
         return result;
     }
 
-    public Integer getExamid() {
+    public StudentImformation() {
+
+    }
+
+    public Long getExamid() {
 
         return examid;
     }
 
-    public void setExamid(Integer examid) {
+    public void setExamid(Long examid) {
         this.examid = examid;
     }
 
@@ -47,7 +51,7 @@ public class StudentImformation {
         this.sbid = sbid;
     }
 
-    public StudentImformation(Integer examid, Integer sbid) {
+    public StudentImformation(Long examid, Integer sbid) {
 
         this.examid = examid;
         this.sbid = sbid;

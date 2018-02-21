@@ -31,8 +31,10 @@ CREATE TABLE `examroom` (
   rid int,
   tid int,
   number int,
+  sid int,
   FOREIGN KEY (rid) REFERENCES classroom(id),
-  FOREIGN KEY (tid) REFERENCES teacher(id)
+  FOREIGN KEY (tid) REFERENCES teacher(id),
+  FOREIGN KEY (sid) REFERENCES subject(id)
 );
 
 /*登录注册*/

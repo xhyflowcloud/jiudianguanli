@@ -49,7 +49,7 @@ CREATE TABLE `student`(
   examid INT PRIMARY KEY ,
   name VARCHAR(50) ,
   id VARCHAR(30),
-  sid BIGINT AUTO_INCREMENT
+  sid INT
 );
 
 

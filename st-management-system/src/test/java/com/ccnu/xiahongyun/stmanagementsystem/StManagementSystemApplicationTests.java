@@ -1,6 +1,8 @@
 package com.ccnu.xiahongyun.stmanagementsystem;
 
+import com.ccnu.xiahongyun.stmanagementsystem.mapper.StudentInfoMapper;
 import com.ccnu.xiahongyun.stmanagementsystem.mapper.UserMapper;
+import com.ccnu.xiahongyun.stmanagementsystem.model.StudentImformation;
 import com.ccnu.xiahongyun.stmanagementsystem.model.User;
 import org.junit.Assert;
 import org.junit.Test;
@@ -18,6 +20,8 @@ public class StManagementSystemApplicationTests {
 
 	@Autowired
 	private UserMapper userMapper;
+	@Autowired
+	private StudentInfoMapper studentInfoMapper;
 
 	@Test
 	public void contextLoads() {
@@ -32,4 +36,14 @@ public class StManagementSystemApplicationTests {
         User e = userMapper.findUserById(1L);
         System.out.println(e.getName());
     }
+
+    @Test
+	@Rollback
+	public void TestStudentInfoMapper(){
+		//studentInfoMapper.insertStudentInfo(1231,123);
+		//studentInfoMapper.insertStudentInfo(1232,123);
+		//StudentImformation s = studentInfoMapper.findStudentInfoByExamid(1231);
+		//System.out.println(s.getExamid() + " " + s.getSbid());
+		studentInfoMapper.deleteStudentInfoByExamid(1231);
+	}
 }

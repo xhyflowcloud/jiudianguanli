@@ -1,5 +1,6 @@
 package com.ccnu.xiahongyun.stmanagementsystem.mapper;
 
+import com.ccnu.xiahongyun.stmanagementsystem.model.Subject;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 

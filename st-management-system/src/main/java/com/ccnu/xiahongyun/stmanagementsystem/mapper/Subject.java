@@ -14,9 +14,9 @@ public interface Subject {
     /*@Insert({"insert into subject( name, starttime,duration,number) values (#{name}, #{starttime},#{duration},#{number} )"})
     void insert();*/
 
-    @Select({"select *from subject"})
+    @Select({"select * from subject"})
     List<Subject> selectAll();
 
-    @Select({"select *from subject where name = #{name}"})
+    @Select({"select * from subject where name = #{name}"})
     Subject selectByName(@Param("name") String name);
 }

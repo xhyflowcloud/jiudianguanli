@@ -1,13 +1,22 @@
 package com.ccnu.xiahongyun.stmanagementsystem.model;
 
-import java.util.Arrays;
-
 public class Teacher {
     Integer id;
     String name;
-    String[] experience;
+    Boolean isInvigilator;
+    Integer numInvigilator;
+    Boolean accInvigilator;
 
-    public Teacher() {
+    public Teacher(){
+
+    }
+
+    public Teacher(Integer id, String name, Boolean isInvigilator, Integer numInvigilator, Boolean accInvigilator) {
+        this.id = id;
+        this.name = name;
+        this.isInvigilator = isInvigilator;
+        this.numInvigilator = numInvigilator;
+        this.accInvigilator = accInvigilator;
     }
 
     @Override
@@ -15,7 +24,9 @@ public class Teacher {
         return "Teacher{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", experience=" + Arrays.toString(experience) +
+                ", isInvigilator=" + isInvigilator +
+                ", numInvigilator=" + numInvigilator +
+                ", accInvigilator=" + accInvigilator +
                 '}';
     }
 
@@ -28,20 +39,24 @@ public class Teacher {
 
         if (getId() != null ? !getId().equals(teacher.getId()) : teacher.getId() != null) return false;
         if (getName() != null ? !getName().equals(teacher.getName()) : teacher.getName() != null) return false;
-        // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        return Arrays.equals(getExperience(), teacher.getExperience());
+        if (isInvigilator != null ? !isInvigilator.equals(teacher.isInvigilator) : teacher.isInvigilator != null)
+            return false;
+        if (getNumInvigilator() != null ? !getNumInvigilator().equals(teacher.getNumInvigilator()) : teacher.getNumInvigilator() != null)
+            return false;
+        return getAccInvigilator() != null ? getAccInvigilator().equals(teacher.getAccInvigilator()) : teacher.getAccInvigilator() == null;
     }
 
     @Override
     public int hashCode() {
         int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getName() != null ? getName().hashCode() : 0);
-        result = 31 * result + Arrays.hashCode(getExperience());
+        result = 31 * result + (isInvigilator != null ? isInvigilator.hashCode() : 0);
+        result = 31 * result + (getNumInvigilator() != null ? getNumInvigilator().hashCode() : 0);
+        result = 31 * result + (getAccInvigilator() != null ? getAccInvigilator().hashCode() : 0);
         return result;
     }
 
     public Integer getId() {
-
         return id;
     }
 
@@ -57,18 +72,27 @@ public class Teacher {
         this.name = name;
     }
 
-    public String[] getExperience() {
-        return experience;
+    public Boolean getInvigilator() {
+        return isInvigilator;
     }
 
-    public void setExperience(String[] experience) {
-        this.experience = experience;
+    public void setInvigilator(Boolean invigilator) {
+        isInvigilator = invigilator;
     }
 
-    public Teacher(Integer id, String name, String[] experience) {
+    public Integer getNumInvigilator() {
+        return numInvigilator;
+    }
 
-        this.id = id;
-        this.name = name;
-        this.experience = experience;
+    public void setNumInvigilator(Integer numInvigilator) {
+        this.numInvigilator = numInvigilator;
+    }
+
+    public Boolean getAccInvigilator() {
+        return accInvigilator;
+    }
+
+    public void setAccInvigilator(Boolean accInvigilator) {
+        this.accInvigilator = accInvigilator;
     }
 }

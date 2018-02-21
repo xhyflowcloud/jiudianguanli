@@ -3,14 +3,18 @@ package com.ccnu.xiahongyun.stmanagementsystem.model;
 public class Subject {
     Integer id;
     String name;
-    String datetime;
+    Long datetime;
+
+    /**
+     * 考试时长
+     */
     Integer duration;
     Integer number;
 
     public Subject() {
     }
 
-    public Subject(Integer id, String name, String datetime, Integer duration, Integer number) {
+    public Subject(Integer id, String name, Long datetime, Integer duration, Integer number) {
         this.id = id;
         this.name = name;
         this.datetime = datetime;
@@ -34,11 +38,11 @@ public class Subject {
         this.name = name;
     }
 
-    public String getDatetime() {
+    public Long getDatetime() {
         return datetime;
     }
 
-    public void setDatetime(String datetime) {
+    public void setDatetime(Long datetime) {
         this.datetime = datetime;
     }
 

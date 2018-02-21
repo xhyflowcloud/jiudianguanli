@@ -1,9 +1,18 @@
 package com.ccnu.xiahongyun.stmanagementsystem.model;
 
 public class Student {
+
     Integer examid;
     String name;
+
+    /**
+     * 身份证号
+     */
     String id;
+
+    /**
+     * 报名ID
+     */
     Integer sid;
 
     public Student(Integer examid, String name, String id, Integer sid) {

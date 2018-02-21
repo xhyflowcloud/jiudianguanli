@@ -1,4 +1,3 @@
-CREATE DATABASE test;
 
 use test;
 /*科目*/
@@ -21,7 +20,9 @@ CREATE TABLE `classroom`(
 CREATE TABLE  `teacher`(
   id int AUTO_INCREMENT PRIMARY KEY ,
   name VARCHAR(20),
-  experience SET ('数学','语文','英语','物理','化学','历史','政治')
+  isInvigilator BOOLEAN,
+  numInvigilator INT,
+  accInvigilator BOOLEAN
 );
 
 /*考场*/
@@ -50,7 +51,7 @@ CREATE TABLE `student`(
 );
 
 
-CREATE TABLE `studentimformation` (
+CREATE TABLE `studentinformation` (
   examid BIGINT ,
   sbid int ,
   FOREIGN KEY (examid) REFERENCES student(examid),

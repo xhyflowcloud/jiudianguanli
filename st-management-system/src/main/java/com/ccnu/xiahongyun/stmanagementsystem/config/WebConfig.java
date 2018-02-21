@@ -20,6 +20,7 @@ public class WebConfig extends WebMvcConfigurerAdapter{
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("index.html");
         registry.setOrder( Ordered.HIGHEST_PRECEDENCE );
+
         super.addViewControllers(registry);
     }
 

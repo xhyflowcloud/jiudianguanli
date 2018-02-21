@@ -49,7 +49,7 @@ CREATE TABLE `student`(
   sid BIGINT AUTO_INCREMENT
 );
 
-/*xinxi*/
+
 CREATE TABLE `studentimformation` (
   examid BIGINT ,
   sbid int ,

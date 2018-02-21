@@ -2,6 +2,7 @@ package com.ccnu.xiahongyun.stmanagementsystem.mapper;
 
 import com.ccnu.xiahongyun.stmanagementsystem.model.Classroom;
 import org.apache.ibatis.annotations.*;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface ClassroomMapper {
     void insertClassroom(@Param("size") Integer size,@Param("position") String position);
 
     @Update("update classroom set size= #{size},position = #{position} where id= #{id}")
-    void updateClassroom(@Param("size") Integer size,@Param("position") String position);
+    void updateClassroom(@Param("size") Integer size,@Param("position") String position,@Param("id") Integer id);
 
     @Delete("delete from classroom where id = #{id}")
     void deleteClassroom(@Param("id") Integer id);

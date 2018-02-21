@@ -2,6 +2,7 @@ package com.ccnu.xiahongyun.stmanagementsystem.mapper;
 
 import com.ccnu.xiahongyun.stmanagementsystem.model.Register;
 import org.apache.ibatis.annotations.*;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface RegisterMapper {
     void insertRegister(@Param("name") String name,@Param("email") String email,@Param("pwd") String pwd);
 
     @Update("update register set name=#{name},email=#{email},pwd=#{pwd} where id= #{id}")
-    void updateRegister(@Param("name") String name,@Param("email") String email,@Param("pwd") String pwd);
+    void updateRegister(@Param("name") String name,@Param("email") String email,@Param("pwd") String pwd,@Param("id") Integer id );
 
     @Delete("delete from register where id = #{id}")
     void deleteRegister(@Param("id") Integer id);

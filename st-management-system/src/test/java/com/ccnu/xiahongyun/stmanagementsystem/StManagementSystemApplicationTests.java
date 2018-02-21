@@ -29,16 +29,18 @@ public class StManagementSystemApplicationTests {
 	@Test
 	@Rollback
 	public void insertClassroom() throws Exception {
+		cs.updateClassroom(12,"fdsfsddsfsd",2);
 
-	    cs.insertClassroom(20,"jianren");
 
     }
 	@Test
 	@Rollback
 	public void findByName() throws Exception {
 
-		Classroom c= cs.findClassroomById(1);
+		Classroom c= cs.findClassroomById(2);
 		System.out.println(c.getPosition());
 
 	}
+
+
 }

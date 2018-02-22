@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}" th:with="title='test'">
+<head>
+    <meta charset="utf-8" />
+    <title>iview example</title>
+
+</head>
+<body>
+<div layout:fragment="content">
+    <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css"/>
+    <link href="/static/css/app.css" rel="stylesheet" type="text/css"/>
+
+    <script type="text/javascript" src="http://vuejs.org/js/vue.min.js"></script>
+    <script type="text/javascript" src="http://unpkg.com/iview/dist/iview.min.js"></script>
+    <script type="text/javascript" src="/static/js/appx.js"></script>
+    <div id="app">
+        <h1>hahah</h1>
+        <i-button @click="show">Click me!</i-button>
+        <Modal v-model="visible" title="Welcome">Welcome to iView</Modal>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                visible: false
+            },
+            methods: {
+                show: function () {
+                    this.visible = true;
+                }
+            }
+        })
+    </script>
+</div>
+</body>
+</html>
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+    <!--<meta charset="utf-8"/>-->
+    <!--<title>iview example</title>-->
+    <!--<link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css"/>-->
+    <!--<script type="text/javascript" src="http://vuejs.org/js/vue.min.js"></script>-->
+    <!--<script type="text/javascript" src="http://unpkg.com/iview/dist/iview.min.js"></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div id="app">-->
+    <!--wqeqwewqeq-->
+        <!--<i-button @click="show">Click me!</i-button>-->
+    <!--<Modal v-model="visible" title="Welcome">Welcome to iView</Modal>-->
+<!--</div>-->
+<!--<script>-->
+    <!--new Vue({-->
+        <!--el: '#app',-->
+        <!--data: {-->
+            <!--visible: false-->
+        <!--},-->
+        <!--methods: {-->
+            <!--show: function () {-->
+                <!--this.visible = true;-->
+            <!--}-->
+        <!--}-->
+    <!--})-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->

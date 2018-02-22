@@ -1,3 +1,20 @@
 .shopweb-grey {
     color: red;
 }
+
+.input-form{
+    width: 300px;
+}
+.form{
+    margin-top: 100px;
+    width: 500px;
+    background: #ff810021;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 30px;
+    border-radius: 10px;
+}
+.button-blue{
+    background: #2d8cf0;
+    color: white;
+}

@@ -14,6 +14,6 @@ public class TestController {
     @RequestMapping("/hello")
     public  String hello(@RequestParam(value = "name", required = false, defaultValue = "hello") String name, Model model){
         model.addAttribute("name",name);
-        return "hello";
+        return "pop";
     }
 }

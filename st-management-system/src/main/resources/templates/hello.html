@@ -29,10 +29,21 @@ var ss=
 
    $.ajax({
        url:"/register/get",
-       type:"GET",
+       type:"POST",
        dataType:"json",
        data:JSON.stringify(ss),
        contentType:"application/json",
+       success:function(result){
+           console.log(result)
+       }
+
+
+   });
+   $.ajax({
+       url:"/register/get2",
+       type:"get",
+       data:{name:"jianre",id:222},
+
        success:function(result){
            console.log(result)
        }

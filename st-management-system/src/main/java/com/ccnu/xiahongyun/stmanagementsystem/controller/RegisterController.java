@@ -27,11 +27,16 @@ public class RegisterController {
         String jsonString = JSONObject.toJSONString(s);
         return jsonString;
     }
-
     @ResponseBody
-    @RequestMapping(value="/get",produces = "application/json;charset=utf-8" ,method = { RequestMethod.GET })
+    @RequestMapping(value="/get",produces = "application/json;charset=utf-8" ,method = { RequestMethod.POST })
     public String get(@RequestBody Student ss){
         System.out.println(ss);
+        return "s";
+    }
+    @ResponseBody
+    @RequestMapping(value="/get2")
+    public String get(@RequestParam("name") String name,@RequestParam("id") Integer id){
+        System.out.println(name+id);
         return "s";
     }
 }

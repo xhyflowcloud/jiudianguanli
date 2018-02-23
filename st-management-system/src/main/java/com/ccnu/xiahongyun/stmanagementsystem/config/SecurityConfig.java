@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @Configuration
 @EnableWebMvcSecurity
@@ -15,6 +16,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         super();
     }
 
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**").allowedOrigins("*")
+                .allowedMethods("GET", "HEAD", "POST","PUT", "DELETE", "OPTIONS")
+                .allowCredentials(false).maxAge(3600);
+    }
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         super.configure(auth);

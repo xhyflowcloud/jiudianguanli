@@ -1,3 +1,5 @@
+
+
 new Vue({
     el: "body",
     data: function() {
@@ -22,6 +24,7 @@ new Vue({
             }
         };
         return {
+            defwidth: '1000px',
             ruleInline: {
                 user: [{
                     required: true,
@@ -57,6 +60,12 @@ new Vue({
             theme: 'dark',
             loginVisible: false,
             registerVisible:false,
+        }
+    },
+    computed: {
+        menuwidth: function(){
+            this.defwidth = (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) - document.getElementById('menubar').offsetWidth;
+            return this.defwidth + 'px';
         }
     },
     methods: {

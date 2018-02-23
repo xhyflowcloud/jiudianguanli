@@ -71,17 +71,16 @@ new Vue({
             //bind 是改变一个函数的this指向；这儿就是把function(valid)内部的this指向改成外面vue 的this（this劫持）
         },
         handleReset: function(name) {
-            this.$refs[name].resetAll();
-            loginVisible = false;
-            registerVisible=false;
+            this.loginVisible = false;
+            this.registerVisible=false;
         },
         login: function(){
-            loginVisible = true;
-            registerVisible=false;
+            this.loginVisible = true;
+            this.registerVisible=false;
         },
         register: function () {
-            loginVisible = false;
-            registerVisible=true;
+            this.loginVisible = false;
+            this.registerVisible=true;
         }
     }
 })

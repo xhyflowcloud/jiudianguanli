@@ -14,7 +14,9 @@ public class Student {
      * 报名ID
      */
     Integer sid;
+    public Student(){
 
+    }
     public Student(Integer examid, String name, String id, Integer sid) {
         this.examid = examid;
         this.name = name;

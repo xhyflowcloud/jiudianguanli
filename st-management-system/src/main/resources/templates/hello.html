@@ -5,10 +5,44 @@
     <title>Hello Thymeleaf!</title>
 </head>
 <body>
-    <p th:text="'Hello, ' + ${name} + '!'" />
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
-    <div th:fragment="flooter">
-        i'am flooter!
-    </div>
+<script>
+   $.ajax({
+       url:"/register/regist",
+       type:"get",
+       contentType:"application/json",
+       success:function(result){
+            console.log(result)
+       }
+
+
+   });
+
+var ss=
+   {
+       examid : 11111,
+       name :"冯越",
+       id : 1111,
+       sid : 111
+   }
+
+   $.ajax({
+       url:"/register/get",
+       type:"GET",
+       dataType:"json",
+       data:JSON.stringify(ss),
+       contentType:"application/json",
+       success:function(result){
+           console.log(result)
+       }
+
+
+   });
+</script>
+
 </body>
+
+
+
 </html>

@@ -168,11 +168,24 @@
             </p-form-item>
         </p-form>
     </div>
-    <div v-bind:style="{width: menuwidth}" style="background: rebeccapurple; height: 500px; float: left">
+    <div id="detailmenu" v-bind:style="{width: menuwidth}" style="background: rebeccapurple; height: 500px; float: left">
         {{defwidth}}
     </div>
+    <script type="text/javascript">
 
-
+        autodivwidth();
+        function autodivwidth(){ //函数：获取尺寸
+            var winWidth=0;
+            if (window.innerWidth)
+                winWidth = window.innerWidth;
+            else if ((document.body) && (document.body.clientWidth))
+                winWidth = document.body.clientWidth;
+            if (document.documentElement && document.documentElement.clientWidth)
+                winWidth = document.documentElement.clientWidth;
+            document.getElementById("detailmenu").style.width= (winWidth-document.getElementById('menubar').offsetWidth) +"px";
+        }
+        window.onresize=autodivwidth;
+    </script>
 </div>
 <link href="/css/app.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="/js/app.js"></script>

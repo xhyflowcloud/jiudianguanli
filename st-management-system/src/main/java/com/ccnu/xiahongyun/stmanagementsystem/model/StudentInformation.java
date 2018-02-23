@@ -1,12 +1,12 @@
 package com.ccnu.xiahongyun.stmanagementsystem.model;
 
-public class StudentImformation {
+public class StudentInformation {
     Integer examid;
     Integer sbid;
 
     @Override
     public String toString() {
-        return "StudentImformation{" +
+        return "StudentInformation{" +
                 "examid=" + examid +
                 ", sbid=" + sbid +
                 '}';
@@ -15,9 +15,9 @@ public class StudentImformation {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof StudentImformation)) return false;
+        if (!(o instanceof StudentInformation)) return false;
 
-        StudentImformation that = (StudentImformation) o;
+        StudentInformation that = (StudentInformation) o;
 
         if (getExamid() != null ? !getExamid().equals(that.getExamid()) : that.getExamid() != null) return false;
         return getSbid() != null ? getSbid().equals(that.getSbid()) : that.getSbid() == null;
@@ -47,7 +47,7 @@ public class StudentImformation {
         this.sbid = sbid;
     }
 
-    public StudentImformation(Integer examid, Integer sbid) {
+    public StudentInformation(Integer examid, Integer sbid) {
 
         this.examid = examid;
         this.sbid = sbid;

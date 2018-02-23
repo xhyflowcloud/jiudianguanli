@@ -1,6 +1,6 @@
 package com.ccnu.xiahongyun.stmanagementsystem.mapper;
 
-import com.ccnu.xiahongyun.stmanagementsystem.model.StudentImformation;
+import com.ccnu.xiahongyun.stmanagementsystem.model.StudentInformation;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -11,10 +11,10 @@ import java.util.List;
 public interface StudentInfoMapper {
 
     @Select("select * from studentinformation where examid = #{examid}")
-    List<StudentImformation> findStudentInfoByExamid(@Param("examid") Integer examid);
+    List<StudentInformation> findStudentInfoByExamid(@Param("examid") Integer examid);
 
     @Select("select * from studentinformation where sbid = #{sbid}")
-    List<StudentImformation>  findStudentInfoBySbid(@Param("sbid") Integer sbid);
+    List<StudentInformation>  findStudentInfoBySbid(@Param("sbid") Integer sbid);
 
     @Insert("insert into studentinformation(examid, sbid) values(#{examid}, #{sbid})")
     void insertStudentInfo(@Param("examid") Integer examid, @Param("sbid") Integer sbid);

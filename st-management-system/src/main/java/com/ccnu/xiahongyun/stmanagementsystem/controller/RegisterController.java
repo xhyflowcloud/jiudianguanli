@@ -1,32 +1,56 @@
 package com.ccnu.xiahongyun.stmanagementsystem.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ccnu.xiahongyun.stmanagementsystem.mapper.RegisterMapper;
+import com.ccnu.xiahongyun.stmanagementsystem.model.Register;
 import com.ccnu.xiahongyun.stmanagementsystem.model.Student;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/register")
 public class RegisterController {
-    @RequestMapping(value="/hello")
+    @Autowired
+    RegisterMapper regist;
+
+ @RequestMapping(value="/hello")
     public String hello(){
         return "hello";
     }
 
 
-
     @ResponseBody
     @RequestMapping(value="/regist",produces = "application/json;charset=utf-8")
-    public String regist(){
-        Student s = new Student();
-        s.setSid(1111);
-        s.setName("冯越");
-        s.setExamid(111111111);
-        String jsonString = JSONObject.toJSONString(s);
-        return jsonString;
+    public String regist(@RequestParam("name") String name,@RequestParam("email") String email,
+                         @RequestParam("pwd") String pwd){
+
+        regist.insertRegister(name,email,pwd);
+        return "注册成功";
+
     }
+
+
+    @RequestMapping("/login")
+    public String login(@RequestParam("email") String email,@RequestParam("pwd") String pwd){
+       Register re= regist.findRegisterByEmail(email);
+       if(re.getPwd().equals(pwd)){
+           return "";
+       }
+       if(re==null){
+           return "";
+       }
+       return "";
+    }
+
+
+
+
+
+
+
+
     @ResponseBody
     @RequestMapping(value="/get",produces = "application/json;charset=utf-8" ,method = { RequestMethod.POST })
     public String get(@RequestBody Student ss){

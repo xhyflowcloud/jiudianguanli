@@ -24,7 +24,6 @@ new Vue({
             }
         };
         return {
-            defwidth: '1000px',
             ruleInline: {
                 user: [{
                     required: true,
@@ -63,10 +62,6 @@ new Vue({
         }
     },
     computed: {
-        menuwidth: function(){
-            this.defwidth = (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) - document.getElementById('menubar').offsetWidth;
-            return this.defwidth + 'px';
-        }
     },
     methods: {
         handleSubmit: function(name) {
@@ -90,6 +85,6 @@ new Vue({
         register: function () {
             this.loginVisible = false;
             this.registerVisible=true;
-        }
+        },
     }
 })

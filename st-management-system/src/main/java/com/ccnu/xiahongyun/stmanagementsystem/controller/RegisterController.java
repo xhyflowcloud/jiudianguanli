@@ -6,6 +6,8 @@ import com.ccnu.xiahongyun.stmanagementsystem.model.Register;
 import com.ccnu.xiahongyun.stmanagementsystem.model.Student;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,16 @@ import org.springframework.web.bind.annotation.*;
 public class RegisterController {
     @Autowired
     RegisterMapper regist;
+
+    @PostMapping("/postUser")
+    public ResponseEntity<String> postUser(@RequestBody Register register) {
+        try {
+            System.out.println(register.toString());
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("保存成功");
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 
  @RequestMapping(value="/hello")
     public String hello(){

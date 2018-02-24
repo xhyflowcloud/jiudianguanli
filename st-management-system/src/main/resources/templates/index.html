@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:v-bind="http://www.w3.org/1999/xhtml" layout:decorate="~{layout/layout}" th:with="title='test'">
+<html>
 <head>
     <meta charset="utf-8" />
     <title>iview example</title>
@@ -115,28 +114,28 @@
     <div class="form" v-if="registerVisible">
         <p-form  v-ref:user :rules="ruleInline" label-position="right" :label-width="80">
 
-            <p-form-item rule-key="user" label="用户名：" :value="formInline.user">
-                <p-input style="width: 300px" type="text" :value.sync="formInline.user" placeholder="username">
+            <p-form-item rule-key="username" label="用户名：" :value="user.name">
+                <p-input style="width: 300px" type="text" :value.sync="user.name" placeholder="username">
                     <p-icon type="ios-person-outline" slot="prepend"></p-icon>
                 </p-input>
             </p-form-item>
 
 
-            <p-form-item rule-key="password" label="密码：" :value="formInline.password">
-                <p-input style="width: 300px" type="password" :value.sync="formInline.password" placeholder="password">
+            <p-form-item rule-key="password" label="密码：" :value="user.pwd">
+                <p-input style="width: 300px" type="password" :value.sync="user.pwd" placeholder="password">
                     <p-icon type="ios-locked-outline" slot="prepend"></p-icon>
 
                 </p-input>
             </p-form-item>
-            <p-form-item rule-key="repassword" label="确认密码：" :value="formInline.repassword">
-                <p-input style="width: 300px" type="password" :value.sync="formInline.repassword" placeholder="repassword">
+            <p-form-item rule-key="repassword" label="确认密码：" :value="repassword">
+                <p-input style="width: 300px" type="password" :value.sync="repassword" placeholder="repassword">
                     <p-icon type="ios-locked-outline" slot="prepend"></p-icon>
 
                 </p-input>
             </p-form-item>
 
-            <p-form-item rule-key="email" label="邮箱：" :value="formInline.password">
-                <p-input style="width: 300px" type="email" :value.sync="formInline.email" placeholder="email">
+            <p-form-item rule-key="email" label="邮箱：" :value="user.email">
+                <p-input style="width: 300px" type="email" :value.sync="user.email" placeholder="email">
                     <p-icon type="ios-email-outline" slot="prepend"></p-icon>
 
                 </p-input>
@@ -222,14 +221,14 @@
             var validatePass = (rule, value, callback) => {
                 if (value === '') {
                     callback(new Error('请再次输入密码'));
-                } else if (value !== this.ruleInline.password) {
+                } else if (value !== this.user.pwd) {
                     callback(new Error('两次输入密码不一致!'));
                 } else {
                     callback();
                 }
             };
             var email = (rule, value, callback) => {
-                let mal = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                var mal = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
                 if (!value) {
                     return callback(new Error('不能为空'));
                 }
@@ -241,9 +240,10 @@
             };
             return {
                 ruleInline: {
-                    user: [{
+                    username: [{
                         required: true,
                         message: '请填写用户名',
+                        trigger: 'blur',
                     }],
                     password: [{
                         required: true,
@@ -272,6 +272,12 @@
                         triger: 'blur',
                     }]
                 },
+                user: {
+                  name: '',
+                  pwd: '',
+                  email: '',
+                },
+                repassword: '',
                 theme: 'dark',
                 loginVisible: false,
                 registerVisible:false,
@@ -283,7 +289,10 @@
             handleSubmit: function(name) {
                 this.$refs[name].validate(function(valid) {
                     if (valid) {
-                        this.$Message.success('提交成功!');
+                        this.$http.post('/register/postUser', this.user).then(function (res) {
+                            this.$Message.success(res.body);
+                            this.registerVisible = false;
+                        });
                     } else {
                         this.$Message.error('表单验证失败!');
                     }
@@ -321,6 +330,5 @@
 </script>
 
 <link href="/css/app.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="/js/app.js"></script>
 </body>
 </html>

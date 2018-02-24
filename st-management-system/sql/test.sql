@@ -1,4 +1,3 @@
-CREATE DATABASE test
 use test;
 /*科目*/
 CREATE TABLE `subject` (

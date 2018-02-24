@@ -12,67 +12,43 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/register")
+@RequestMapping("/index")
 public class RegisterController {
-    @Autowired
-    RegisterMapper regist;
 
-    @PostMapping("/postUser")
-    public ResponseEntity<String> postUser(@RequestBody Register register) {
+    @Autowired
+    RegisterMapper registerMapper;
+
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody Register register) {
         try {
-            System.out.println(register.toString());
-            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("保存成功");
+            if(null != registerMapper.findRegisterByEmail(register.getEmail())){
+                return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("该邮箱已经被注册");
+            }
+            else{
+                registerMapper.insertRegister(register.getName(), register.getEmail(), register.getPwd());
+                return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("注册成功");
+            }
         } catch (Exception e) {
-            throw e;
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("注册失败");
         }
     }
 
- @RequestMapping(value="/hello")
-    public String hello(){
-        return "hello";
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody Register register){
+
+        try {
+            Register register1 = registerMapper.findRegisterByEmail(register.getEmail());
+            if(null == register1){
+                return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("没有该用户");
+            }
+            else if(register1.getPwd().equals(register.getPwd())){
+                return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("登录成功");
+            }else{
+                return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("密码错误");
+            }
+        }catch (Exception e){
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("数据库异常");
+        }
     }
 
-
-    @ResponseBody
-    @RequestMapping(value="/regist",produces = "application/json;charset=utf-8")
-    public String regist(@RequestParam("name") String name,@RequestParam("email") String email,
-                         @RequestParam("pwd") String pwd){
-
-        regist.insertRegister(name,email,pwd);
-        return "注册成功";
-
-    }
-
-
-    @RequestMapping("/login")
-    public String login(@RequestParam("email") String email,@RequestParam("pwd") String pwd){
-       Register re= regist.findRegisterByEmail(email);
-       if(re.getPwd().equals(pwd)){
-           return "";
-       }
-       if(re==null){
-           return "";
-       }
-       return "";
-    }
-
-
-
-
-
-
-
-
-    @ResponseBody
-    @RequestMapping(value="/get",produces = "application/json;charset=utf-8" ,method = { RequestMethod.POST })
-    public String get(@RequestBody Student ss){
-        System.out.println(ss);
-        return "s";
-    }
-    @ResponseBody
-    @RequestMapping(value="/get2")
-    public String get(@RequestParam("name") String name,@RequestParam("id") Integer id){
-        System.out.println(name+id);
-        return "s";
-    }
 }

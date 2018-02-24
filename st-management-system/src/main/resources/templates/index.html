@@ -142,7 +142,7 @@
             </p-form-item>
 
             <p-form-item>
-                <p-button type="primary" @click="handleSubmit('user')">注册</p-button>
+                <p-button type="primary" @click="registerSubmit('user')">注册</p-button>
                 <p-button type="slot" @click="handleReset('user')">取消</p-button>
             </p-form-item>
         </p-form>
@@ -151,23 +151,23 @@
     <div class="form" v-if="loginVisible">
         <p-form v-ref:user :rules="ruleInline" label-position="right" :label-width="80">
 
-            <p-form-item rule-key="email" label="邮箱：" :value="formInline.password">
-                <p-input style="width: 300px" type="email" :value.sync="formInline.email" placeholder="email">
+            <p-form-item rule-key="email" label="邮箱：" :value="user.email">
+                <p-input style="width: 300px" type="email" :value.sync="user.email" placeholder="email">
                     <p-icon type="ios-email-outline" slot="prepend"></p-icon>
 
                 </p-input>
             </p-form-item>
 
 
-            <p-form-item rule-key="password" label="密码：" :value="formInline.password">
-                <p-input style="width: 300px" type="password" :value.sync="formInline.password" placeholder="password">
+            <p-form-item rule-key="password" label="密码：" :value="user.pwd">
+                <p-input style="width: 300px" type="password" :value.sync="user.pwd" placeholder="password">
                     <p-icon type="ios-locked-outline" slot="prepend"></p-icon>
 
                 </p-input>
             </p-form-item>
 
             <p-form-item>
-                <p-button type="primary" @click="handleSubmit('user')">登录</p-button>
+                <p-button type="primary" @click="loginSubmit('user')">登录</p-button>
                 <p-button type="slot" @click="handleReset('user')">取消</p-button>
             </p-form-item>
         </p-form>
@@ -286,12 +286,35 @@
         computed: {
         },
         methods: {
-            handleSubmit: function(name) {
+            registerSubmit: function(name) {
                 this.$refs[name].validate(function(valid) {
                     if (valid) {
-                        this.$http.post('/register/postUser', this.user).then(function (res) {
-                            this.$Message.success(res.body);
-                            this.registerVisible = false;
+                        this.$http.post('/index/register', this.user).then(function (res) {
+                            if(res.body.trim() == '注册成功'){
+                                this.$Message.success(res.body);
+                                this.registerVisible = false;
+                            }
+                            else{
+                                this.$Message.error(res.body + '!');
+                            }
+                        });
+                    } else {
+                        this.$Message.error('表单验证失败!');
+                    }
+                }.bind(this));
+                //bind 是改变一个函数的this指向；这儿就是把function(valid)内部的this指向改成外面vue 的this（this劫持）
+            },
+            loginSubmit: function(name) {
+                this.$refs[name].validate(function(valid) {
+                    if (valid) {
+                        this.$http.post('/index/login', this.user).then(function (res) {
+                            if(res.body.trim() == '登录成功'){
+                                this.$Message.success(res.body);
+                                this.loginVisible = false;
+                            }
+                            else{
+                                this.$Message.error(res.body + '!');
+                            }
                         });
                     } else {
                         this.$Message.error('表单验证失败!');

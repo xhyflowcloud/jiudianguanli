@@ -59,3 +59,12 @@ CREATE TABLE `studentinformation` (
   FOREIGN KEY (sbid) REFERENCES subject(id),
   PRIMARY KEY (examid,sbid)
  );
+
+CREATE TABLE `root` (
+  id int AUTO_INCREMENT PRIMARY KEY ,
+  pwd VARCHAR(50),
+  email VARCHAR(50),
+  auth INT,
+  last_pwd_change BIGINT ,
+  enable BOOLEAN
+)

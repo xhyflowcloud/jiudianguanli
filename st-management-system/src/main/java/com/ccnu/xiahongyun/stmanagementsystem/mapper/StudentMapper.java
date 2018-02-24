@@ -16,10 +16,10 @@ public interface StudentMapper {
     Student findStudentById(@Param("examid") Integer examid);
 
     @Insert("insert into student (examid,name,id,sid) values (#{examid}, #{name}, #{id},#{sid}) ")
-    void insertStudent(@Param("examid") Integer examid,@Param("name") String name,@Param("id") Integer id,@Param("sid") Integer sid);
+    void insertStudent(@Param("examid") Integer examid,@Param("name") String name,@Param("id") String id,@Param("sid") Integer sid);
 
     @Update("update student set name=#{name},id=#{id},sid=#{sid} where examid= #{examid}")
-    void updateStudent(@Param("examid") Integer examid,@Param("name") String name,@Param("id") Integer id,@Param("sid") Integer sid);
+    void updateStudent(@Param("examid") Integer examid,@Param("name") String name,@Param("id") String id,@Param("sid") Integer sid);
 
     @Delete("delete from student where examid = #{examid}")
     void deleteStudent(@Param("examid") Integer examid);

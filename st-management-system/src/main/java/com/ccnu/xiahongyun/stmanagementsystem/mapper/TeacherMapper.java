@@ -20,5 +20,12 @@ public interface TeacherMapper {
     void deleteTeacher(@Param("id") Integer id);
 
     @Select("select * from Teacher where id = #{id}")
-    List<Teacher> selectTeacherById(@Param("id") Integer id);
+    Teacher selectTeacherById(@Param("id") Integer id);
+
+    @Select("select * from Teacher ")
+    List<Teacher> selectAllTeacher();
+
+    @Select("select * from Teacher where name = #{name}")
+    Teacher selectTeacherByName(@Param("name") String name);
+
 }

@@ -1,12 +1,14 @@
 package com.ccnu.xiahongyun.stmanagementsystem.controller;
 
 import com.ccnu.xiahongyun.stmanagementsystem.mapper.TeacherMapper;
+import com.ccnu.xiahongyun.stmanagementsystem.model.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/teacher")
@@ -14,27 +16,53 @@ public class TeacherController {
     @Autowired
     TeacherMapper tea;
 
-    @RequestMapping("/addteacher")
-    @ResponseBody
-    public String addteacher(@RequestParam("name") String name,@RequestParam("isInvigilator") Boolean isInvigilator,
-                             @RequestParam("numInvigilator") Integer numInvigilator,@RequestParam("accInvigilator") Boolean accInvigilator){
-        tea.insertTeacher(name,isInvigilator,numInvigilator,accInvigilator);
-
-        return "操作成功";
+    @PostMapping("/add")
+    public ResponseEntity<String> add(@RequestBody Teacher teacher){
+        if(null!= tea.selectTeacherByName(teacher.getName())){
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("该教师已存在");
+        }
+        try{
+            tea.insertTeacher(teacher.getName(),teacher.getInvigilator(),teacher.getNumInvigilator(),teacher.getAccInvigilator());
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("添加成功");
+        }catch (Exception e){
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("添加失败");
+        }
 
     }
 
-    @RequestMapping("/deleteteacher")
-    @ResponseBody
-    public String deleteteacher(@RequestParam("id") Integer id){
-        tea.deleteTeacher(id);
-        return "操作成功";
+    @PostMapping("/delete")
+    public ResponseEntity<String> delete(@RequestBody Teacher teacher){
+        try{
+            tea.deleteTeacher(teacher.getId());
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("删除成功");
+        }catch (Exception e){
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("删除失败");
+        }
     }
-    @RequestMapping("/updateteacher")
-    @ResponseBody
-    public String updateteacher(@RequestParam("id") Integer id,@RequestParam("name") String name,@RequestParam("isInvigilator") Boolean isInvigilator,
-                                @RequestParam("numInvigilator") Integer numInvigilator,@RequestParam("accInvigilator") Boolean accInvigilator){
-        tea.updateTeacher(id,name,isInvigilator,numInvigilator,accInvigilator);
-        return "操作成功";
+
+
+    @PostMapping("/update")
+    public ResponseEntity<String> update(@RequestBody Teacher teacher){
+        if(null!= tea.selectTeacherByName(teacher.getName())){
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("该教师已存在");
+        }
+        try{
+            tea.updateTeacher(teacher.getId(),teacher.getName(),teacher.getInvigilator(),teacher.getNumInvigilator(),teacher.getAccInvigilator());
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("更新成功");
+        }catch (Exception e){
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("更新失败");
+        }
+    }
+
+    @PostMapping("/queryone")
+    public ResponseEntity<Teacher> queryone(@RequestBody Teacher teacher){
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(tea.selectTeacherById(teacher.getId()));
+    }
+
+
+
+    @PostMapping("/queryall")
+    public ResponseEntity<List<Teacher>> queryall(){
+        return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(tea.selectAllTeacher());
     }
 }

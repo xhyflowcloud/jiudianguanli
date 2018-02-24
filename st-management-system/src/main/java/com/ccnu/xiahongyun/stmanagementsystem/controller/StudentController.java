@@ -4,11 +4,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.ccnu.xiahongyun.stmanagementsystem.mapper.StudentMapper;
 import com.ccnu.xiahongyun.stmanagementsystem.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.xml.ws.Response;
 import java.util.List;
 
 @Controller
@@ -19,43 +20,52 @@ public class StudentController {
     StudentMapper stu;
 
 
-    @ResponseBody
-    @RequestMapping("/addstudent")
-    public String addstudent(@RequestParam("examid") Integer examid,@RequestParam("name") String name,
-                             @RequestParam("id") Integer id,@RequestParam("sid") Integer sid){
 
-        stu.insertStudent(examid,name,id,sid);
-        return "操作成功";
+    @PostMapping("/add")
+    public ResponseEntity<String> add(@RequestBody Student student){
+        if(null!=stu.findStudentById(student.getExamid())){
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("该考生已报名");
+        }
+        try{
+            stu.insertStudent(student.getExamid(),student.getName(),student.getId(),student.getSid());
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("添加成功");
+        }catch (Exception e){
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("添加失败");
+        }
     }
 
-    @ResponseBody
-    @RequestMapping("/deletestudent")
-    public String deletestudent(@RequestParam("examid") Integer examid){
-        stu.deleteStudent(examid);
-        return "操作成功";
+
+    @PostMapping("/delete")
+    public ResponseEntity<String> delete(@RequestBody Student student){
+        try{
+            stu.deleteStudent(student.getExamid());
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("删除成功");
+        }catch (Exception e){
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("删除失败");
+        }
     }
 
-    @RequestMapping("/updatestudent")
-    @ResponseBody
-    public String updatestudent(@RequestParam("examid") Integer examid,@RequestParam("name") String name,@RequestParam("id") Integer id,@RequestParam("sid") Integer sid){
-        stu.updateStudent(examid,name,id,sid);
-        return "操作成功";
+    @PostMapping("/update")
+    public ResponseEntity<String> update(@RequestBody Student student){
+
+        try{
+            stu.updateStudent(student.getExamid(),student.getName(),student.getId(),student.getSid());
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("更新成功");
+        }catch (Exception e){
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("更新失败");
+        }
     }
 
-    @RequestMapping("/querystudents")
-    @ResponseBody
-    public String querystudents(){
+    @PostMapping("/queryall")
+    public ResponseEntity<List<Student>> queryall(){
        List<Student> students =stu.findAllStudent();
-       String jsonstring = JSONObject.toJSONString(students);
-       return  jsonstring;
+        return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(students);
     }
 
-    @RequestMapping("/querystudent")
-    @ResponseBody
-    public String querystudent(@RequestParam("examid") Integer examid){
-        Student student =stu.findStudentById(examid);
-        String jsonstring = JSONObject.toJSONString(student);
-        return  jsonstring;
+    @PostMapping("/queryone")
+    public ResponseEntity<Student> queryone(@RequestBody Student student){
+        Student student1 = stu.findStudentById(student.getExamid());
+        return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(student1);
     }
 
 }

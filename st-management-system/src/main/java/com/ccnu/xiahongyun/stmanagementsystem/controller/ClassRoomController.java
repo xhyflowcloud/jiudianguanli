@@ -21,6 +21,7 @@ public class ClassRoomController {
 
     @PostMapping("/add")
     public ResponseEntity<String> add(@RequestBody Classroom room  ) {
+
         try {
             cr.insertClassroom(room.getSize(),room.getPosition());
             return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("添加成功");
@@ -31,7 +32,7 @@ public class ClassRoomController {
 
 
 
-    @RequestMapping("/delete")
+    @PostMapping("/delete")
     public ResponseEntity<String> delete(@RequestBody Classroom room){
         try {
             cr.deleteClassroom(room.getId());
@@ -42,7 +43,7 @@ public class ClassRoomController {
     }
 
 
-    @RequestMapping("/queryall")
+    @PostMapping("/queryall")
     public ResponseEntity<List <Classroom>> queryall(){
 
         return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(cr.findAllClassroom());
@@ -50,7 +51,7 @@ public class ClassRoomController {
 
 
 
-    @RequestMapping("/queryone")
+    @PostMapping("/queryone")
 
     public ResponseEntity<Classroom> queryone(@RequestBody Classroom room){
 
@@ -59,7 +60,7 @@ public class ClassRoomController {
     }
 
 
-    @RequestMapping("/update")
+    @PostMapping("/update")
 
     public ResponseEntity<String> update(@RequestBody Classroom room){
        try{

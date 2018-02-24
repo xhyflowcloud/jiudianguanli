@@ -11,10 +11,10 @@ import java.util.List;
 public interface TeacherMapper {
 
     @Insert("insert into teacher(name, isInvigilator, numInvigilator, accInvigilator) values(#{name}, #{isInvigilator}, #{numInvigilator}, #{accInvigilator})")
-    void insertTeacher(@Param("name") String name, @Param("isInvigilator") Boolean isInvigilator, @Param("numInvigilator") Integer numInvigilator, @Param("accInvigilator") Integer accInvigilator);
+    void insertTeacher(@Param("name") String name, @Param("isInvigilator") Boolean isInvigilator, @Param("numInvigilator") Integer numInvigilator, @Param("accInvigilator") Boolean accInvigilator);
 
     @Update("update teacher set name = #{name}, isInvigilator = #{isInvigilator}, numInvigilator = #{numInvigilator}, accInvigilator = #{accInvigilator} where id = #{id}")
-    void updateTeacher(@Param("id") Integer id, @Param("name") String name, @Param("isInvigilator") Boolean isInvigilator, @Param("numInvigilator") Integer numInvigilator, @Param("accInvigilator") Integer accInvigilator);
+    void updateTeacher(@Param("id") Integer id, @Param("name") String name, @Param("isInvigilator") Boolean isInvigilator, @Param("numInvigilator") Integer numInvigilator, @Param("accInvigilator") Boolean accInvigilator);
 
     @Delete("delete from teacher where id = #{id}")
     void deleteTeacher(@Param("id") Integer id);

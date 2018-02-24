@@ -4,10 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.ccnu.xiahongyun.stmanagementsystem.mapper.ClassroomMapper;
 import com.ccnu.xiahongyun.stmanagementsystem.model.Classroom;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,40 +19,56 @@ public class ClassRoomController {
 
 
 
-    @RequestMapping("/addclassroom")
-    @ResponseBody
-    public String addClassRoom(@RequestParam("size") Integer size,@RequestParam("position") String position){
-        cr.insertClassroom(size,position);
-        return "增加教室成功";
-    }
-    @RequestMapping("/deleteclassroom")
-    @ResponseBody
-    public String deleteClassRoom(@RequestParam("id") Integer id){
-        cr.deleteClassroom(id);
-        return "删除教室成功";
-    }
-    @RequestMapping("/queryclassrooms")
-    @ResponseBody
-    public String queryClassRooms(){
-        List<Classroom> classrooms = cr.findAllClassroom();
-        String jsonstring = JSONObject.toJSONString(classrooms);
-        return jsonstring;
-    }
-    @RequestMapping("/queryclassroom")
-    @ResponseBody
-    public String queryClassRoom(@RequestParam("id") Integer id){
-       Classroom classroom = cr.findClassroomById(id);
-        String jsonstring = JSONObject.toJSONString(classroom);
-        return jsonstring;
+    @PostMapping("/add")
+    public ResponseEntity<String> add(@RequestBody Classroom room  ) {
+        try {
+            cr.insertClassroom(room.getSize(),room.getPosition());
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("添加成功");
+        } catch (Exception e) {
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("添加失败");
+        }
     }
 
 
-    @RequestMapping("/updateclassroom")
-    @ResponseBody
-    public String updateClassRoom(@RequestParam("size") Integer size,@RequestParam("position") String position,
-                                  @RequestParam("id") Integer id){
-       cr.updateClassroom(size,position,id);
-        return "更新教室成功";
+
+    @RequestMapping("/delete")
+    public ResponseEntity<String> delete(@RequestBody Classroom room){
+        try {
+            cr.deleteClassroom(room.getId());
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("删除成功");
+        } catch (Exception e) {
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("删除失败");
+        }
+    }
+
+
+    @RequestMapping("/queryall")
+    public ResponseEntity<List <Classroom>> queryall(){
+
+        return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(cr.findAllClassroom());
+    }
+
+
+
+    @RequestMapping("/queryone")
+
+    public ResponseEntity<Classroom> queryone(@RequestBody Classroom room){
+
+        return  ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(cr.findClassroomById(room.getId()));
+
+    }
+
+
+    @RequestMapping("/update")
+
+    public ResponseEntity<String> update(@RequestBody Classroom room){
+       try{
+           cr.updateClassroom(room.getSize(),room.getPosition(),room.getId());
+           return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("更新成功");
+       }
+       catch (Exception e){
+           return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("更新失败");
+       }
     }
 
 }

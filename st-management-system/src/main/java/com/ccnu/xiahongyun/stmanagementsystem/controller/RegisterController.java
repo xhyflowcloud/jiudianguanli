@@ -1,9 +1,8 @@
 package com.ccnu.xiahongyun.stmanagementsystem.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.ccnu.xiahongyun.stmanagementsystem.mapper.RegisterMapper;
 import com.ccnu.xiahongyun.stmanagementsystem.model.Register;
-import com.ccnu.xiahongyun.stmanagementsystem.model.Student;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

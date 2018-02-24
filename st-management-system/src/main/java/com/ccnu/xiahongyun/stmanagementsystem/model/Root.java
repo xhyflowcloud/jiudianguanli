@@ -4,11 +4,11 @@ public class Root {
     String email;
     String pwd;
     Long last_pwd_change;
-    Integer auth;
+    String auth;
     Integer id;
     Boolean enable;
 
-    public Root(String email, String pwd, Long last_pwd_change, Integer auth, Integer id, Boolean enable) {
+    public Root(String email, String pwd, Long last_pwd_change, String auth, Integer id, Boolean enable) {
         this.email = email;
         this.pwd = pwd;
         this.last_pwd_change = last_pwd_change;
@@ -44,11 +44,11 @@ public class Root {
         this.last_pwd_change = last_pwd_change;
     }
 
-    public Integer getAuth() {
+    public String getAuth() {
         return auth;
     }
 
-    public void setAuth(Integer auth) {
+    public void setAuth(String auth) {
         this.auth = auth;
     }
 

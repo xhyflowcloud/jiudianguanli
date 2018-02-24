@@ -64,7 +64,7 @@ CREATE TABLE `root` (
   id int AUTO_INCREMENT PRIMARY KEY ,
   pwd VARCHAR(50),
   email VARCHAR(50),
-  auth INT,
+  auth VARCHAR(50),
   last_pwd_change BIGINT ,
   enable BOOLEAN
 )

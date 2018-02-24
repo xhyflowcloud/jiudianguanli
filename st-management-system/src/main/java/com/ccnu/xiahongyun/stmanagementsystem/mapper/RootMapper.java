@@ -17,6 +17,9 @@ public interface RootMapper {
     @Select("select * from root where id = #{id}")
     Root findRootById(@Param("id") Integer id);
 
+    @Select("select * from root where email = #{email}")
+    Root findRootByEmail(@Param("email") String email);
+
     @Insert("insert into root(email,pwd,auth,last_pwd_change,enable) values(#{email},#{pwd},#{auth},#{last_pwd_change},#{enable})")
     void insertroot(@Param("email") String email, @Param("pwd") String pwd, @Param("auth") Integer auth, @Param("last_pwd_change") Long last_pwd_change, @Param("enable") Boolean enable);
 

@@ -133,7 +133,13 @@
 </script>
 
 <script type="text/x-template" id="examroom">
-    <div class="shopweb-card-body" style="margin-top: 50px; padding: 5px">
+    <div id="example-2" style="width: 100%">
+        <button @click="show = !show" style="width: 50px;color: white; border-color: white;border: 0px;background: red; float: right">菜单</button>
+        <button  v-if="show" style="width: 100px;color: white; border-color: white;border: 0px;background: red; float: right">增加</button>
+        <button v-if="show" style="width: 100px;color: white; border-color: white;border: 0px;background: red; float: right">删除</button>
+        <button v-if="show" style="width: 100px;color: white; border-color: white;border: 0px;background: red; float: right">修改</button>
+    </div>
+    <div class="shopweb-card-body" style="margin-top: 20px; padding: 5px">
         <p-form :label-width="80" label-position="right">
             <p-row :gutter="10">
                 <p-col span="8">
@@ -321,6 +327,7 @@
         template: '#examroom',
         data: function() {
             return{
+                show: false,
                 columns8: [{
                     "title": "名称",
                     "key": "name",

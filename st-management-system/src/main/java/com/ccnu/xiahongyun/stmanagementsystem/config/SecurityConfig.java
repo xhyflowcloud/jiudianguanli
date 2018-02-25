@@ -50,7 +50,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //super.configure(http);
         http
                 .authorizeRequests()
-                .anyRequest().permitAll();       // 允许所有请求通过
+                .anyRequest().permitAll()
+                .and()
+                .csrf()
+                .disable();       // 允许所有请求通过
 
         http
                 .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);

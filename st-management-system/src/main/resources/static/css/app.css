@@ -1,9 +1,13 @@
 
 .form{
     background: #464c5b;
-    padding: 30px;
+    padding: 20px;
     width: max-content;
     position: absolute;
     top: 100px;
     left: 35%;
+}
+
+.width{
+    width: 100% !important;
 }

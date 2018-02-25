@@ -1,51 +1,214 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <meta charset="UTF-8"/>
-    <title>Hello Thymeleaf!</title>
+    <meta charset="utf-8" />
+    <title>iview example</title>
+    <style>
+    </style>
+
 </head>
-<body>
+<body style="background: #f1f1f1">
 
+<link href="https://static.360buyimg.com/popd/popd_common/css/pop-design.min.css" type="text/css" rel="stylesheet">
+<script src="https://static.360buyimg.com/popd/js/vue.min.js" type="text/javascript"></script>
+<script src="https://static.360buyimg.com/popd/popd_common/pop-design.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/vue-router-0.7.10.js"></script>
+<script type="text/javascript" src="/js/vue-resource-1.3.4.min.js"></script>
+<script type="text/javascript" src="/js/countdown.js"></script>
+<script type="text/javascript" src="/js/vue.config.js"></script>
 
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<div id = "app">
+    <router-view></router-view>
+</div>
+<script type="text/x-template" id="examroom">
+    <div class="b-gotop" >
+        <ul class="h-gotop-list">
+            <li class="li-item item01" id="jimi" style="display:none;height: 50px;background-image: url(//img11.360buyimg.com/uba/jfs/t3316/136/667795769/1923/da46766c/5811a208N8c864902.png)"></li>
+            <li class="li-item item01"><a target="_blank" href="//vp.jd.com/mobile/download.html" class="link-dlk" clstag="pageclick|keycount|popvender_new|106"><i class="icon-gotop1"></i></a></li>
+            <li class="li-item item02"><a target="_blank" href="//crm.shop.jd.com/crm/suggestions/toNewAddSug.action?menuId=$!menuId" class="link-dlk" clstag="pageclick|keycount|popvender_new|107"><i class="icon-gotop2"></i></a></li>
+            <li class="li-item item03" id="gotop"><a href="#" class="link-dlk link-top" clstag="pageclick|keycount|popvender_new|108"><i class="icon-gotop3"></i></a></li>
+        </ul>
+    </div>
+    <p style="text-align: right;margin-bottom: 15px;">
+        <p-button type="primary" @click="submitComplainQuery" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;查询&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p-button>
+        <p-button type="ghost" @click="reset" style="margin-left: 8px" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p-button>
+        <p-button type="ghost" @click="reset" style="margin-left: 8px" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p-button>
+    </p>
+    <div class="shopweb-card-body" style="margin-top: 50px; padding: 5px">
+        <p-form :label-width="80" label-position="right">
+            <p-row :gutter="10">
+                <p-col span="8">
+                    <p-form-item label="考场编号">
+                        <p-input :value.sync="complainingQuery.complainingId" placeholder="请输入考场编号..." @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input>
+                    </p-form-item>
+                </p-col>
+                <p-col span="8">
+                    <p-form-item label="监考人员编号">
+                        <p-input :value.sync="complainingQuery.orderId" placeholder="请输入监考人员编号..." @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input>
+                    </p-form-item>
+                </p-col>
+                <p-col span="8">
+                    <p-form-item label="教室编号">
+                        <p-input :value.sync="complainingQuery.arbitId" placeholder="教室编号" @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input>
+                    </p-form-item>
+                </p-col>
+            </p-row>
+
+            <p-row :gutter="10">
+                <p-col span="8">
+                    <p-form-item label="考试科目编号">
+                        <p-input :value.sync="complainingQuery.complainingId" placeholder="请输入科目编号..." @keyup="digitalCheck" @blur="digitalCheck" style="width:240px" ></p-input>
+                    </p-form-item>
+                </p-col>
+                <p-col span="8">
+                    <p-form-item label="人数">
+                        <p-input :value.sync="complainingQuery.orderId" placeholder="请输入人数..." @keyup="digitalCheck" @blur="digitalCheck" style="width:240px" ></p-input>
+                    </p-form-item>
+                </p-col>
+            </p-row>
+
+            <p style="text-align: center;margin-bottom: 15px;">
+                <p-button type="primary" @click="submitComplainQuery" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;查询&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p-button>
+                <p-button type="ghost" @click="reset" style="margin-left: 8px" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p-button>
+            </p>
+        </p-form>
+
+        <p-table :columns="columns8" :data="data7" size="small" v-ref:table></p-table>
+        <p-page class="pageClass" :total="100"></p-page>
+        <p-button type="primary" size="large" @click="exportData(1)" posi>
+            <p-icon type="ios-download-outline"></p-icon> 导出原始数据</p-button>
+        <p-button type="primary" size="large" @click="exportData(2)">
+            <p-icon type="ios-download-outline"></p-icon> 导出排序和过滤后的数据</p-button>
+        <p-button type="primary" size="large" @click="exportData(3)">
+            <p-icon type="ios-download-outline"></p-icon> 导出自定义数据</p-button>
+
+    </div>
+
+</script>
 
 <script>
 
-var ss=
-   {
-       examid : 11111,
-       name :"冯越",
-       id : 1111,
-       sid : 111
-   }
+    var examroom = Vue.extend({
+        template: '#examroom',
+        data: function() {
+            return{
+                columns8: [{
+                    "title": "名称",
+                    "key": "name",
+                    "fixed": "left",
+                    "width": 200
+                }, {
+                    "title": "展示",
+                    "key": "show",
+                    "width": 150,
+                    "sortable": true,
+                    filters: [{
+                        label: '大于4000',
+                        value: 1
+                    }, {
+                        label: '小于4000',
+                        value: 2
+                    }],
+                    filterMultiple: false,
+                    filterMethod: function(value, row) {
+                        if (value === 1) {
+                            return row.show > 4000;
+                        } else if (value === 2) {
+                            return row.show < 4000;
+                        }
+                    }
+                }, {
+                    "title": "唤醒",
+                    "key": "weak",
+                    "width": 150,
+                    "sortable": true
+                }, {
+                    "title": "登录",
+                    "key": "signin",
+                    "width": 150,
+                    "sortable": true
+                }, {
+                    "title": "点击",
+                    "key": "click",
+                    "width": 150,
+                    "sortable": true
+                }, {
+                    "title": "激活",
+                    "key": "active",
+                    "width": 150,
+                    "sortable": true
+                }, {
+                    "title": "7日留存",
+                    "key": "day7",
+                    "width": 150,
+                    "sortable": true
+                }, {
+                    "title": "30日留存",
+                    "key": "day30",
+                    "width": 150,
+                    "sortable": true
+                }, {
+                    "title": "次日留存",
+                    "key": "tomorrow",
+                    "width": 150,
+                    "sortable": true
+                }, {
+                    "title": "日活跃",
+                    "key": "day",
+                    "width": 150,
+                    "sortable": true
+                }, {
+                    "title": "周活跃",
+                    "key": "week",
+                    "width": 150,
+                    "sortable": true
+                }, {
+                    "title": "月活跃",
+                    "key": "month",
+                    "width": 150,
+                    "sortable": true
+                }],
+                data7: [],
+            }
+        },
+        methods: {
+            exportData: function(type) {
+                if (type === 1) {
+                    this.$refs.table.exportCsv({
+                        filename: '原始数据'
+                    });
+                } else if (type === 2) {
+                    this.$refs.table.exportCsv({
+                        filename: '排序和过滤后的数据',
+                        original: false
+                    });
+                } else if (type === 3) {
+                    this.$refs.table.exportCsv({
+                        filename: '自定义数据',
+                        columns: this.columns8.filter(function(col, index) {
+                            return index < 4
+                        }),
+                        data: this.data7.filter(function(data, index) {
+                            return index < 4
+                        })
+                    });
+                }
+            }
+        }
+    });
 
-   $.ajax({
-       url:"/register/get",
-       type:"POST",
-       dataType:"json",
-       data:JSON.stringify(ss),
-       contentType:"application/json",
-       success:function(result){
-           console.log(result)
-       }
+    var App = Vue.extend({});
+    var router = new VueRouter();
 
+    router.map({
+        '/': {name: 'hello', component: examroom},
+    });
 
-   });
-   $.ajax({
-       url:"/register/get2",
-       type:"get",
-       data:{name:"jianre",id:222},
-
-       success:function(result){
-           console.log(result)
-       }
-
-
-   });
+    router.start(App, '#app');
 </script>
 
+<link href="/css/app.css" rel="stylesheet" type="text/css"/>
+
 </body>
-
-
 
 </html>

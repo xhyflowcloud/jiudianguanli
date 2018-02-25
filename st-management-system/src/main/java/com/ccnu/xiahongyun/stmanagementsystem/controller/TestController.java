@@ -9,6 +9,6 @@ public class TestController {
 
     @GetMapping("/hello")
     public String getHello(){
-        return "/index";
+        return "/hello";
     }
 }

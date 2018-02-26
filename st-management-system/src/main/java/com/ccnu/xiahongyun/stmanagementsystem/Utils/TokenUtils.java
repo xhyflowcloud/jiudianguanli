@@ -128,7 +128,7 @@ public class TokenUtils {
 
         final String username = this.getUsernameFromToken(token);
         final Date created = this.getCreatedDateFromToken(token);
-        return (username.equals(root.getEmail()) && !(this.isTokenExpired(token)) && !(this.isCreatedBeforeLastPasswordReset(created, new Date(root.getLast_pwd_change()))));
+        return (username.equals(root.getEmail()) && !(this.isTokenExpired(token)) && !(this.isCreatedBeforeLastPasswordReset(created, new Date())));
     }
 
     /**

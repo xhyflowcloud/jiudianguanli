@@ -4,11 +4,15 @@ public class Classroom {
     Integer id;
     Integer size;
     String position;
+    Boolean isEnable;
 
-    public Classroom(Integer id, Integer size, String position) {
+
+    public Classroom(Integer id, Integer size, String position, Boolean isEnable) {
         this.id = id;
         this.size = size;
+
         this.position = position;
+        this.isEnable = isEnable;
     }
 
     public Classroom() {
@@ -38,6 +42,14 @@ public class Classroom {
         this.position = position;
     }
 
+    public Boolean getEnable() {
+        return isEnable;
+    }
+
+    public void setEnable(Boolean enable) {
+        isEnable = enable;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -47,7 +59,9 @@ public class Classroom {
 
         if (getId() != null ? !getId().equals(classroom.getId()) : classroom.getId() != null) return false;
         if (getSize() != null ? !getSize().equals(classroom.getSize()) : classroom.getSize() != null) return false;
-        return getPosition() != null ? getPosition().equals(classroom.getPosition()) : classroom.getPosition() == null;
+        if (getPosition() != null ? !getPosition().equals(classroom.getPosition()) : classroom.getPosition() != null)
+            return false;
+        return isEnable != null ? isEnable.equals(classroom.isEnable) : classroom.isEnable == null;
     }
 
     @Override
@@ -55,6 +69,7 @@ public class Classroom {
         int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getSize() != null ? getSize().hashCode() : 0);
         result = 31 * result + (getPosition() != null ? getPosition().hashCode() : 0);
+        result = 31 * result + (isEnable != null ? isEnable.hashCode() : 0);
         return result;
     }
 
@@ -64,6 +79,7 @@ public class Classroom {
                 "id=" + id +
                 ", size=" + size +
                 ", position='" + position + '\'' +
+                ", isEnable=" + isEnable +
                 '}';
     }
 }

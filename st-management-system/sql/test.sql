@@ -12,7 +12,8 @@ CREATE TABLE `subject` (
 CREATE TABLE `classroom`(
   id int AUTO_INCREMENT PRIMARY KEY ,
   size int ,
-  position VARCHAR(50)
+  position VARCHAR(50),
+  isEnable BOOLEAN
 );
 
 /*监考人员*/
@@ -45,10 +46,10 @@ CREATE TABLE `register` (
 );
 
 CREATE TABLE `student`(
-  examid INT PRIMARY KEY ,
+  examid INT,
   name VARCHAR(50) ,
   id VARCHAR(30),
-  sid INT
+  sid INT AUTO_INCREMENT PRIMARY KEY
 );
 
 
@@ -62,9 +63,7 @@ CREATE TABLE `studentinformation` (
 
 CREATE TABLE `root` (
   id int AUTO_INCREMENT PRIMARY KEY ,
-  pwd VARCHAR(50),
   email VARCHAR(50),
-  auth VARCHAR(50),
-  last_pwd_change BIGINT ,
+  auth INTEGER,
   enable BOOLEAN
 )

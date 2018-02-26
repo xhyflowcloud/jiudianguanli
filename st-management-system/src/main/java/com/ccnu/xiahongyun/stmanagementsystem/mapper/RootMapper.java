@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface RootMapper {
     @Select("select * from root ")
-    List<Root> findAllroot();
+    List<Root> findAllRoot();
 
     @Select("select * from root where id = #{id}")
     Root findRootById(@Param("id") Integer id);
@@ -20,12 +20,12 @@ public interface RootMapper {
     @Select("select * from root where email = #{email}")
     Root findRootByEmail(@Param("email") String email);
 
-    @Insert("insert into root(email,pwd,auth,last_pwd_change,enable) values(#{email},#{pwd},#{auth},#{last_pwd_change},#{enable})")
-    void insertroot(@Param("email") String email, @Param("pwd") String pwd, @Param("auth") Integer auth, @Param("last_pwd_change") Long last_pwd_change, @Param("enable") Boolean enable);
+    @Insert("insert into root(email,auth,enable) values(#{email},#{auth},#{enable})")
+    void insertRoot(@Param("email") String email, @Param("auth") Integer auth, @Param("enable") Boolean enable);
 
-    @Update("update root set email=#{email}, pwd=#{pwd},auth=#{auth} ,last_pwd_change=#{last_pwd_change} ,enable=#{enable} where id= #{id}")
-    void updateroot(@Param("id") Integer id,@Param("email") String email, @Param("pwd") String pwd, @Param("auth") Integer auth, @Param("last_pwd_change") Long last_pwd_change, @Param("enable") Boolean enable);
+    @Update("update root set email=#{email},auth=#{auth},enable=#{enable} where id= #{id}")
+    void updateRoot(@Param("id") Integer id,@Param("email") String email, @Param("auth") Integer auth,@Param("enable") Boolean enable);
 
     @Delete("delete from root where id = #{id}")
-    void deleteroot(@Param("id") Integer id);
+    void deleteRoot(@Param("id") Integer id);
 }

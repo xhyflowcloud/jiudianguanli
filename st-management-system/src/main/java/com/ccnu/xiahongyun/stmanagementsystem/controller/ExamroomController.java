@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/examroom")
-public class ExamRoomController {
+public class ExamroomController {
 
 
 }

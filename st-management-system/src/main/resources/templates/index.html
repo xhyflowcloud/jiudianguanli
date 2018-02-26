@@ -735,6 +735,9 @@
                 data7: [],
             }
         },
+        created:function () {
+            this.email=this.$route.query.email;
+        },
         methods: {
             exportData: function(type) {
                 if (type === 1) {
@@ -779,7 +782,7 @@
                     id: '',
                     size: '',
                     position: '',
-                    isEnable: '',
+                    isEnable: 'false',
                     pageIndex:1,
                     pageSize:10,
                     totalRecord:0
@@ -796,7 +799,7 @@
                     "title": "教室编号",
                     "key": "id",
                     "fixed": "left",
-                    "width": 200
+                    "width": 200,
                 }, {
                     "title": "教室大小",
                     "key": "size",
@@ -812,21 +815,21 @@
                     filterMultiple: false,
                     filterMethod: function(value, row) {
                         if (value === 1) {
-                            return row.show > 30;
+                            return row.size >= 30;
                         } else if (value === 2) {
-                            return row.show < 30;
+                            return row.size < 30;
                         }
                     }
                 }, {
                     "title": "教室位置",
                     "key": "position",
                     "width": 200,
-                    "sortable": true
+                    "sortable": false
                 }, {
                     "title": "是否占用",
                     "key": "isEnable",
                     "width": 150,
-                    "sortable": true
+                    "sortable": false,
                 }],
             }
         },
@@ -1025,6 +1028,9 @@
                 data7: [],
             }
         },
+        created:function () {
+            this.email=this.$route.query.email;
+        },
         methods: {
             exportData: function(type) {
                 if (type === 1) {
@@ -1134,6 +1140,9 @@
                 data7: [],
             }
         },
+        created:function () {
+            this.email=this.$route.query.email;
+        },
         methods: {
             exportData: function(type) {
                 if (type === 1) {
@@ -1242,6 +1251,9 @@
                 }],
                 data7: [],
             }
+        },
+        created:function () {
+            this.email=this.$route.query.email;
         },
         methods: {
             exportData: function(type) {

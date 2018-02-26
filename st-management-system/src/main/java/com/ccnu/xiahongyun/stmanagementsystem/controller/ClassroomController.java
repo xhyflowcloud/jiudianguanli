@@ -35,7 +35,7 @@ public class ClassroomController {
             QueryViewPage<Classroom> aimPage = new QueryViewPage<Classroom>();
             List<Classroom> classrooms = classroomMapper.findClassroomByLimit(classroomQuery);
             aimPage.setResults(classrooms);
-            aimPage.setTotalRecord(12);
+            aimPage.setTotalRecord(classroomMapper.findAllClassroomCount());
             return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(aimPage);
         }catch (Exception e) {
             throw e;

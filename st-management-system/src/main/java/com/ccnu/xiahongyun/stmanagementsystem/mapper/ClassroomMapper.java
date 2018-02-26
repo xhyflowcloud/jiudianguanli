@@ -15,6 +15,9 @@ public interface ClassroomMapper {
     @Select("select * from classroom ")
     List<Classroom> findAllClassroom();
 
+    @Select("select count(*) from classroom ")
+    Integer findAllClassroomCount();
+
     @Select("select * from classroom where id = #{id}")
     Classroom findClassroomById(@Param("id") Integer id);
 

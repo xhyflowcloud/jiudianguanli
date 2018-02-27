@@ -8,7 +8,7 @@ CREATE TABLE `subject` (
   bmstarttime BIGINT,
   bmendtime BIGINT,
   maxnumber int,
-  minnumber int,
+  minnumber int
 );
 
 /*教室*/

@@ -12,11 +12,20 @@ import java.util.List;
 @Mapper
 public interface TeacherMapper {
 
-    @Insert("insert into teacher(name, isInvigilator, numInvigilator, accInvigilator) values(#{name}, #{isInvigilator}, #{numInvigilator}, #{accInvigilator})")
-    void insertTeacher(@Param("name") String name, @Param("isInvigilator") Boolean isInvigilator, @Param("numInvigilator") Integer numInvigilator, @Param("accInvigilator") Boolean accInvigilator);
 
-    @Update("update teacher set name = #{name}, isInvigilator = #{isInvigilator}, numInvigilator = #{numInvigilator}, accInvigilator = #{accInvigilator} where id = #{id}")
-    void updateTeacher(@Param("id") Integer id, @Param("name") String name, @Param("isInvigilator") Boolean isInvigilator, @Param("numInvigilator") Integer numInvigilator, @Param("accInvigilator") Boolean accInvigilator);
+
+
+    @Insert("insert into teacher(name, starttime,endtime,isInvigilator, numInvigilator, accInvigilator) values(#{name},#{starttime},#{endtime} ,#{isInvigilator}, #{numInvigilator}, #{accInvigilator})")
+    void insertTeacher(@Param("name") String name,@Param("starttime") Long starttime,@Param("endtime") Long endtime,
+                       @Param("isInvigilator") Boolean isInvigilator,
+                       @Param("numInvigilator") Integer numInvigilator,
+                       @Param("accInvigilator") Boolean accInvigilator);
+
+    @Update("update teacher set name = #{name}, starttime=#{starttime} , endtime=#{endtime},isInvigilator = #{isInvigilator}, numInvigilator = #{numInvigilator}, accInvigilator = #{accInvigilator} where id = #{id}")
+    void updateTeacher(@Param("id") Integer id, @Param("name") String name,@Param("starttime") Long starttime,@Param("endtime") Long endtime,
+                       @Param("isInvigilator") Boolean isInvigilator,
+                       @Param("numInvigilator") Integer numInvigilator,
+                       @Param("accInvigilator") Boolean accInvigilator);
 
     @Delete("delete from teacher where id = #{id}")
     void deleteTeacher(@Param("id") Integer id);

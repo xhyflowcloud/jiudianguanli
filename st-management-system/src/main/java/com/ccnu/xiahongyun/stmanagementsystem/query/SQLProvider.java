@@ -25,6 +25,23 @@ public class SQLProvider {
         return  sql.toString();
     }
 
+    public String selectClassroomCount(ClassroomQuery classroom){
+        StringBuffer sql = new StringBuffer("select count(*) from  classroom where 1=1");
+        if(classroom.getId() != null){
+            sql.append(" and id = #{id}");
+        }
+        if(classroom.getSize() != null){
+            sql.append(" and size = #{size}");
+        }
+        if(classroom.getPosition() != null && StringUtils.isNotEmpty(classroom.getPosition())){
+            sql.append(" and position = #{position}");
+        }
+        if(classroom.getEnable() != null){
+            sql.append(" and isEnable = #{isEnable}");
+        }
+        return  sql.toString();
+    }
+
     public String selectExamroom(ClassroomQuery classroom){
         StringBuffer sql = new StringBuffer("select * from  classroom where 1=1");
         if(classroom.getId() != null){

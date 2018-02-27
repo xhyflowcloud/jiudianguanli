@@ -17,24 +17,44 @@
 <script type="text/javascript" src="/js/countdown.js"></script>
 <script type="text/javascript" src="/js/vue.config.js"></script>
 
+<p-modal :visible.sync="modalAddClassroom" @on-ok="ok" @on-cancel="cancel">
+    <p slot="header">
+        <span>增加教室信息</span>
+    </p>
+    <div style="text-align:center;">
+        <p-form label-position="right" >
+            <p-form-item rule-key="user" :value="user.name">
+                <p-input style="width: 300px" type="text" :value.sync="user.name" placeholder="教室大小">
+                </p-input>
+            </p-form-item>
+
+            <p-form-item rule-key="email" :value="user.email">
+                <p-input style="width: 300px" type="email" :value.sync="user.email" placeholder="教室位置">
+                </p-input>
+            </p-form-item>
+        </p-form>
+    </div>
+</p-modal>
+
+<script>
+    new Vue({
+        el: 'body',
+        data: {
+            modalAddClassroom: true,
+        }
+    })
+</script>
+
 <div id = "app">
     <router-view></router-view>
 </div>
 <script type="text/x-template" id="examroom">
-    <div class="b-gotop" >
-        <ul class="h-gotop-list">
-            <li class="li-item item01" id="jimi" style="display:none;height: 50px;background-image: url(//img11.360buyimg.com/uba/jfs/t3316/136/667795769/1923/da46766c/5811a208N8c864902.png)"></li>
-            <li class="li-item item01"><a target="_blank" href="//vp.jd.com/mobile/download.html" class="link-dlk" clstag="pageclick|keycount|popvender_new|106"><i class="icon-gotop1"></i></a></li>
-            <li class="li-item item02"><a target="_blank" href="//crm.shop.jd.com/crm/suggestions/toNewAddSug.action?menuId=$!menuId" class="link-dlk" clstag="pageclick|keycount|popvender_new|107"><i class="icon-gotop2"></i></a></li>
-            <li class="li-item item03" id="gotop"><a href="#" class="link-dlk link-top" clstag="pageclick|keycount|popvender_new|108"><i class="icon-gotop3"></i></a></li>
-        </ul>
+    <div >
+        <span v-if="">增加</span>
+        <span>删除</span>
+        <span>修改</span>
     </div>
-    <p style="text-align: right;margin-bottom: 15px;">
-        <p-button type="primary" @click="submitComplainQuery" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;查询&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p-button>
-        <p-button type="ghost" @click="reset" style="margin-left: 8px" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p-button>
-        <p-button type="ghost" @click="reset" style="margin-left: 8px" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p-button>
-    </p>
-    <div class="shopweb-card-body" style="margin-top: 50px; padding: 5px">
+    <div class="shopweb-card-body" style="margin-top: 20px; padding: 5px">
         <p-form :label-width="80" label-position="right">
             <p-row :gutter="10">
                 <p-col span="8">

@@ -246,7 +246,7 @@
 </script>
 <script type="text/x-template" id="classroom">
 
-    <div class="shopweb-card-body" style="margin-top: 50px; padding: 5px">
+    <div class="shopweb-card-body" style="margin-top: 30px; padding: 5px">
         <p-form :label-width="80" label-position="right">
             <p-row :gutter="10">
                 <p-col span="8">
@@ -280,13 +280,15 @@
                 <p-button type="primary" @click="submitQuery" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;查询&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p-button>
                 <p-button type="ghost" @click="reset" style="margin-left: 8px" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p-button>
             </p>
-        </p-form>
-
-        <p-table size = "small" border :columns="columns4" :data="classrooms" v-ref:table></p-table>
+        </p-form >
+        <p style="text-align: right;">
+            <p-button @click="addClick" type="primary" size="small">增加</p-button>
+        </p>
+        <p-table size = "small" border :columns="columns6" :data="classrooms" v-ref:table></p-table>
         <div style="float:right">
             <p-page :total="classroomQuery.totalRecord" :current.sync="classroomQuery.pageIndex" :page-size.sync="classroomQuery.pageSize" :page-size-opts="[5,10,20]"  @on-change="doClassroomQuery" @on-page-size-change="doClassroomQuery" class="pageClass" show-total show-elevator></p-page>
         </div>
-        <p-button type="primary" size="large" @click="exportData(1)" posi>
+        <p-button class="pageClass" type="primary" size="large" @click="exportData(1)" posi>
             <p-icon type="ios-download-outline"></p-icon> 导出原始数据</p-button>
         <p-button type="primary" size="large" @click="exportData(2)">
             <p-icon type="ios-download-outline"></p-icon> 导出排序和过滤后的数据</p-button>
@@ -1016,7 +1018,7 @@
                     isEnable: 'false',
                 },
                 classrooms: [],
-                columns4: [{
+                columns6: [{
                     "title": "教室编号",
                     "key": "id",
                     align: 'center',
@@ -1046,6 +1048,16 @@
                     "sortable": false,
                     align: 'center'
                 }, {
+                    "title": "开始时间",
+                    "key": "starttime",
+                    "sortable": false,
+                    align: 'center',
+                },{
+                    "title": "结束时间",
+                    "key": "starttime",
+                    "sortable": false,
+                    align: 'center',
+                },{
                     "title": "是否启用",
                     "key": "isEnable",
                     "sortable": false,
@@ -1056,7 +1068,7 @@
                     "sortable": false,
                     align: 'center',
                     render: function (row,column,index) {
-                        return '<p-button @click="addClick" type="primary" size="small">增加</p-button><p-button @click="updateClick" style="margin-left: 8px" type="primary" size="small">修改</p-button><p-button @click="deleteClick" style="margin-left: 8px" type="error" size="small">删除</p-button>';
+                        return '<p-button @click="updateClick" style="margin-left: 8px" type="primary" size="small">修改</p-button><p-button @click="deleteClick" style="margin-left: 8px" type="error" size="small">删除</p-button>';
                     }
                 }],
             }
@@ -1139,6 +1151,9 @@
                     }
                     else if(4 == res.body){
                         this.$Message.error("没有此用户");
+                    }
+                    else if(5 == res.body){
+                        this.$Message.error("该教室正在被使用，不能修改");
                     }
                     this.modalUpdate = false;
                 });

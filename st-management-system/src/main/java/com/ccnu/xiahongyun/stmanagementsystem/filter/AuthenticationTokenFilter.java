@@ -48,7 +48,6 @@ public class AuthenticationTokenFilter extends GenericFilterBean {
         // 若是没有 token 或者拿 username 时出现异常，那么 username 为 null
         String username = this.tokenUtils.getUsernameFromToken(authToken);
 
-        System.out.println("asddddddddddddddddddddddddddddddddddd");
         // 如果上面解析 token 成功并且拿到了 username 并且本次会话的权限还未被写入
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             // 用 UserDetailsService 从数据库中拿到用户的 UserDetails 类

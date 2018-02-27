@@ -29,7 +29,7 @@ public class StudentController {
     RegisterMapper registerMapper;
 
 
-    @PostMapping("/{email}/add")
+   /* @PostMapping("/{email}/add")
     public ResponseEntity<Integer> add(@PathVariable String email, @RequestBody Student student) {
 
         Root root = null;
@@ -43,9 +43,9 @@ public class StudentController {
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(4);     //无该用户
                 }
                 root = rootMapper.findRootByEmail(email);
-                /*if(root == null || root.getAuth() < 10){
+                *//*if(root == null || root.getAuth() < 10){
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(3);  //无权限
-                }*/
+                }*//*
                 stu.insertStudent(student.getExamid(),student.getName(),student.getId(),student.getSid());
             }else{
                 return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(2);
@@ -71,9 +71,9 @@ public class StudentController {
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(4);     //无该用户
                 }
                 root = rootMapper.findRootByEmail(email);
-                /*if(root.getAuth() < 10){
+                *//*if(root.getAuth() < 10){
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(3);  //无权限
-                }*/
+                }*//*
                 stu.deleteStudent(student.getExamid());
             }else{
                 return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(2);
@@ -98,9 +98,9 @@ public class StudentController {
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(4);     //无该用户
                 }
                 root = rootMapper.findRootByEmail(email);
-                /*if(root.getAuth() < 10){
+                *//*if(root.getAuth() < 10){
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(3);  //无权限
-                }*/
+                }*//*
                 stu.updateStudent(student.getExamid(),student.getName(),student.getId(),student.getSid());
             }else{
                 return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(2);
@@ -128,7 +128,7 @@ public class StudentController {
             throw e;
         }
     }
-
+*/
 
 
 }

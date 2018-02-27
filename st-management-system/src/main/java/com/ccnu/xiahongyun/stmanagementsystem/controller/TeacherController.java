@@ -26,8 +26,8 @@ public class TeacherController {
     RootMapper rootMapper;
     @Autowired
     RegisterMapper registerMapper;
-    @PostMapping("/{email}/add")
-
+   /*
+   @PostMapping("/{email}/add")
     public ResponseEntity<Integer> add(@PathVariable String email, @RequestBody Teacher teacher) {
 
         Root root = null;
@@ -41,9 +41,9 @@ public class TeacherController {
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(4);     //无该用户
                 }
                 root = rootMapper.findRootByEmail(email);
-                /*if(root == null || root.getAuth() < 10){
+                *//*if(root == null || root.getAuth() < 10){
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(3);  //无权限
-                }*/
+                }*//*
                 tea.insertTeacher(teacher.getName(),teacher.getInvigilator(),teacher.getNumInvigilator(),teacher.getAccInvigilator());
             }else{
                 return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(2);
@@ -68,9 +68,9 @@ public class TeacherController {
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(4);     //无该用户
                 }
                 root = rootMapper.findRootByEmail(email);
-                /*if(root.getAuth() < 10){
+                *//*if(root.getAuth() < 10){
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(3);  //无权限
-                }*/
+                }*//*
                tea.deleteTeacher(teacher.getId());
             }else{
                 return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(2);
@@ -97,9 +97,9 @@ public class TeacherController {
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(4);     //无该用户
                 }
                 root = rootMapper.findRootByEmail(email);
-                /*if(root.getAuth() < 10){
+                *//*if(root.getAuth() < 10){
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(3);  //无权限
-                }*/
+                }*//*
                 tea.updateTeacher(teacher.getId(),teacher.getName(),teacher.getInvigilator(),teacher.getNumInvigilator(),teacher.getAccInvigilator());
             }else{
                 return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(2);
@@ -124,5 +124,5 @@ public class TeacherController {
         }catch (Exception e) {
             throw e;
         }
-    }
+    }*/
 }

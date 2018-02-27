@@ -30,6 +30,9 @@ public interface ClassroomMapper {
     @Delete("delete from classroom where id = #{id}")
     void deleteClassroom(@Param("id") Integer id);
 
+    @Select("select * from classroom where id = #{id}")
+    Classroom findClassroomById(@Param("id") Integer id);
+
 
     @SelectProvider(type = SQLProvider.class, method = "selectClassroom")
     List<Classroom> findClassroomByLimit(ClassroomQuery classroom);

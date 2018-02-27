@@ -512,21 +512,21 @@
             <span>增加监考人员信息</span>
         </p>
         <div style="text-align:center;">
-            <p-form label-position="right" >
+            <p-form label-position="right" :label-width="100">
                 <p-form-item label="监考人员姓名">
-                    <p-input-number :value.sync="teacher.name" placeholder="请输入监考人员姓名..." @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input-number>
+                    <p-input :value.sync="teacher.name" placeholder="请输入监考人员姓名..." @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input>
                 </p-form-item>
                 <p-form-item label="是否监考过">
-                    <p-select style="width: 240px">
-                        <p-option :model.sync="teacher.isInvigilator" clearable="false" v-for="item in IsOrNot" :value="item.value">{{ item.label }}</p-option>
+                    <p-select :model.sync="teacher.isInvigilator" clearable="false" style="width: 240px">
+                        <p-option  v-for="item in IsOrNot" :value="item.value">{{ item.label }}</p-option>
                     </p-select></p-input>
                 </p-form-item>
                 <p-form-item label="监考次数">
-                    <p-input-number :value.sync="teacher.numInvigilator" placeholder="请输入监考次数..." @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input-number>
+                    <p-input :value.sync="teacher.numInvigilator" placeholder="请输入监考次数..." @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input>
                 </p-form-item>
                 <p-form-item label="是否有监考事故">
-                    <p-select style="width: 240px">
-                        <p-option :model.sync="teacher.accInvigilator" clearable="false" v-for="item in IsOrNot" :value="item.value">{{ item.label }}</p-option>
+                    <p-select :model.sync="teacher.accInvigilator" clearable="false" style="width: 240px">
+                        <p-option  v-for="item in IsOrNot" :value="item.value">{{ item.label }}</p-option>
                     </p-select></p-input>
                 </p-form-item>
             </p-form>
@@ -537,7 +537,7 @@
             <span>删除监考人员信息</span>
         </p>
         <div style="text-align:center;">
-            <p-form label-position="right" >
+            <p-form label-position="right" :label-width="100">
                 <p-form-item label="监考人员编号">
                     <p-input :value.sync="teacher.id" placeholder="请输入监考人员编号..." @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input>
                 </p-form-item>
@@ -549,9 +549,9 @@
             <span>修改监考人员信息</span>
         </p>
         <div style="text-align:center;">
-            <p-form label-position="right" :label-width="80">
+            <p-form label-position="right" :label-width="100">
                 <p-form-item label="监考人员姓名">
-                    <p-input-number :value.sync="teacher.name" placeholder="请输入监考人员姓名..." @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input-number>
+                    <p-input :value.sync="teacher.name" placeholder="请输入监考人员姓名..." @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input>
                 </p-form-item>
                 <p-form-item label="是否监考过">
                     <p-select style="width: 240px">
@@ -559,7 +559,7 @@
                     </p-select></p-input>
                 </p-form-item>
                 <p-form-item label="监考次数">
-                    <p-input-number :value.sync="teacher.numInvigilator" placeholder="请输入监考次数..." @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input-number>
+                    <p-input :value.sync="teacher.numInvigilator" placeholder="请输入监考次数..." @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input>
                 </p-form-item>
                 <p-form-item label="是否有监考事故">
                     <p-select style="width: 240px">
@@ -1478,7 +1478,7 @@
                     "sortable": false,
                     align: 'center',
                     render: function (row,column,index) {
-                        return '<p-button type="primary" size="small"  v-link="\'/toModifyPage/' + row.id + '\'">修改</p-button><p-button style="margin-left: 8px" type="error" size="small" v-link="\\\'/toModifyPage/\' + row.id + \'\\\'">删除</p-button>';
+                        return '<p-button @click="updateClick" style="margin-left: 8px" type="primary" size="small">修改</p-button><p-button @click="deleteClick" style="margin-left: 8px" type="error" size="small">删除</p-button>';
                     }
                 }],
             }
@@ -1497,7 +1497,7 @@
                 this.modalUpdate = true;
             },
             addSubmit: function () {
-                this.$http.post('/teacher/' + this.email + '/add', this.classroom).then(function (res) {
+                this.$http.post('/teacher/' + this.email + '/add', this.teacherQuery).then(function (res) {
                     if(1 == res.body) {
                         this.$Message.success("增加成功");
                     }
@@ -1517,7 +1517,7 @@
                 });
             },
             deleteSubmit: function () {
-                this.$http.post('/teacher/' + this.email + '/delete', this.classroom).then(function (res) {
+                this.$http.post('/teacher/' + this.email + '/delete', this.teacherQuery).then(function (res) {
                     if(1 == res.body) {
                         this.$Message.success("删除成功");
                     }
@@ -1537,7 +1537,7 @@
                 });
             },
             updateSubmit: function () {
-                this.$http.post('/teacher/' + this.email + '/update', this.classroom).then(function (res) {
+                this.$http.post('/teacher/' + this.email + '/update', this.teacherQuery).then(function (res) {
                     if(1 == res.body) {
                         this.$Message.success("修改成功");
                     }

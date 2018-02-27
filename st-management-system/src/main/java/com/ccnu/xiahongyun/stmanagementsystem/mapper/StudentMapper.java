@@ -1,6 +1,8 @@
 package com.ccnu.xiahongyun.stmanagementsystem.mapper;
 
 import com.ccnu.xiahongyun.stmanagementsystem.model.Student;
+import com.ccnu.xiahongyun.stmanagementsystem.query.SQLProvider;
+import com.ccnu.xiahongyun.stmanagementsystem.query.StudentQuery;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -9,6 +11,9 @@ import java.util.List;
 @Mapper
 @Repository
 public interface StudentMapper {
+    @Select("select count(*) from classroom ")
+    Integer findAllStudentCount();
+
     @Select("select * from student")
     List<Student> findAllStudent();
 
@@ -23,5 +28,11 @@ public interface StudentMapper {
 
     @Delete("delete from student where examid = #{examid}")
     void deleteStudent(@Param("examid") Integer examid);
+
+    @SelectProvider(type = SQLProvider.class, method = "selectStudent")
+    List<Student> findStudentByLimit(StudentQuery student);
+
+    @SelectProvider(type = SQLProvider.class, method = "selectStudentCount")
+    Integer findStudentCount(StudentQuery student);
 
 }

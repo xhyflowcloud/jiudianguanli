@@ -1,42 +1,40 @@
 package com.ccnu.xiahongyun.stmanagementsystem.query;
 
-public class StudentQuery {
-    Integer examid;
+public class SubjectQuery {
+
+    Integer id;
     String name;
+    Long datetime;
 
     /**
-     * 身份证号
+     * 考试时长
      */
-    String id;
-
-    /**
-     * 报名ID
-     */
-    Integer sid;
-
+    Integer duration;
+    Integer number;
     Integer pageIndex;
     Integer pageSize;
     Integer totalRecord;
 
-    public StudentQuery(Integer examid, String name, String id, Integer sid, Integer pageIndex, Integer pageSize, Integer totalRecord) {
-        this.examid = examid;
-        this.name = name;
+    public SubjectQuery(Integer id, String name, Long datetime, Integer duration, Integer number, Integer pageIndex, Integer pageSize, Integer totalRecord) {
         this.id = id;
-        this.sid = sid;
+        this.name = name;
+        this.datetime = datetime;
+        this.duration = duration;
+        this.number = number;
         this.pageIndex = pageIndex;
         this.pageSize = pageSize;
         this.totalRecord = totalRecord;
     }
 
-    public StudentQuery() {
+    public SubjectQuery() {
     }
 
-    public Integer getExamid() {
-        return examid;
+    public Integer getId() {
+        return id;
     }
 
-    public void setExamid(Integer examid) {
-        this.examid = examid;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -47,20 +45,28 @@ public class StudentQuery {
         this.name = name;
     }
 
-    public String getId() {
-        return id;
+    public Long getDatetime() {
+        return datetime;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setDatetime(Long datetime) {
+        this.datetime = datetime;
     }
 
-    public Integer getSid() {
-        return sid;
+    public Integer getDuration() {
+        return duration;
     }
 
-    public void setSid(Integer sid) {
-        this.sid = sid;
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
     public Integer getPageIndex() {
@@ -90,14 +96,17 @@ public class StudentQuery {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof StudentQuery)) return false;
+        if (!(o instanceof SubjectQuery)) return false;
 
-        StudentQuery that = (StudentQuery) o;
+        SubjectQuery that = (SubjectQuery) o;
 
-        if (getExamid() != null ? !getExamid().equals(that.getExamid()) : that.getExamid() != null) return false;
-        if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
         if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null) return false;
-        if (getSid() != null ? !getSid().equals(that.getSid()) : that.getSid() != null) return false;
+        if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
+        if (getDatetime() != null ? !getDatetime().equals(that.getDatetime()) : that.getDatetime() != null)
+            return false;
+        if (getDuration() != null ? !getDuration().equals(that.getDuration()) : that.getDuration() != null)
+            return false;
+        if (getNumber() != null ? !getNumber().equals(that.getNumber()) : that.getNumber() != null) return false;
         if (getPageIndex() != null ? !getPageIndex().equals(that.getPageIndex()) : that.getPageIndex() != null)
             return false;
         if (getPageSize() != null ? !getPageSize().equals(that.getPageSize()) : that.getPageSize() != null)
@@ -107,10 +116,11 @@ public class StudentQuery {
 
     @Override
     public int hashCode() {
-        int result = getExamid() != null ? getExamid().hashCode() : 0;
+        int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getName() != null ? getName().hashCode() : 0);
-        result = 31 * result + (getId() != null ? getId().hashCode() : 0);
-        result = 31 * result + (getSid() != null ? getSid().hashCode() : 0);
+        result = 31 * result + (getDatetime() != null ? getDatetime().hashCode() : 0);
+        result = 31 * result + (getDuration() != null ? getDuration().hashCode() : 0);
+        result = 31 * result + (getNumber() != null ? getNumber().hashCode() : 0);
         result = 31 * result + (getPageIndex() != null ? getPageIndex().hashCode() : 0);
         result = 31 * result + (getPageSize() != null ? getPageSize().hashCode() : 0);
         result = 31 * result + (getTotalRecord() != null ? getTotalRecord().hashCode() : 0);
@@ -119,11 +129,12 @@ public class StudentQuery {
 
     @Override
     public String toString() {
-        return "StudentQuery{" +
-                "examid=" + examid +
+        return "SubjectQuery{" +
+                "id=" + id +
                 ", name='" + name + '\'' +
-                ", id='" + id + '\'' +
-                ", sid=" + sid +
+                ", datetime=" + datetime +
+                ", duration=" + duration +
+                ", number=" + number +
                 ", pageIndex=" + pageIndex +
                 ", pageSize=" + pageSize +
                 ", totalRecord=" + totalRecord +

@@ -1,6 +1,8 @@
 package com.ccnu.xiahongyun.stmanagementsystem.mapper;
 
 import com.ccnu.xiahongyun.stmanagementsystem.model.Subject;
+import com.ccnu.xiahongyun.stmanagementsystem.query.SQLProvider;
+import com.ccnu.xiahongyun.stmanagementsystem.query.SubjectQuery;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -27,4 +29,10 @@ public interface SubjectMapper {
 
     @Select("select id from subject where name = #{name}")
     Integer getIdByName(@Param("name") String name);
+
+    @SelectProvider(type = SQLProvider.class, method = "selectSubject")
+    List<Subject> findStudentByLimit(SubjectQuery subject);
+
+    @SelectProvider(type = SQLProvider.class, method = "selectSubjectCount")
+    Integer findStudentCount(SubjectQuery student);
 }

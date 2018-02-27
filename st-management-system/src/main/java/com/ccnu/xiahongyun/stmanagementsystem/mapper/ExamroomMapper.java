@@ -2,6 +2,8 @@ package com.ccnu.xiahongyun.stmanagementsystem.mapper;
 
 
 import com.ccnu.xiahongyun.stmanagementsystem.model.Examroom;
+import com.ccnu.xiahongyun.stmanagementsystem.query.ExamroomQuery;
+import com.ccnu.xiahongyun.stmanagementsystem.query.SQLProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -24,4 +26,10 @@ public interface ExamroomMapper {
 
     @Delete("delete from examroom where id = #{id}")
     void deleteExamroom(@Param("id") Integer id);
+
+    @SelectProvider(type = SQLProvider.class, method = "selectExamroom")
+    List<Examroom> findExamroomByLimit(ExamroomQuery examroom);
+
+    @SelectProvider(type = SQLProvider.class, method = "selectExamroomCount")
+    Integer findExamroomCount(ExamroomQuery examroom);
 }

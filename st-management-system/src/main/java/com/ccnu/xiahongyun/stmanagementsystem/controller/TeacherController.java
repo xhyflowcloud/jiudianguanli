@@ -6,6 +6,7 @@ import com.ccnu.xiahongyun.stmanagementsystem.mapper.TeacherMapper;
 import com.ccnu.xiahongyun.stmanagementsystem.model.Register;
 import com.ccnu.xiahongyun.stmanagementsystem.model.Root;
 import com.ccnu.xiahongyun.stmanagementsystem.model.Teacher;
+import com.ccnu.xiahongyun.stmanagementsystem.model.TeacherTime;
 import com.ccnu.xiahongyun.stmanagementsystem.query.QueryViewPage;
 import com.ccnu.xiahongyun.stmanagementsystem.query.TeacherQuery;
 import org.apache.commons.lang.StringUtils;
@@ -15,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -26,8 +29,8 @@ public class TeacherController {
     RootMapper rootMapper;
     @Autowired
     RegisterMapper registerMapper;
-   /*
-   @PostMapping("/{email}/add")
+
+    @PostMapping("/{email}/add")
     public ResponseEntity<Integer> add(@PathVariable String email, @RequestBody Teacher teacher) {
 
         Root root = null;
@@ -41,10 +44,9 @@ public class TeacherController {
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(4);     //无该用户
                 }
                 root = rootMapper.findRootByEmail(email);
-                *//*if(root == null || root.getAuth() < 10){
-                    return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(3);  //无权限
-                }*//*
-                tea.insertTeacher(teacher.getName(),teacher.getInvigilator(),teacher.getNumInvigilator(),teacher.getAccInvigilator());
+
+                tea.insertTeacher(teacher.getName(),new Date().getTime(),
+                        new Date().getTime(),teacher.getInvigilator(),teacher.getNumInvigilator(),teacher.getAccInvigilator());
             }else{
                 return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(2);
             }
@@ -68,9 +70,7 @@ public class TeacherController {
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(4);     //无该用户
                 }
                 root = rootMapper.findRootByEmail(email);
-                *//*if(root.getAuth() < 10){
-                    return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(3);  //无权限
-                }*//*
+
                tea.deleteTeacher(teacher.getId());
             }else{
                 return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(2);
@@ -97,10 +97,9 @@ public class TeacherController {
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(4);     //无该用户
                 }
                 root = rootMapper.findRootByEmail(email);
-                *//*if(root.getAuth() < 10){
-                    return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(3);  //无权限
-                }*//*
-                tea.updateTeacher(teacher.getId(),teacher.getName(),teacher.getInvigilator(),teacher.getNumInvigilator(),teacher.getAccInvigilator());
+
+                tea.updateTeacher(teacher.getId(),teacher.getName(),new Date().getTime(),
+                        new Date().getTime(),teacher.getInvigilator(),teacher.getNumInvigilator(),teacher.getAccInvigilator());
             }else{
                 return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(2);
             }
@@ -112,17 +111,31 @@ public class TeacherController {
     }
 
     @PostMapping("/query")
-    public ResponseEntity<QueryViewPage<Teacher>> login(@RequestBody TeacherQuery teacherQuery) {
+    public ResponseEntity<QueryViewPage<TeacherTime>> login(@RequestBody TeacherQuery teacherQuery) {
 
         try {
             //目标分页对象
-            QueryViewPage<Teacher> aimPage = new QueryViewPage<Teacher>();
+            QueryViewPage<TeacherTime> aimPage = new QueryViewPage<TeacherTime>();
+            List<TeacherTime> teacherTimes= new ArrayList<TeacherTime>();
+
             List<Teacher> teachers = tea.findTeacherByLimit(teacherQuery);
-            aimPage.setResults(teachers);
+            for (Teacher c: teachers) {
+                TeacherTime teacherTime = new TeacherTime();
+                teacherTime.setId(c.getId());
+                teacherTime.setName(c.getName());
+                teacherTime.setStarttime(new Date(c.getStarttime()).toString());
+                teacherTime.setEndtime(new Date(c.getEndtime()).toString());
+                teacherTime.setInvigilator(c.getInvigilator());
+                teacherTime.setNumInvigilator(c.getNumInvigilator());
+                teacherTime.setAccInvigilator(c.getAccInvigilator());
+
+                teacherTimes.add(teacherTime);
+            }
+            aimPage.setResults(teacherTimes);
             aimPage.setTotalRecord(tea.findTeacherCount(teacherQuery));
             return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(aimPage);
         }catch (Exception e) {
             throw e;
         }
-    }*/
+    }
 }

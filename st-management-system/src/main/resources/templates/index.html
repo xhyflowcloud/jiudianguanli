@@ -458,6 +458,12 @@
         </div>
     </p-modal>
 </script>
+
+
+
+
+
+
 <script type="text/x-template" id="teacher">
     <div class="shopweb-card-body" style="margin-top: 20px; padding: 5px">
         <p-form :label-width="80" label-position="right">
@@ -502,8 +508,8 @@
             </p>
         </p-form>
 
-        <p-table :columns="columns4" :data="classrooms" v-ref:table></p-table>
-        <p-page :total="classroomQuery.totalRecord" :current.sync="classroomQuery.pageIndex" :page-size.sync="classroomQuery.pageSize" :page-size-opts="[5,10,20]"  @on-change="submitQuery" @on-page-size-change="submitQuery" class="pageClass"></p-page>
+        <p-table :columns="columns7" :data="teachers" v-ref:table></p-table>
+        <p-page :total="teacherQuery.totalRecord" :current.sync="teacherQuery.pageIndex" :page-size.sync="teacherQuery.pageSize" :page-size-opts="[5,10,20]"  @on-change="submitQuery" @on-page-size-change="submitQuery" class="pageClass"></p-page>
         <p-button type="primary" size="large" @click="exportData(1)" posi>
             <p-icon type="ios-download-outline"></p-icon> 导出原始数据</p-button>
         <p-button type="primary" size="large" @click="exportData(2)">
@@ -574,6 +580,12 @@
         </div>
     </p-modal>
 </script>
+
+
+
+
+
+
 <script type="text/x-template" id="subject">
     <div  style="width: 100%">
         <button @click="show = !show" style="width: 50px;color: white; border-color: white;border: 0px;background: red; float: right">菜单</button>
@@ -1354,6 +1366,8 @@
             }
         }
     });
+
+
     var teacher = Vue.extend({
         template: '#teacher',
         data: function() {
@@ -1385,43 +1399,46 @@
                     numInvigilator: '',
                     accInvigilator: '',
                 },
-                classrooms: [],
+
+                teachers: [],
                 show: false,
-                columns4: [{
-                    "title": "教室编号",
+                columns7: [{
+                    "title": "监考人员编号",
                     "key": "id",
                     align: 'center',
                 }, {
-                    "title": "教室大小",
-                    "key": "size",
+                    "title": "监考人员姓名",
+                    "key": "name",
                     align: 'center',
-                    "sortable": true,
-                    filters: [{
-                        label: '大于30',
-                        value: 1
-                    }, {
-                        label: '小于30',
-                        value: 2
-                    }],
-                    filterMultiple: false,
-                    filterMethod: function(value, row) {
-                        if (value === 1) {
-                            return row.size >= 30;
-                        } else if (value === 2) {
-                            return row.size < 30;
-                        }
-                    }
                 }, {
-                    "title": "教室位置",
-                    "key": "position",
+                    "title": "开始时间",
+                    "key": "starttime",
                     "sortable": false,
                     align: 'center'
                 }, {
-                    "title": "是否启用",
-                    "key": "isEnable",
+                    "title": "结束时间",
+                    "key": "endtime",
                     "sortable": false,
                     align: 'center',
                 },{
+                    "title": "是否监考过",
+                    "key": "isInvigilator",
+                    "sortable": false,
+                    align: 'center',
+                }
+                , {
+                        "title": "监考次数",
+                        "key": "numInvigilator",
+                        "sortable": false,
+                        align: 'center',
+                    }
+                    ,{
+                        "title": "有无监考事故",
+                        "key": "accInvigilator",
+                        "sortable": false,
+                        align: 'center',
+                    }
+                    ,{
                     "title": "操作",
                     "key": "operate",
                     "sortable": false,
@@ -1446,7 +1463,7 @@
                 this.modalUpdate = true;
             },
             addSubmit: function () {
-                this.$http.post('/classroom/' + this.email + '/add', this.classroom).then(function (res) {
+                this.$http.post('/teacher/' + this.email + '/add', this.classroom).then(function (res) {
                     if(1 == res.body) {
                         this.$Message.success("增加成功");
                     }
@@ -1466,7 +1483,7 @@
                 });
             },
             deleteSubmit: function () {
-                this.$http.post('/classroom/' + this.email + '/delete', this.classroom).then(function (res) {
+                this.$http.post('/teacher/' + this.email + '/delete', this.classroom).then(function (res) {
                     if(1 == res.body) {
                         this.$Message.success("删除成功");
                     }
@@ -1486,7 +1503,7 @@
                 });
             },
             updateSubmit: function () {
-                this.$http.post('/classroom/' + this.email + '/update', this.classroom).then(function (res) {
+                this.$http.post('/teacher/' + this.email + '/update', this.classroom).then(function (res) {
                     if(1 == res.body) {
                         this.$Message.success("修改成功");
                     }
@@ -1507,19 +1524,20 @@
             },
             submitQuery: function(){
                 this.classrooms = [];
-                this.$http.post('/classroom/query', this.classroomQuery).then(function (res) {
-                    this.classrooms = res.body.results;
-                    this.classroomQuery.totalRecord = res.body.totalRecord;
+                this.$http.post('/teacher/query', this.teacherQuery).then(function (res) {
+                    this.teachers = res.body.results;
+                    this.teacherQuery.totalRecord = res.body.totalRecord;
                 });
             },
             reset: function () {
-                this.classroomQuery.id = '';
-                this.classroomQuery.size = '';
-                this.classroomQuery.position = '';
-                this.classroomQuery.isEnable='false';
-                this.classroomQuery.pageIndex=1;
-                this.classroomQuery.pageSize=10;
-                this.classroomQuery.totalRecord=0;
+                this.teacherQuery.id = '';
+                this.teacherQuery.name = '';
+                this.teacherQuery.isInvigilator = 'false';
+                this.teacherQuery.numInvigilator=0;
+                this.teacherQuery.accInvigilator='false';
+                this.teacherQuery.pageIndex=1;
+                this.teacherQuery.pageSize=10;
+                this.teacherQuery.totalRecord=0;
             },
             exportData: function(type) {
                 if (type === 1) {
@@ -1534,11 +1552,11 @@
                 } else if (type === 3) {
                     this.$refs.table.exportCsv({
                         filename: '自定义数据',
-                        columns: this.columns4.filter(function(col, index) {
-                            return index < 4
+                        columns: this.columns7.filter(function(col, index) {
+                            return index < 7
                         }),
-                        data: this.classrooms.filter(function(data, index) {
-                            return index < 4
+                        data: this.teachers.filter(function(data, index) {
+                            return index < 7
                         })
                     });
                 }

@@ -122,7 +122,7 @@ public class StudentController {
             QueryViewPage<Student> aimPage = new QueryViewPage<Student>();
             List<Student> students = stu.findStudentByLimit(student);
             aimPage.setResults(students);
-            aimPage.setTotalRecord(stu.findAllStudentCount());
+            aimPage.setTotalRecord(stu.findStudentCount(student));
             return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(aimPage);
         }catch (Exception e) {
             throw e;

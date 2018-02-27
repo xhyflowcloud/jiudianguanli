@@ -32,4 +32,7 @@ public interface StudentMapper {
     @SelectProvider(type = SQLProvider.class, method = "selectStudent")
     List<Student> findStudentByLimit(StudentQuery student);
 
+    @SelectProvider(type = SQLProvider.class, method = "selectStudentCount")
+    Integer findStudentCount(StudentQuery student);
+
 }

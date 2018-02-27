@@ -42,6 +42,7 @@ public class SQLProvider {
         return  sql.toString();
     }
 
+
     public String selectExamroom(ClassroomQuery classroom){
         StringBuffer sql = new StringBuffer("select * from  classroom where 1=1");
         if(classroom.getId() != null){
@@ -80,6 +81,22 @@ public class SQLProvider {
         return  sql.toString();
     }
 
+    public String selectStudentCount(StudentQuery student){
+        StringBuffer sql = new StringBuffer("select count(*) from  classroom where 1=1");
+        if(student.getExamid()!=null){
+            sql.append(" and examid = #{examid}");
+        }
+        if(student.getName()!=null){
+            sql.append("and name=#{name}");
+        }
+        if(student.getId()!=null){
+            sql.append("and id=#{id}");
+        }
+        if(student.getSid()!=null){
+            sql.append("and sid=#{sid}");
+        }
+        return  sql.toString();
+    }
     public String selectSubject(ClassroomQuery classroom){
         StringBuffer sql = new StringBuffer("select * from  classroom where 1=1");
         if(classroom.getId() != null){

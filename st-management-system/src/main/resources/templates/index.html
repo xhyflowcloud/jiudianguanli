@@ -234,7 +234,7 @@
         </p-form>
 
         <p-table :columns="columns4" :data="classrooms" v-ref:table></p-table>
-        <p-page :total="classroomQuery.totalRecord" :current.sync="classroomQuery.pageIndex" :page-size.sync="classroomQuery.pageSize" :page-size-opts="[5,10,20]"  @on-change="doClassroomQuery" @on-page-size-change="doClassroomQuery" class="pageClass"></p-page>
+        <p-page :total="classroomQuery.totalRecord" :current.sync="classroomQuery.pageIndex" :page-size.sync="classroomQuery.pageSize" :page-size-opts="[5,10,20]"  @on-change="submitQuery" @on-page-size-change="submitQuery" class="pageClass"></p-page>
         <p-button type="primary" size="large" @click="exportData(1)" posi>
             <p-icon type="ios-download-outline"></p-icon> 导出原始数据</p-button>
         <p-button type="primary" size="large" @click="exportData(2)">
@@ -906,19 +906,21 @@
                     this.modalUpdate = false;
                 });
             },
-            doClassroomQuery:function () {
-                this.classrooms = [];
-                this.$http.post("/classroom/query",this.classroomQuery).then(function (response) {
-                    this.classrooms = response.body.results;
-                    this.classroomQuery.totalRecord = response.body.totalRecord;
-                })
-            },
             submitQuery: function(){
                 this.classrooms = [];
                 this.$http.post('/classroom/query', this.classroomQuery).then(function (res) {
                    this.classrooms = res.body.results;
                    this.classroomQuery.totalRecord = res.body.totalRecord;
                 });
+            },
+            reset: function () {
+                this.classroomQuery.id = '';
+                this.classroomQuery.size = '';
+                this.classroomQuery.position = '';
+                this.classroomQuery.isEnable='false';
+                this.classroomQuery.pageIndex=1;
+                this.classroomQuery.pageSize=10;
+                this.classroomQuery.totalRecord=0;
             },
             exportData: function(type) {
                 if (type === 1) {

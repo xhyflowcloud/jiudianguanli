@@ -33,4 +33,7 @@ public interface ClassroomMapper {
     @SelectProvider(type = SQLProvider.class, method = "selectClassroom")
     List<Classroom> findClassroomByLimit(ClassroomQuery classroom);
 
+    @SelectProvider(type = SQLProvider.class, method = "selectClassroomCount")
+    Integer findClassroomCount(ClassroomQuery classroom);
+
 }

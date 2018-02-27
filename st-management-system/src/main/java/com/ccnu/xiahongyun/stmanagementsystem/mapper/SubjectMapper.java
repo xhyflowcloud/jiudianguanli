@@ -50,19 +50,15 @@ public interface SubjectMapper {
 
 
     @Delete("delete from subject where id = #{id}")
-    void daleteSubject(@Param("id") Integer id);
+    void deleteSubject(@Param("id") Integer id);
 
     @Select("select * from where id = #{id}")
-    List<Subject> selectSubjectById(@Param("id") Integer id);
-
-    @Select("select id from subject where name = #{name}")
-    Integer getIdByName(@Param("name") String name);
-
+    Subject selectSubjectById(@Param("id") Integer id);
 
 
     @SelectProvider(type = SQLProvider.class, method = "selectSubject")
-    List<Subject> findStudentByLimit(SubjectQuery subject);
+    List<Subject> findStudentByLimit(SubjectQuery subjectQuery);
 
     @SelectProvider(type = SQLProvider.class, method = "selectSubjectCount")
-    Integer findStudentCount(SubjectQuery student);
+    Integer findStudentCount(SubjectQuery subjectQuery);
 }

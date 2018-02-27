@@ -12,9 +12,6 @@ import java.util.List;
 @Mapper
 public interface TeacherMapper {
 
-
-
-
     @Insert("insert into teacher(name, starttime,endtime,isInvigilator, numInvigilator, accInvigilator) values(#{name},#{starttime},#{endtime} ,#{isInvigilator}, #{numInvigilator}, #{accInvigilator})")
     void insertTeacher(@Param("name") String name,@Param("starttime") Long starttime,@Param("endtime") Long endtime,
                        @Param("isInvigilator") Boolean isInvigilator,

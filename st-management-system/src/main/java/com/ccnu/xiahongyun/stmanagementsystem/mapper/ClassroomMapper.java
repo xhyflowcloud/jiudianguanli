@@ -4,7 +4,6 @@ import com.ccnu.xiahongyun.stmanagementsystem.model.Classroom;
 import com.ccnu.xiahongyun.stmanagementsystem.query.ClassroomQuery;
 import com.ccnu.xiahongyun.stmanagementsystem.query.SQLProvider;
 import org.apache.ibatis.annotations.*;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

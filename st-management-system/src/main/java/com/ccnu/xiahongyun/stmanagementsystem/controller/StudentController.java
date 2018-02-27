@@ -126,7 +126,7 @@ public class StudentController {
     }
 
 
-
+/*
     @PostMapping("/query")
     public ResponseEntity<QueryViewPage<Student>> login(@RequestBody StudentQuery studentQuery) {
 
@@ -147,8 +147,8 @@ public class StudentController {
         }catch (Exception e) {
             throw e;
         }
-    }
-*/
+    }*/
+
 
 
 }

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -35,7 +36,7 @@ public class SubjectController {
     RegisterMapper registerMapper;
 
 
-    /*@PostMapping("/{email}/add")
+    @PostMapping("/{email}/add")
     public ResponseEntity<Integer> add(@PathVariable String email, @RequestBody SubjectQuery subjectQuery) {
 
         Root root = null;
@@ -49,10 +50,7 @@ public class SubjectController {
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(4);     //无该用户
                 }
                 root = rootMapper.findRootByEmail(email);
-                *//*if(root == null || root.getAuth() < 10){
-                    return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(3);  //无权限
-                }*//*
-                subjectQuery.insertStudent(student.getExamid(),student.getName(),student.getId(),student.getSid());
+                subjectMapper.insertSubject(subjectQuery.getName(),new Date().getTime(),new Date().getTime(),new Date().getTime(),new Date().getTime(),subjectQuery.getMaxnumber(),subjectQuery.getMinnumber());
             }else{
                 return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(2);
             }
@@ -63,7 +61,7 @@ public class SubjectController {
     }
 
 
-    @PostMapping("/{email}/delete")
+   /* @PostMapping("/{email}/delete")
     public ResponseEntity<Integer> delete(@PathVariable String email, @RequestBody Student student) {
 
         Register register = null;
@@ -77,9 +75,7 @@ public class SubjectController {
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(4);     //无该用户
                 }
                 root = rootMapper.findRootByEmail(email);
-                *//*if(root.getAuth() < 10){
-                    return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(3);  //无权限
-                }*//*
+
                 stu.deleteStudent(student.getExamid());
             }else{
                 return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(2);
@@ -89,8 +85,8 @@ public class SubjectController {
         }
         return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(1);
 
-    }
-    @PostMapping("/{email}/update")
+    }*/
+   /* @PostMapping("/{email}/update")
     public ResponseEntity<Integer> update(@PathVariable String email, @RequestBody Student student) {
 
         Register register = null;
@@ -104,9 +100,7 @@ public class SubjectController {
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(4);     //无该用户
                 }
                 root = rootMapper.findRootByEmail(email);
-                *//*if(root.getAuth() < 10){
-                    return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(3);  //无权限
-                }*//*
+
                 stu.updateStudent(student.getExamid(),student.getName(),student.getId(),student.getSid());
             }else{
                 return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(2);

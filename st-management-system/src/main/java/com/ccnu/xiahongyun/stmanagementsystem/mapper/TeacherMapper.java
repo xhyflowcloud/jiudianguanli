@@ -1,6 +1,8 @@
 package com.ccnu.xiahongyun.stmanagementsystem.mapper;
 
 import com.ccnu.xiahongyun.stmanagementsystem.model.Teacher;
+import com.ccnu.xiahongyun.stmanagementsystem.query.SQLProvider;
+import com.ccnu.xiahongyun.stmanagementsystem.query.TeacherQuery;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -27,5 +29,11 @@ public interface TeacherMapper {
 
     @Select("select * from Teacher where name = #{name}")
     Teacher selectTeacherByName(@Param("name") String name);
+
+    @SelectProvider(type = SQLProvider.class, method = "selectTeacherCount")
+    Integer findTeacherCount(TeacherQuery teacher);
+
+    @SelectProvider(type = SQLProvider.class, method = "selectTeacher")
+    List<Teacher> findTeacherByLimit(TeacherQuery teacher);
 
 }

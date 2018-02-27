@@ -82,7 +82,7 @@ public class SQLProvider {
     }
 
     public String selectStudentCount(StudentQuery student){
-        StringBuffer sql = new StringBuffer("select count(*) from  classroom where 1=1");
+        StringBuffer sql = new StringBuffer("select count(*) from student where 1=1");
         if(student.getExamid()!=null){
             sql.append(" and examid = #{examid}");
         }
@@ -115,22 +115,48 @@ public class SQLProvider {
         return  sql.toString();
     }
 
-    public String selectTeacher(ClassroomQuery classroom){
-        StringBuffer sql = new StringBuffer("select * from  classroom where 1=1");
-        if(classroom.getId() != null){
+    public String selectTeacher(TeacherQuery teacher){
+        StringBuffer sql = new StringBuffer("select * from  teacher where 1=1");
+        if(teacher.getId()!=null){
             sql.append(" and id = #{id}");
         }
-        if(classroom.getSize() != null){
-            sql.append(" and size = #{size}");
+        if(teacher.getName()!=null){
+            sql.append(" and name = #{name}");
         }
-        if(classroom.getPosition() != null && StringUtils.isNotEmpty(classroom.getPosition())){
-            sql.append(" and position = #{position}");
+        if(teacher.getInvigilator()!=null){
+            sql.append("and isInvigilator = #{isInvigilator}");
         }
-        if(classroom.getEnable() != null){
-            sql.append(" and isEnable = #{isEnable}");
+        if(teacher.getNumInvigilator()!=null){
+            sql.append("and numInvigilator = #{numInvigilator}");
         }
-        
+        if(teacher.getAccInvigilator()!=null){
+            sql.append("and accInvigilator  = #{accInvigilator}");
+        }
+
+        Integer temp = (teacher.getPageIndex()-1)*teacher.getPageSize();
+        sql.append(" LIMIT "+temp+", #{pageSize}");
         return  sql.toString();
     }
+
+    public String selectTeacherCount(TeacherQuery teacher){
+        StringBuffer sql = new StringBuffer("select count(*) from teacher where 1=1");
+        if(teacher.getId()!=null){
+            sql.append(" and id = #{id}");
+        }
+        if(teacher.getName()!=null){
+            sql.append(" and name = #{name}");
+        }
+        if(teacher.getInvigilator()!=null){
+            sql.append("and isInvigilator = #{isInvigilator}");
+        }
+        if(teacher.getNumInvigilator()!=null){
+            sql.append("and numInvigilator = #{numInvigilator}");
+        }
+        if(teacher.getAccInvigilator()!=null){
+            sql.append("and accInvigilator  = #{accInvigilator}");
+        }
+        return  sql.toString();
+    }
+
 
 }

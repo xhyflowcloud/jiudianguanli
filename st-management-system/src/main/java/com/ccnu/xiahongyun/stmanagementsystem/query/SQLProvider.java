@@ -162,9 +162,40 @@ public class SQLProvider {
         if(teacher.getId() != null){
             sql.append(" and id = #{id}");
         }
-        if(teacher.get)
+        if(teacher.getName() != null && StringUtils.isNotEmpty(teacher.getName())){
+            sql.append(" and name = #{name}");
+        }
+        if(teacher.getInvigilator() != null){
+            sql.append(" and isInvigilator = #{isInvigilator}");
+        }
+        if(teacher.getAccInvigilator() != null){
+            sql.append(" and accInvigilator = #{accInvigilator}");
+        }
+        if(teacher.getNumInvigilator() != null){
+            sql.append(" and numInvigilator = #{numInvigilator}");
+        }
         Integer temp = (teacher.getPageIndex()-1)*teacher.getPageSize();
         sql.append(" LIMIT "+temp+", #{pageSize}");
+        return  sql.toString();
+    }
+
+    public String selectTeacherCount(TeacherQuery teacher){
+        StringBuffer sql = new StringBuffer("select count(*) from  teacher where 1=1");
+        if(teacher.getId() != null){
+            sql.append(" and id = #{id}");
+        }
+        if(teacher.getName() != null && StringUtils.isNotEmpty(teacher.getName())){
+            sql.append(" and name = #{name}");
+        }
+        if(teacher.getInvigilator() != null){
+            sql.append(" and isInvigilator = #{isInvigilator}");
+        }
+        if(teacher.getAccInvigilator() != null){
+            sql.append(" and accInvigilator = #{accInvigilator}");
+        }
+        if(teacher.getNumInvigilator() != null){
+            sql.append(" and numInvigilator = #{numInvigilator}");
+        }
         return  sql.toString();
     }
 

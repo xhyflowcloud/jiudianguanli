@@ -397,7 +397,7 @@
             <span>增加考生信息</span>
         </p>
         <div style="text-align:center;">
-            <p-form label-position="right" >
+            <p-form label-position="right" :label-width="100">
                 <p-form-item label="姓名">
                     <p-input style="width: 300px" type="text" :value.sync="student.name" placeholder="姓名">
                     </p-input>
@@ -409,8 +409,8 @@
                 </p-form-item>
 
                 <p-form-item label="报考科目">
-                    <p-select :model.sync="student.subjectid" clearable="false" style="width: 240px">
-                        <p-option  v-for="item in subjects" :value="item.sid">{{ item.name }}</p-option>
+                    <p-select :model.sync="student.subjectid" clearable="false" style="width: 300px">
+                        <p-option  v-for="item in subjects" :value="item.id">{{ item.name }}</p-option>
                     </p-select></p-input>
                 </p-form-item>
 
@@ -422,7 +422,7 @@
             <span>删除学生信息</span>
         </p>
         <div style="text-align:center;">
-            <p-form label-position="right" >
+            <p-form label-position="right" :label-width="100">
                 <p-form-item label="准考证号">
                     <p-input style="width: 300px" type="text" :value.sync="student.sid" placeholder="准考证号">
                     </p-input>
@@ -435,7 +435,7 @@
             <span>修改考生信息</span>
         </p>
         <div style="text-align:center;">
-            <p-form label-position="right" :label-width="80">
+            <p-form label-position="right" :label-width="100">
                 <p-form-item label="准考证号">
                     <p-input style="width: 300px" type="text" :value.sync="student.sid" placeholder="准考证号">
                     </p-input>
@@ -1289,11 +1289,10 @@
                 this.classroomQuery.totalRecord=0;
             },
             addClick: function () {
-                this.$http.post('/student/' + this.email + '/add', this.student).then(function (res) {
-
+                this.$http.get('/subject/' + this.email + '/querysubjects').then(function (res) {
+                    this.students = res.body;
                     this.modalAdd = true;
                 });
-
             },
             deleteClick: function(){
                 this.modalDelete = true;
@@ -1366,14 +1365,14 @@
             },
             doClassroomQuery:function () {
                 this.classrooms = [];
-                this.$http.post("/student/query",this.classroomQuery).then(function (response) {
+                this.$http.post("/student/query",this.studentQuery).then(function (response) {
                     this.classrooms = response.body.results;
                     this.classroomQuery.totalRecord = response.body.totalRecord;
                 })
             },
             submitQuery: function(){
                 this.classrooms = [];
-                this.$http.post('/classroom/query', this.classroomQuery).then(function (res) {
+                this.$http.post('/classroom/query', this.studentQuery).then(function (res) {
                     this.classrooms = res.body.results;
                     this.classroomQuery.totalRecord = res.body.totalRecord;
                 });
@@ -1497,7 +1496,7 @@
                 this.modalUpdate = true;
             },
             addSubmit: function () {
-                this.$http.post('/teacher/' + this.email + '/add', this.teacherQuery).then(function (res) {
+                this.$http.post('/teacher/' + this.email + '/add', this.teacher).then(function (res) {
                     if(1 == res.body) {
                         this.$Message.success("增加成功");
                     }
@@ -1517,7 +1516,7 @@
                 });
             },
             deleteSubmit: function () {
-                this.$http.post('/teacher/' + this.email + '/delete', this.teacherQuery).then(function (res) {
+                this.$http.post('/teacher/' + this.email + '/delete', this.teacher).then(function (res) {
                     if(1 == res.body) {
                         this.$Message.success("删除成功");
                     }
@@ -1537,7 +1536,7 @@
                 });
             },
             updateSubmit: function () {
-                this.$http.post('/teacher/' + this.email + '/update', this.teacherQuery).then(function (res) {
+                this.$http.post('/teacher/' + this.email + '/update', this.teacher).then(function (res) {
                     if(1 == res.body) {
                         this.$Message.success("修改成功");
                     }

@@ -52,6 +52,9 @@ public interface SubjectMapper {
     @Delete("delete from subject where id = #{id}")
     void deleteSubject(@Param("id") Integer id);
 
+    @Select("select * from subject")
+    List<Subject> selectAllSubject();
+
     @Select("select * from where id = #{id}")
     Subject selectSubjectById(@Param("id") Integer id);
 

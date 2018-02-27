@@ -4,25 +4,32 @@ CREATE TABLE `subject` (
   id int AUTO_INCREMENT PRIMARY KEY ,
   name VARCHAR(20),
   starttime BIGINT,
-  duration int ,
-  number int
+  endtime BIGINT,
+  bmstarttime BIGINT,
+  bmendtime BIGINT,
+  maxnumber int,
+  minnumber int,
 );
 
 /*教室*/
 CREATE TABLE `classroom`(
   id int AUTO_INCREMENT PRIMARY KEY ,
   size int ,
+  starttime BIGINT,
+  endtime BIGINT,
   position VARCHAR(50),
-  isEnable BOOLEAN
+  isEnable BOOL
 );
 
 /*监考人员*/
 CREATE TABLE  `teacher`(
   id int AUTO_INCREMENT PRIMARY KEY ,
   name VARCHAR(20),
-  isInvigilator BOOLEAN,
+  starttime BIGINT,
+  endtime BIGINT,
+  isInvigilator BOOL,
   numInvigilator INT,
-  accInvigilator BOOLEAN
+  accInvigilator BOOL
 );
 
 /*考场*/
@@ -46,7 +53,6 @@ CREATE TABLE `register` (
 );
 
 CREATE TABLE `student`(
-  examid INT,
   name VARCHAR(50) ,
   id VARCHAR(30),
   sid INT AUTO_INCREMENT PRIMARY KEY
@@ -54,16 +60,24 @@ CREATE TABLE `student`(
 
 
 CREATE TABLE `studentinformation` (
-  examid INT ,
-  sbid int ,
-  FOREIGN KEY (examid) REFERENCES student(examid),
-  FOREIGN KEY (sbid) REFERENCES subject(id),
-  PRIMARY KEY (examid,sbid)
+  subjectId INT ,
+  studentId int ,
+  FOREIGN KEY (studentId) REFERENCES student(sid),
+  FOREIGN KEY (subjectId) REFERENCES subject(id),
+  PRIMARY KEY (subjectId,studentId)
  );
+
+CREATE TABLE `studentexamroominfo` (
+  examroomId INT ,
+  studentId int ,
+  FOREIGN KEY (studentId) REFERENCES student(sid),
+  FOREIGN KEY (examroomId) REFERENCES examroom(id),
+  PRIMARY KEY (examroomId,studentId)
+);
 
 CREATE TABLE `root` (
   id int AUTO_INCREMENT PRIMARY KEY ,
   email VARCHAR(50),
   auth INTEGER,
-  enable BOOLEAN
+  enable BOOL
 )

@@ -4,6 +4,7 @@ import com.ccnu.xiahongyun.stmanagementsystem.model.Subject;
 import com.ccnu.xiahongyun.stmanagementsystem.query.SQLProvider;
 import com.ccnu.xiahongyun.stmanagementsystem.query.SubjectQuery;
 import org.apache.ibatis.annotations.*;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,15 +12,42 @@ import java.util.List;
 @Repository
 @Mapper
 public interface SubjectMapper {
+ /*   id int AUTO_INCREMENT PRIMARY KEY ,
+    name VARCHAR(20),
+    starttime BIGINT,
+    endtime BIGINT,
+    bmstarttime BIGINT,
+    bmendtime BIGINT,
+    maxnumber int,
+    minnumber int*/
 
-    @Insert("insert into subject(name, datetime) values(#{name}, #{datetime})")
-    void insertSubject(@Param("name") String name, @Param("datetime") Long datetime);
 
-    @Update("update subject set name = #{name} where id = #{id}")
-    void updateSubjectForName(@Param("id") Integer id, @Param("name") String name);
 
-    @Update("update subject set datetime = #{datetime} where id = #{id}")
-    void updateSubjectForDatetime(@Param("id") Integer id, @Param("datetime") String datetime);
+    @Insert("insert into subject(name, starttime,endtime,bmstarttime,bmendtime,maxnumber,minnumber) values(#{name}, #{starttime} , #{endtime}, #{bmstarttime}, #{bmendtime}, #{maxnumber}, #{minnumber})")
+    void insertSubject(@Param("name") String name, @Param("starttime") Long starttime,
+                       @Param("endtime") Long endtime, @Param("bmstarttime") Long bmstarttime,
+                       @Param("bmendtime") Long bmendtime,@Param("maxnumber") Integer maxnumber,
+                       @Param("minnumber") Long minnumber);
+
+    @Update("update subject set starttime=#{starttime}, endtime=#{endtime}  where id = #{id}")
+    void updateSubjectForTime( @Param("starttime") Long starttime,
+                              @Param("endtime") Long endtime,@Param("id") Integer id);
+
+
+
+    @Update("update subject set bmstarttime=#{bmstarttime} ,bmendtime=#{bmendtime} where id = #{id}")
+    void updateSubjectForBMTime( @Param("bmstarttime") Long bmstarttime,
+                                 @Param("bmendtime") Long bmendtime,@Param("id") Integer id);
+
+
+    @Update("update subject set maxnumber=#{maxnumber},minnumber=#{minnumber} where id = #{id}")
+    void updateSubjectForNumber( @Param("maxnumber") Long maxnumber,
+                                 @Param("minnumber") Long minnumber,@Param("id") Integer id);
+
+    @Update("update subject set name=#{name} where id = #{id}")
+    void updateSubjectForName( @Param("name") Long name
+                                 ,@Param("id") Integer id);
+
 
     @Delete("delete from subject where id = #{id}")
     void daleteSubject(@Param("id") Integer id);
@@ -29,6 +57,8 @@ public interface SubjectMapper {
 
     @Select("select id from subject where name = #{name}")
     Integer getIdByName(@Param("name") String name);
+
+
 
     @SelectProvider(type = SQLProvider.class, method = "selectSubject")
     List<Subject> findStudentByLimit(SubjectQuery subject);

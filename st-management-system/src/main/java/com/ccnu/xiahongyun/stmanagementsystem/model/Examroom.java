@@ -1,11 +1,19 @@
 package com.ccnu.xiahongyun.stmanagementsystem.model;
 
 public class Examroom {
-    Integer id;
-    Integer tid;//监考人员
-    Integer rid;//教室id
-    Integer sid;//考试科目
-    Integer number;//人数
+    private Integer id ;
+    private Integer rid ;//教室id
+    private Integer tid ;//监考人员id
+    private Integer number ;
+    private Integer sid ;//科目id
+
+    public Examroom(Integer id, Integer rid, Integer tid, Integer number, Integer sid) {
+        this.id = id;
+        this.rid = rid;
+        this.tid = tid;
+        this.number = number;
+        this.sid = sid;
+    }
 
     public Examroom() {
     }
@@ -14,10 +22,10 @@ public class Examroom {
     public String toString() {
         return "Examroom{" +
                 "id=" + id +
-                ", tid=" + tid +
                 ", rid=" + rid +
-                ", sid=" + sid +
+                ", tid=" + tid +
                 ", number=" + number +
+                ", sid=" + sid +
                 '}';
     }
 
@@ -29,19 +37,20 @@ public class Examroom {
         Examroom examroom = (Examroom) o;
 
         if (getId() != null ? !getId().equals(examroom.getId()) : examroom.getId() != null) return false;
-        if (getTid() != null ? !getTid().equals(examroom.getTid()) : examroom.getTid() != null) return false;
         if (getRid() != null ? !getRid().equals(examroom.getRid()) : examroom.getRid() != null) return false;
-        if (getSid() != null ? !getSid().equals(examroom.getSid()) : examroom.getSid() != null) return false;
-        return getNumber() != null ? getNumber().equals(examroom.getNumber()) : examroom.getNumber() == null;
+        if (getTid() != null ? !getTid().equals(examroom.getTid()) : examroom.getTid() != null) return false;
+        if (getNumber() != null ? !getNumber().equals(examroom.getNumber()) : examroom.getNumber() != null)
+            return false;
+        return getSid() != null ? getSid().equals(examroom.getSid()) : examroom.getSid() == null;
     }
 
     @Override
     public int hashCode() {
         int result = getId() != null ? getId().hashCode() : 0;
-        result = 31 * result + (getTid() != null ? getTid().hashCode() : 0);
         result = 31 * result + (getRid() != null ? getRid().hashCode() : 0);
-        result = 31 * result + (getSid() != null ? getSid().hashCode() : 0);
+        result = 31 * result + (getTid() != null ? getTid().hashCode() : 0);
         result = 31 * result + (getNumber() != null ? getNumber().hashCode() : 0);
+        result = 31 * result + (getSid() != null ? getSid().hashCode() : 0);
         return result;
     }
 
@@ -54,14 +63,6 @@ public class Examroom {
         this.id = id;
     }
 
-    public Integer getTid() {
-        return tid;
-    }
-
-    public void setTid(Integer tid) {
-        this.tid = tid;
-    }
-
     public Integer getRid() {
         return rid;
     }
@@ -70,12 +71,12 @@ public class Examroom {
         this.rid = rid;
     }
 
-    public Integer getSid() {
-        return sid;
+    public Integer getTid() {
+        return tid;
     }
 
-    public void setSid(Integer sid) {
-        this.sid = sid;
+    public void setTid(Integer tid) {
+        this.tid = tid;
     }
 
     public Integer getNumber() {
@@ -86,12 +87,11 @@ public class Examroom {
         this.number = number;
     }
 
-    public Examroom(Integer id, Integer tid, Integer rid, Integer sid, Integer number) {
+    public Integer getSid() {
+        return sid;
+    }
 
-        this.id = id;
-        this.tid = tid;
-        this.rid = rid;
+    public void setSid(Integer sid) {
         this.sid = sid;
-        this.number = number;
     }
 }

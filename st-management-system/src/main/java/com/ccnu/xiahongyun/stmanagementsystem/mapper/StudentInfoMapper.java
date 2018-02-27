@@ -10,22 +10,23 @@ import java.util.List;
 @Repository
 public interface StudentInfoMapper {
 
-    @Select("select * from studentinformation where examid = #{examid}")
-    List<StudentInformation> findStudentInfoByExamid(@Param("examid") Integer examid);
 
-    @Select("select * from studentinformation where sbid = #{sbid}")
-    List<StudentInformation>  findStudentInfoBySbid(@Param("sbid") Integer sbid);
+    @Select("select * from studentinformation where studentId = #{studentId}")
+    List<StudentInformation> findStudentInfoByStudentId(@Param("studentId") Integer studentId);
 
-    @Insert("insert into studentinformation(examid, sbid) values(#{examid}, #{sbid})")
-    void insertStudentInfo(@Param("examid") Integer examid, @Param("sbid") Integer sbid);
+    @Select("select * from studentinformation where subjectId = #{subjectId}")
+    List<StudentInformation>  findStudentInfoBySubjectId(@Param("subjectId") Integer subjectId);
 
-    @Delete("delete from studentinformation where examid = #{examid}")
-    void deleteStudentInfoByExamid(@Param("examid") Integer examid);
+    @Insert("insert into studentinformation(subjectId, studentId) values(#{subjectId}, #{studentId})")
+    void insertStudentInfo(@Param("subjectId") Integer subjectId, @Param("studentId") Integer studentId);
 
-    @Delete("delete from studentinformation where sbid = #{sbid}")
-    void deleteStudentInfoBySbid(@Param("sbid") Integer sbid);
+    @Delete("delete from studentinformation where studentId  = #{studentId}")
+    void deleteStudentInfoByStudentId (@Param("studentId") Integer studentId);
 
-    @Delete("delete from studentinformation where examid = #{examid} and sbid = #{sbid}")
-    void deleteStudentInfo(@Param("examid") Integer examid, @Param("sbid") Integer sbid);
+    @Delete("delete from studentinformation where subjectId = #{subjectId}")
+    void deleteStudentInfoBySubjectId(@Param("subjectId") Integer subjectId);
+
+    @Delete("delete from studentinformation where subjectId = #{subjectId} and studentId = #{studentId}")
+    void deleteStudentInfo(@Param("subjectId") Integer subjectId, @Param("studentId") Integer studentId);
 
 }

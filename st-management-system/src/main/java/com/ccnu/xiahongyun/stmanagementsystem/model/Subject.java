@@ -1,25 +1,29 @@
 package com.ccnu.xiahongyun.stmanagementsystem.model;
 
 public class Subject {
-    Integer id;
-    String name;
-    Long datetime;
-
-    /**
-     * 考试时长
-     */
-    Integer duration;
-    Integer number;
+    private  Integer id ;
+    private String name ;
+    private Long starttime ;
+    private Long endtime ;
+    private Long bmstarttime;
+    private Long bmendtime ;
+    private Integer maxnumber;
+    private Integer minnumber ;
 
     public Subject() {
     }
 
-    public Subject(Integer id, String name, Long datetime, Integer duration, Integer number) {
+    public Subject(Integer id, String name, Long starttime,
+                   Long endtime, Long bmstarttime, Long bmendtime, Integer maxnumber,
+                   Integer minnumber) {
         this.id = id;
         this.name = name;
-        this.datetime = datetime;
-        this.duration = duration;
-        this.number = number;
+        this.starttime = starttime;
+        this.endtime = endtime;
+        this.bmstarttime = bmstarttime;
+        this.bmendtime = bmendtime;
+        this.maxnumber = maxnumber;
+        this.minnumber = minnumber;
     }
 
     public Integer getId() {
@@ -38,28 +42,52 @@ public class Subject {
         this.name = name;
     }
 
-    public Long getDatetime() {
-        return datetime;
+    public Long getStarttime() {
+        return starttime;
     }
 
-    public void setDatetime(Long datetime) {
-        this.datetime = datetime;
+    public void setStarttime(Long starttime) {
+        this.starttime = starttime;
     }
 
-    public Integer getDuration() {
-        return duration;
+    public Long getEndtime() {
+        return endtime;
     }
 
-    public void setDuration(Integer duration) {
-        this.duration = duration;
+    public void setEndtime(Long endtime) {
+        this.endtime = endtime;
     }
 
-    public Integer getNumber() {
-        return number;
+    public Long getBmstarttime() {
+        return bmstarttime;
     }
 
-    public void setNumber(Integer number) {
-        this.number = number;
+    public void setBmstarttime(Long bmstarttime) {
+        this.bmstarttime = bmstarttime;
+    }
+
+    public Long getBmendtime() {
+        return bmendtime;
+    }
+
+    public void setBmendtime(Long bmendtime) {
+        this.bmendtime = bmendtime;
+    }
+
+    public Integer getMaxnumber() {
+        return maxnumber;
+    }
+
+    public void setMaxnumber(Integer maxnumber) {
+        this.maxnumber = maxnumber;
+    }
+
+    public Integer getMinnumber() {
+        return minnumber;
+    }
+
+    public void setMinnumber(Integer minnumber) {
+        this.minnumber = minnumber;
     }
 
     @Override
@@ -71,20 +99,29 @@ public class Subject {
 
         if (getId() != null ? !getId().equals(subject.getId()) : subject.getId() != null) return false;
         if (getName() != null ? !getName().equals(subject.getName()) : subject.getName() != null) return false;
-        if (getDatetime() != null ? !getDatetime().equals(subject.getDatetime()) : subject.getDatetime() != null)
+        if (getStarttime() != null ? !getStarttime().equals(subject.getStarttime()) : subject.getStarttime() != null)
             return false;
-        if (getDuration() != null ? !getDuration().equals(subject.getDuration()) : subject.getDuration() != null)
+        if (getEndtime() != null ? !getEndtime().equals(subject.getEndtime()) : subject.getEndtime() != null)
             return false;
-        return getNumber() != null ? getNumber().equals(subject.getNumber()) : subject.getNumber() == null;
+        if (getBmstarttime() != null ? !getBmstarttime().equals(subject.getBmstarttime()) : subject.getBmstarttime() != null)
+            return false;
+        if (getBmendtime() != null ? !getBmendtime().equals(subject.getBmendtime()) : subject.getBmendtime() != null)
+            return false;
+        if (getMaxnumber() != null ? !getMaxnumber().equals(subject.getMaxnumber()) : subject.getMaxnumber() != null)
+            return false;
+        return getMinnumber() != null ? getMinnumber().equals(subject.getMinnumber()) : subject.getMinnumber() == null;
     }
 
     @Override
     public int hashCode() {
         int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getName() != null ? getName().hashCode() : 0);
-        result = 31 * result + (getDatetime() != null ? getDatetime().hashCode() : 0);
-        result = 31 * result + (getDuration() != null ? getDuration().hashCode() : 0);
-        result = 31 * result + (getNumber() != null ? getNumber().hashCode() : 0);
+        result = 31 * result + (getStarttime() != null ? getStarttime().hashCode() : 0);
+        result = 31 * result + (getEndtime() != null ? getEndtime().hashCode() : 0);
+        result = 31 * result + (getBmstarttime() != null ? getBmstarttime().hashCode() : 0);
+        result = 31 * result + (getBmendtime() != null ? getBmendtime().hashCode() : 0);
+        result = 31 * result + (getMaxnumber() != null ? getMaxnumber().hashCode() : 0);
+        result = 31 * result + (getMinnumber() != null ? getMinnumber().hashCode() : 0);
         return result;
     }
 
@@ -93,9 +130,12 @@ public class Subject {
         return "Subject{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", datetime='" + datetime + '\'' +
-                ", duration=" + duration +
-                ", number=" + number +
+                ", starttime=" + starttime +
+                ", endtime=" + endtime +
+                ", bmstarttime=" + bmstarttime +
+                ", bmendtime=" + bmendtime +
+                ", maxnumber=" + maxnumber +
+                ", minnumber=" + minnumber +
                 '}';
     }
 }

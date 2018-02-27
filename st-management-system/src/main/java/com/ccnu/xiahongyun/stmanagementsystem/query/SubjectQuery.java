@@ -2,29 +2,20 @@ package com.ccnu.xiahongyun.stmanagementsystem.query;
 
 public class SubjectQuery {
 
-    Integer id;
-    String name;
-    Long datetime;
 
-    /**
-     * 考试时长
-     */
-    Integer duration;
-    Integer number;
+    private  Integer id ;
+    private String name ;
+    private Long starttime ;
+    private Long endtime ;
+    private Long bmstarttime;
+    private Long bmendtime ;
+    private Integer maxnumber;
+    private Integer minnumber ;
+
+
     Integer pageIndex;
     Integer pageSize;
     Integer totalRecord;
-
-    public SubjectQuery(Integer id, String name, Long datetime, Integer duration, Integer number, Integer pageIndex, Integer pageSize, Integer totalRecord) {
-        this.id = id;
-        this.name = name;
-        this.datetime = datetime;
-        this.duration = duration;
-        this.number = number;
-        this.pageIndex = pageIndex;
-        this.pageSize = pageSize;
-        this.totalRecord = totalRecord;
-    }
 
     public SubjectQuery() {
     }
@@ -45,28 +36,52 @@ public class SubjectQuery {
         this.name = name;
     }
 
-    public Long getDatetime() {
-        return datetime;
+    public Long getStarttime() {
+        return starttime;
     }
 
-    public void setDatetime(Long datetime) {
-        this.datetime = datetime;
+    public void setStarttime(Long starttime) {
+        this.starttime = starttime;
     }
 
-    public Integer getDuration() {
-        return duration;
+    public Long getEndtime() {
+        return endtime;
     }
 
-    public void setDuration(Integer duration) {
-        this.duration = duration;
+    public void setEndtime(Long endtime) {
+        this.endtime = endtime;
     }
 
-    public Integer getNumber() {
-        return number;
+    public Long getBmstarttime() {
+        return bmstarttime;
     }
 
-    public void setNumber(Integer number) {
-        this.number = number;
+    public void setBmstarttime(Long bmstarttime) {
+        this.bmstarttime = bmstarttime;
+    }
+
+    public Long getBmendtime() {
+        return bmendtime;
+    }
+
+    public void setBmendtime(Long bmendtime) {
+        this.bmendtime = bmendtime;
+    }
+
+    public Integer getMaxnumber() {
+        return maxnumber;
+    }
+
+    public void setMaxnumber(Integer maxnumber) {
+        this.maxnumber = maxnumber;
+    }
+
+    public Integer getMinnumber() {
+        return minnumber;
+    }
+
+    public void setMinnumber(Integer minnumber) {
+        this.minnumber = minnumber;
     }
 
     public Integer getPageIndex() {
@@ -102,11 +117,17 @@ public class SubjectQuery {
 
         if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null) return false;
         if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
-        if (getDatetime() != null ? !getDatetime().equals(that.getDatetime()) : that.getDatetime() != null)
+        if (getStarttime() != null ? !getStarttime().equals(that.getStarttime()) : that.getStarttime() != null)
             return false;
-        if (getDuration() != null ? !getDuration().equals(that.getDuration()) : that.getDuration() != null)
+        if (getEndtime() != null ? !getEndtime().equals(that.getEndtime()) : that.getEndtime() != null) return false;
+        if (getBmstarttime() != null ? !getBmstarttime().equals(that.getBmstarttime()) : that.getBmstarttime() != null)
             return false;
-        if (getNumber() != null ? !getNumber().equals(that.getNumber()) : that.getNumber() != null) return false;
+        if (getBmendtime() != null ? !getBmendtime().equals(that.getBmendtime()) : that.getBmendtime() != null)
+            return false;
+        if (getMaxnumber() != null ? !getMaxnumber().equals(that.getMaxnumber()) : that.getMaxnumber() != null)
+            return false;
+        if (getMinnumber() != null ? !getMinnumber().equals(that.getMinnumber()) : that.getMinnumber() != null)
+            return false;
         if (getPageIndex() != null ? !getPageIndex().equals(that.getPageIndex()) : that.getPageIndex() != null)
             return false;
         if (getPageSize() != null ? !getPageSize().equals(that.getPageSize()) : that.getPageSize() != null)
@@ -118,9 +139,12 @@ public class SubjectQuery {
     public int hashCode() {
         int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getName() != null ? getName().hashCode() : 0);
-        result = 31 * result + (getDatetime() != null ? getDatetime().hashCode() : 0);
-        result = 31 * result + (getDuration() != null ? getDuration().hashCode() : 0);
-        result = 31 * result + (getNumber() != null ? getNumber().hashCode() : 0);
+        result = 31 * result + (getStarttime() != null ? getStarttime().hashCode() : 0);
+        result = 31 * result + (getEndtime() != null ? getEndtime().hashCode() : 0);
+        result = 31 * result + (getBmstarttime() != null ? getBmstarttime().hashCode() : 0);
+        result = 31 * result + (getBmendtime() != null ? getBmendtime().hashCode() : 0);
+        result = 31 * result + (getMaxnumber() != null ? getMaxnumber().hashCode() : 0);
+        result = 31 * result + (getMinnumber() != null ? getMinnumber().hashCode() : 0);
         result = 31 * result + (getPageIndex() != null ? getPageIndex().hashCode() : 0);
         result = 31 * result + (getPageSize() != null ? getPageSize().hashCode() : 0);
         result = 31 * result + (getTotalRecord() != null ? getTotalRecord().hashCode() : 0);
@@ -132,9 +156,12 @@ public class SubjectQuery {
         return "SubjectQuery{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", datetime=" + datetime +
-                ", duration=" + duration +
-                ", number=" + number +
+                ", starttime=" + starttime +
+                ", endtime=" + endtime +
+                ", bmstarttime=" + bmstarttime +
+                ", bmendtime=" + bmendtime +
+                ", maxnumber=" + maxnumber +
+                ", minnumber=" + minnumber +
                 ", pageIndex=" + pageIndex +
                 ", pageSize=" + pageSize +
                 ", totalRecord=" + totalRecord +

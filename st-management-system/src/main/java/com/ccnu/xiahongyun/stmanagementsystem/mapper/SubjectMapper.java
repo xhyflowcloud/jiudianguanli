@@ -27,7 +27,7 @@ public interface SubjectMapper {
     void insertSubject(@Param("name") String name, @Param("starttime") Long starttime,
                        @Param("endtime") Long endtime, @Param("bmstarttime") Long bmstarttime,
                        @Param("bmendtime") Long bmendtime,@Param("maxnumber") Integer maxnumber,
-                       @Param("minnumber") Long minnumber);
+                       @Param("minnumber") Integer minnumber);
 
     @Update("update subject set starttime=#{starttime}, endtime=#{endtime}  where id = #{id}")
     void updateSubjectForTime( @Param("starttime") Long starttime,

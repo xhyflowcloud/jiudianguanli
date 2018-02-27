@@ -20,7 +20,7 @@ public class SQLProvider {
         if(classroom.getEnable() != null){
             sql.append(" and isEnable = #{isEnable}");
         }
-        Integer temp = (classroom.pageIndex-1)*classroom.pageSize;
+        Integer temp = (classroom.getPageIndex()-1)*classroom.getPageSize();
         sql.append(" LIMIT "+temp+", #{pageSize}");
         return  sql.toString();
     }
@@ -39,26 +39,26 @@ public class SQLProvider {
         if(classroom.getEnable() != null){
             sql.append(" and isEnable = #{isEnable}");
         }
-        Integer temp = (classroom.pageIndex-1)*classroom.pageSize;
-        sql.append(" LIMIT "+temp+", #{pageSize}");
+
         return  sql.toString();
     }
 
-    public String selectStudent(ClassroomQuery classroom){
-        StringBuffer sql = new StringBuffer("select * from  classroom where 1=1");
-        if(classroom.getId() != null){
-            sql.append(" and id = #{id}");
+    public String selectStudent(StudentQuery student){
+        StringBuffer sql = new StringBuffer("select * from  student where 1=1");
+        if(student.getExamid()!=null){
+            sql.append(" and examid = #{examid}");
         }
-        if(classroom.getSize() != null){
-            sql.append(" and size = #{size}");
+        if(student.getName()!=null){
+            sql.append("and name=#{name}");
         }
-        if(classroom.getPosition() != null && StringUtils.isNotEmpty(classroom.getPosition())){
-            sql.append(" and position = #{position}");
+        if(student.getId()!=null){
+            sql.append("and id=#{id}");
         }
-        if(classroom.getEnable() != null){
-            sql.append(" and isEnable = #{isEnable}");
+        if(student.getSid()!=null){
+            sql.append("and sid=#{sid}");
         }
-        Integer temp = (classroom.pageIndex-1)*classroom.pageSize;
+
+        Integer temp = (student.getPageIndex()-1)*student.getPageSize();
         sql.append(" LIMIT "+temp+", #{pageSize}");
         return  sql.toString();
     }
@@ -77,8 +77,7 @@ public class SQLProvider {
         if(classroom.getEnable() != null){
             sql.append(" and isEnable = #{isEnable}");
         }
-        Integer temp = (classroom.pageIndex-1)*classroom.pageSize;
-        sql.append(" LIMIT "+temp+", #{pageSize}");
+
         return  sql.toString();
     }
 
@@ -96,8 +95,7 @@ public class SQLProvider {
         if(classroom.getEnable() != null){
             sql.append(" and isEnable = #{isEnable}");
         }
-        Integer temp = (classroom.pageIndex-1)*classroom.pageSize;
-        sql.append(" LIMIT "+temp+", #{pageSize}");
+        
         return  sql.toString();
     }
 

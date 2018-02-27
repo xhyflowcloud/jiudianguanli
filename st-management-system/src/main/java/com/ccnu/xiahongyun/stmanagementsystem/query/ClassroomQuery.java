@@ -2,13 +2,14 @@ package com.ccnu.xiahongyun.stmanagementsystem.query;
 
 public class ClassroomQuery {
 
-    Integer id;
-    Integer size;
-    String position;
-    Boolean isEnable;
-    Integer pageIndex;
-    Integer pageSize;
-    Integer totalRecord;
+    private Integer id;
+    private Integer size;
+    private  String position;
+    private Boolean isEnable;
+
+    private Integer pageIndex;
+    private Integer pageSize;
+    private Integer totalRecord;
 
     public Integer getId() {
         return id;

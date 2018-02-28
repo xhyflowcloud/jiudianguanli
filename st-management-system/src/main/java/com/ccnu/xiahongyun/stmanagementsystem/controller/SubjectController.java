@@ -8,6 +8,7 @@ import com.ccnu.xiahongyun.stmanagementsystem.mapper.SubjectMapper;
 import com.ccnu.xiahongyun.stmanagementsystem.model.Register;
 import com.ccnu.xiahongyun.stmanagementsystem.model.Root;
 import com.ccnu.xiahongyun.stmanagementsystem.model.Student;
+import com.ccnu.xiahongyun.stmanagementsystem.model.Subject;
 import com.ccnu.xiahongyun.stmanagementsystem.query.QueryViewPage;
 import com.ccnu.xiahongyun.stmanagementsystem.query.StudentQuery;
 import com.ccnu.xiahongyun.stmanagementsystem.query.SubjectQuery;
@@ -16,11 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.parser.Entity;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -35,100 +35,41 @@ public class SubjectController {
     @Autowired
     RegisterMapper registerMapper;
 
+    @GetMapping("/{email}/querysubjects")
+    public ResponseEntity<List<Subject>> get(@PathVariable String email){
 
-    @PostMapping("/{email}/add")
-    public ResponseEntity<Integer> add(@PathVariable String email, @RequestBody SubjectQuery subjectQuery) {
-
-        Root root = null;
         Register register = null;
-
-        try {
-            if(email != null && StringUtils.isNotEmpty(email) && subjectQuery != null){
+        Root root = null;
+        List<Subject> subjects = new ArrayList<Subject>();
+        List<Subject> subjectstemp = null;
+        try{
+            if(email != null && StringUtils.isNotEmpty(email)){
 
                 register = registerMapper.findRegisterByEmail(email);
                 if(register == null){
-                    return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(4);     //无该用户
+                    return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(null);     //无该用户
                 }
                 root = rootMapper.findRootByEmail(email);
-                subjectMapper.insertSubject(subjectQuery.getName(),new Date().getTime(),new Date().getTime(),new Date().getTime(),new Date().getTime(),subjectQuery.getMaxnumber(),subjectQuery.getMinnumber());
-            }else{
-                return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(2);
+                /*if(root == null || root.getAuth() < 10){
+                    return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(3);  //无权限
+                }*/
+
+                subjectstemp = subjectMapper.selectAllSubject();
+                /*for (Subject subject: subjectstemp) {
+                    if(subject.getBmendtime() < new Date().getTime() || subject.getBmstarttime() > new Date().getTime()){
+                        continue;
+                    }
+                    else{
+                        subjects.add(subject);
+                    }
+                }*/
+                return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(subjectstemp);
+
+            }else {
+                return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(null);
             }
-        }catch (Exception e) {
-            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(0);
+        }catch (Exception e){
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(null);
         }
-        return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(1);
     }
-
-
-   /* @PostMapping("/{email}/delete")
-    public ResponseEntity<Integer> delete(@PathVariable String email, @RequestBody Student student) {
-
-        Register register = null;
-        Root root = null;
-
-        try {
-            if(email != null && StringUtils.isNotEmpty(email) && student != null){
-
-                register = registerMapper.findRegisterByEmail(email);
-                if(register == null){
-                    return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(4);     //无该用户
-                }
-                root = rootMapper.findRootByEmail(email);
-
-                stu.deleteStudent(student.getExamid());
-            }else{
-                return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(2);
-            }
-        }catch (Exception e) {
-            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(0);
-        }
-        return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(1);
-
-    }*/
-   /* @PostMapping("/{email}/update")
-    public ResponseEntity<Integer> update(@PathVariable String email, @RequestBody Student student) {
-
-        Register register = null;
-        Root root = null;
-
-        try {
-            if(email != null && StringUtils.isNotEmpty(email) && student != null){
-
-                register = registerMapper.findRegisterByEmail(email);
-                if(register == null){
-                    return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(4);     //无该用户
-                }
-                root = rootMapper.findRootByEmail(email);
-
-                stu.updateStudent(student.getExamid(),student.getName(),student.getId(),student.getSid());
-            }else{
-                return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(2);
-            }
-        }catch (Exception e) {
-            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(0);
-        }
-        return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(1);
-
-    }
-
-
-
-    @PostMapping("/query")
-    public ResponseEntity<QueryViewPage<Student>> login(@RequestBody StudentQuery student) {
-
-        try {
-            //目标分页对象
-            QueryViewPage<Student> aimPage = new QueryViewPage<Student>();
-            List<Student> students = stu.findStudentByLimit(student);
-            aimPage.setResults(students);
-            aimPage.setTotalRecord(stu.findStudentCount(student));
-            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(aimPage);
-        }catch (Exception e) {
-            throw e;
-        }
-    }*/
-
-
-
 }

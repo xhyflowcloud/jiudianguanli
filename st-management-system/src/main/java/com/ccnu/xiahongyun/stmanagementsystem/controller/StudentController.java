@@ -127,7 +127,7 @@ public class StudentController {
 
 
 
-   /* @PostMapping("/query")
+   @PostMapping("/query")
     public ResponseEntity<QueryViewPage<Student>> login(@RequestBody StudentQuery studentQuery) {
 
         Studentexamroominfo studentexamroominfo = null;
@@ -147,7 +147,7 @@ public class StudentController {
         }catch (Exception e) {
             throw e;
         }
-    }*/
+    }
 
 
 

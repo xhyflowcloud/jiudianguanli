@@ -408,10 +408,10 @@
                     </p-input>
                 </p-form-item>
 
-                <p-form-item label="报考科目">
-                    <p-select :model.sync="student.subjectid" clearable="false" style="width: 300px">
-                        <p-option  v-for="item in subjects" :value="item.id">{{ item.name }}</p-option>
-                    </p-select></p-input>
+                <p-form-item label="是否启用 ">
+                    <p-select :model.sync="student.subjectid" style="width:300px; text-align: center">
+                        <p-option clearable="false" v-for="item in subjects" :value="item.id">{{ item.name }}</p-option>
+                    </p-select>
                 </p-form-item>
 
             </p-form>
@@ -800,7 +800,7 @@
         },
     });
     var examroom = Vue.extend({
-        template: '#student',
+        template: '#examroom',
         data: function() {
             return{
                 modalAdd: false,
@@ -1240,7 +1240,7 @@
                     name: '',
                     subjectid: '',
                 },
-                students: [],
+                subjects: [],
                 columns6: [{
                     "title": "准考证号",
                     "key": "sid",
@@ -1290,7 +1290,7 @@
             },
             addClick: function () {
                 this.$http.get('/subject/' + this.email + '/querysubjects').then(function (res) {
-                    this.students = res.body;
+                    this.subjects = res.body;
                     this.modalAdd = true;
                 });
             },

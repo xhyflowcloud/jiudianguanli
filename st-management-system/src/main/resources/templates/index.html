@@ -285,7 +285,7 @@
         </p>
         <p-table size = "small" border :columns="columns6" :data="classrooms" v-ref:table></p-table>
         <div style="float:right">
-            <p-page :total="classroomQuery.totalRecord" :current.sync="classroomQuery.pageIndex" :page-size.sync="classroomQuery.pageSize" :page-size-opts="[5,10,20]"  @on-change="doClassroomQuery" @on-page-size-change="doClassroomQuery" class="pageClass" show-total show-elevator></p-page>
+            <p-page :total="classroomQuery.totalRecord" :current.sync="classroomQuery.pageIndex" :page-size.sync="classroomQuery.pageSize" :page-size-opts="[5,10,20]"  @on-change="submitQuery" @on-page-size-change="submitQuery" class="pageClass" show-total show-elevator></p-page>
         </div>
         <p-button class="pageClass" type="primary" size="large" @click="exportData(1)" posi>
             <p-icon type="ios-download-outline"></p-icon> 导出原始数据</p-button>
@@ -499,9 +499,11 @@
             <p-button @click="addClick" type="primary" size="small">增加</p-button>
         </p>
         <p-table :columns="columns7" :data="teachers" v-ref:table></p-table>
-        <p-page :total="teacherQuery.totalRecord" :current.sync="teacherQuery.pageIndex" :page-size.sync="teacherQuery.pageSize" :page-size-opts="[5,10,20]"  @on-change="submitQuery" @on-page-size-change="submitQuery" class="pageClass"></p-page>
-        <p-button type="primary" size="large" @click="exportData(1)" posi>
-            <p-icon type="ios-download-outline"></p-icon> 导出原始数据</p-button>
+        <div style="float:right">
+            <p-page :total="teacherQuery.totalRecord" :current.sync="teacherQuery.pageIndex" :page-size.sync="teacherQuery.pageSize" :page-size-opts="[5,10,20]"  @on-change="submitQuery" @on-page-size-change="submitQuery" class="pageClass"></p-page>
+        </div>
+        <p-button class="pageClass" type="primary" size="large" @click="exportData(1)" posi>
+        <p-icon type="ios-download-outline"></p-icon> 导出原始数据</p-button>
         <p-button type="primary" size="large" @click="exportData(2)">
             <p-icon type="ios-download-outline"></p-icon> 导出排序和过滤后的数据</p-button>
         <p-button type="primary" size="large" @click="exportData(3)">
@@ -550,6 +552,9 @@
         </p>
         <div style="text-align:center;">
             <p-form label-position="right" :label-width="100">
+                <p-form-item label="监考人员编号">
+                    <p-input :value.sync="teacher.id" style="width: 300px"  placeholder="请输入监考人员编号..." @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input>
+                </p-form-item>
                 <p-form-item label="监考人员姓名">
                     <p-input :value.sync="teacher.name" style="width: 300px" placeholder="请输入监考人员姓名..." @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input>
                 </p-form-item>
@@ -1097,7 +1102,7 @@
                     "sortable": false,
                     align: 'center',
                     render: function (row,column,index) {
-                        return '<p-button @click="updateClick" style="margin-left: 8px" type="primary" size="small">修改</p-button><p-button @click="deleteClick" style="margin-left: 8px" type="error" size="small">删除</p-button>';
+                        return '<p-button @click="updateClick('+row.id+')" style="margin-left: 8px" type="primary" size="small">修改</p-button><p-button @click="deleteSubmit('+row.id+')" style="margin-left: 8px" type="error" size="small">删除</p-button>';
                     }
                 }],
             }
@@ -1118,87 +1123,52 @@
             addClick: function () {
                 this.modalAdd = true;
             },
-            deleteClick: function(){
-                this.modalDelete = true;
-            },
-            updateClick: function(){
+            updateClick: function(id){
+                this.classroom = {};
+                this.classroom.id = id;
                 this.modalUpdate = true;
             },
             addSubmit: function () {
-                this.$http.post('/classroom/' + this.email + '/add', this.classroom).then(function (res) {
-                    if(1 == res.body) {
-                        this.$Message.success("增加成功");
-                    }
-                    else if(0 == res.body){
-                        this.$Message.error("增加失败");
-                    }
-                    else if(2 == res.body){
-                        this.$Message.error("用户为空");
-                    }
-                    else if(3 == res.body){
-                        this.$Message.error("用户没有权限");
-                    }
-                    else if(4 == res.body){
-                        this.$Message.error("没有此用户");
+                this.$http.post('/classroom/add', this.classroom).then(function (res) {
+                    if(res.body.status == 200){
+                        this.$Message.success("添加成功");
+                    }else{
+                        this.$Message.error(res.body.data);
                     }
                     this.modalAdd = false;
                 });
             },
-            deleteSubmit: function () {
-                this.$http.post('/classroom/' + this.email + '/delete', this.classroom).then(function (res) {
-                    if(1 == res.body) {
+            deleteSubmit: function (id) {
+                this.classroom = {};
+                this.classroom.id = id;
+                this.$http.post('/classroom/delete', this.classroom).then(function (res) {
+                    if(res.body.status == 200){
                         this.$Message.success("删除成功");
-                    }
-                    else if(0 == res.body){
-                        this.$Message.error("删除失败");
-                    }
-                    else if(2 == res.body){
-                        this.$Message.error("用户为空");
-                    }
-                    else if(3 == res.body){
-                        this.$Message.error("用户没有权限");
-                    }
-                    else if(4 == res.body){
-                        this.$Message.error("没有此用户");
+                    }else{
+                        this.$Message.error(res.body.data);
                     }
                     this.modalDelete = false;
                 });
             },
             updateSubmit: function () {
-                this.$http.post('/classroom/' + this.email + '/update', this.classroom).then(function (res) {
-                    if(1 == res.body) {
+                this.$http.post('/classroom/update', this.classroom).then(function (res) {
+                    if(res.body.status == 200){
                         this.$Message.success("修改成功");
-                    }
-                    else if(0 == res.body){
-                        this.$Message.error("修改失败");
-                    }
-                    else if(2 == res.body){
-                        this.$Message.error("用户为空");
-                    }
-                    else if(3 == res.body){
-                        this.$Message.error("用户没有权限");
-                    }
-                    else if(4 == res.body){
-                        this.$Message.error("没有此用户");
-                    }
-                    else if(5 == res.body){
-                        this.$Message.error("该教室正在被使用，不能修改");
+                    }else{
+                        this.$Message.error(res.body.data);
                     }
                     this.modalUpdate = false;
                 });
             },
-            doClassroomQuery:function () {
-                this.classrooms = [];
-                this.$http.post("/classroom/query",this.classroomQuery).then(function (response) {
-                    this.classrooms = response.body.results;
-                    this.classroomQuery.totalRecord = response.body.totalRecord;
-                })
-            },
             submitQuery: function(){
                 this.classrooms = [];
                 this.$http.post('/classroom/query', this.classroomQuery).then(function (res) {
-                    this.classrooms = res.body.results;
-                    this.classroomQuery.totalRecord = res.body.totalRecord;
+                    if(res.body.status == 200){
+                        this.classrooms = res.body.data.results;
+                        this.classroomQuery.totalRecord = res.body.data.totalRecord;
+                    }else{
+                        this.$Message.error(res.body.data);
+                    }
                 });
             },
             exportData: function(type) {
@@ -1446,7 +1416,7 @@
                 show: false,
                 columns7: [{
                     "title": "监考人员编号",
-                    "key": "id",
+                    "key": 'id',
                     align: 'center',
                 }, {
                     "title": "监考人员姓名",
@@ -1485,8 +1455,8 @@
                     "key": "operate",
                     "sortable": false,
                     align: 'center',
-                    render: function (row,column,index) {
-                        return '<p-button @click="updateClick" style="margin-left: 8px" type="primary" size="small">修改</p-button><p-button @click="deleteClick" style="margin-left: 8px" type="error" size="small">删除</p-button>';
+                    render: function (row) {
+                        return '<p-button @click="updateClick('+row.id+')" style="margin-left: 8px" type="primary" size="small">修改</p-button><p-button @click="deleteSubmit('+row.id+')" style="margin-left: 8px" type="error" size="small">删除</p-button>';
                     }
                 }],
             }
@@ -1498,68 +1468,39 @@
             addClick: function () {
                 this.modalAdd = true;
             },
-            deleteClick: function(){
-                this.modalDelete = true;
-            },
-            updateClick: function(){
+            updateClick: function(id){
+                this.teacher = {};
+                this.teacher.id = id;
                 this.modalUpdate = true;
             },
             addSubmit: function () {
-                this.$http.post('/teacher/' + this.email + '/add', this.teacher).then(function (res) {
-                    if(1 == res.body) {
-                        this.$Message.success("增加成功");
-                    }
-                    else if(0 == res.body){
-                        this.$Message.error("增加失败");
-                    }
-                    else if(2 == res.body){
-                        this.$Message.error("用户为空");
-                    }
-                    else if(3 == res.body){
-                        this.$Message.error("用户没有权限");
-                    }
-                    else if(4 == res.body){
-                        this.$Message.error("没有此用户");
+                this.$http.post('/teacher/add', this.teacher).then(function (res) {
+                    if(res.body.status == 200){
+                        this.$Message.success("添加成功");
+                    }else{
+                        this.$Message.error(res.body.data);
                     }
                     this.modalAdd = false;
                 });
             },
-            deleteSubmit: function () {
-                this.$http.post('/teacher/' + this.email + '/delete', this.teacher).then(function (res) {
-                    if(1 == res.body) {
+            deleteSubmit: function (id) {
+                this.teacher = {};
+                this.teacher.id = id;
+                this.$http.post('/teacher/delete', this.teacher).then(function (res) {
+                    if(res.body.status == 200){
                         this.$Message.success("删除成功");
-                    }
-                    else if(0 == res.body){
-                        this.$Message.error("删除失败");
-                    }
-                    else if(2 == res.body){
-                        this.$Message.error("用户为空");
-                    }
-                    else if(3 == res.body){
-                        this.$Message.error("用户没有权限");
-                    }
-                    else if(4 == res.body){
-                        this.$Message.error("没有此用户");
+                    }else{
+                        this.$Message.error(res.body.data);
                     }
                     this.modalDelete = false;
                 });
             },
             updateSubmit: function () {
-                this.$http.post('/teacher/' + this.email + '/update', this.teacher).then(function (res) {
-                    if(1 == res.body) {
+                this.$http.post('/teacher/update', this.teacher).then(function (res) {
+                    if(res.body.status == 200){
                         this.$Message.success("修改成功");
-                    }
-                    else if(0 == res.body){
-                        this.$Message.error("修改失败");
-                    }
-                    else if(2 == res.body){
-                        this.$Message.error("用户为空");
-                    }
-                    else if(3 == res.body){
-                        this.$Message.error("用户没有权限");
-                    }
-                    else if(4 == res.body){
-                        this.$Message.error("没有此用户");
+                    }else{
+                        this.$Message.error(res.body.data);
                     }
                     this.modalUpdate = false;
                 });
@@ -1567,8 +1508,12 @@
             submitQuery: function(){
                 this.teachers = [];
                 this.$http.post('/teacher/query', this.teacherQuery).then(function (res) {
-                    this.teachers = res.body.results;
-                    this.teacherQuery.totalRecord = res.body.totalRecord;
+                    if(res.body.status == 200){
+                        this.teachers = res.body.data.results;
+                        this.teacherQuery.totalRecord = res.body.data.totalRecord;
+                    }else{
+                        this.$Message.error(res.body.data);
+                    }
                 });
             },
             reset: function () {
@@ -1835,6 +1780,7 @@
                 });
             },
             quitQuery: function () {
+                this.$http.post('/index/quit', this.register.email);
                 this.$router.go({
                     path:'/'
                 });

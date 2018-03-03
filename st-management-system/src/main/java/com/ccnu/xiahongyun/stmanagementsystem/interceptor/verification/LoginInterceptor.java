@@ -54,7 +54,7 @@ public class LoginInterceptor implements HandlerInterceptor{
         List<String> userList = tokenUtils.getUserList();
         String email = tokenUtils.getUsernameFromToken(token);
         if (userList.contains(email)){
-            if(uri.contains("add") || uri.contains("delete") || uri.contains("update")){
+            /*if(uri.contains("add") || uri.contains("delete") || uri.contains("update")){
                 Root root= null;
                 try{
                     root = authorityService.getRootByEmail(email);
@@ -72,7 +72,8 @@ public class LoginInterceptor implements HandlerInterceptor{
             }
             else{
                 return true;
-            }
+            }*/
+            return true;
         }
 
         httpServletResponse.sendRedirect("/exception/verification");

@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/index")
 public class RegisterController {
@@ -46,6 +48,14 @@ public class RegisterController {
             }
         }catch (Exception e){
             return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(new ResponseData.Builder().buildFailureResponse());
+        }
+    }
+
+    @PostMapping("/quit")
+    public void quit(@RequestBody String email){
+
+        if(tokenUtils.getUserList().contains(email)){
+            tokenUtils.getUserList().remove(email);
         }
     }
 }

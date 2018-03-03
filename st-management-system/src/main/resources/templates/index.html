@@ -755,11 +755,12 @@
                 this.$refs[name].validate(function (valid) {
                     if (valid) {
                         this.$http.post('/index/register', this.user).then(function (res) {
-                            if (res.body.trim() == '注册成功') {
-                                this.$Message.success(res.body);
-                            }
-                            else {
-                                this.$Message.error(res.body + '!');
+                            if(res.body.status == 200){
+                                this.$Message.success('注册成功');
+                                this.registerVisible = false;
+                                this.loginVisible = true;
+                            }else if(res.body.status == 664){
+                                this.$Message.error(res.body.data);
                             }
                         });
                     } else {
@@ -772,15 +773,17 @@
                 this.$refs[name].validate(function (valid) {
                     if (valid) {
                         this.$http.post('/index/login', this.user).then(function (res) {
-                            if (res.body.trim() == '登录成功') {
-                                this.$Message.success(res.body);
+                            if (res.body.status == 200) {
+                                this.$Message.success('登录成功');
+                                document.cookie = "token="+res.body.data;
                                 this.$router.go({
                                     path: '/index',
                                     query: {email: this.user.email}
                                 });
                             }
                             else {
-                                this.$Message.error(res.body + '!');
+                                this.$Message.error(res.body.data);
+                                this.reset();
                             }
                         });
                     } else {
@@ -796,6 +799,11 @@
             showRegister: function () {
                 this.loginVisible = false;
                 this.registerVisible = true;
+            },
+            reset: function(){
+              this.user.name = '';
+              this.user.email = '';
+              this.user.pwd = '';
             }
         },
     });

@@ -12,9 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class TokenUtils {
@@ -27,24 +25,29 @@ public class TokenUtils {
     @Value("${token.expiration}")
     private Long expiration;
 
+    private List<String> userList= new ArrayList<>();
+
+    public List<String> getUserList(){
+        return this.userList;
+    }
+
     /**
      * 根据 TokenDetail 生成 Token
-     *
-     * @param tokenDetail
-     * @return
+     * @param tokenDetail 传入生成token条件
+     * @return Token
      */
     public String generateToken(TokenDetail tokenDetail) {
-        Map<String, Object> claims = new HashMap<String, Object>();
+        Map<String, Object> claims = new HashMap<>();
         claims.put("sub", tokenDetail.getUsername());
-        claims.put("created", this.generateCurrentDate());
+        //claims.put("aud", tokenDetail.getAuthority());
         return this.generateToken(claims);
     }
 
     /**
      * 根据 claims 生成 Token
      *
-     * @param claims
-     * @return
+     * @param claims 传入参数
+     * @return token
      */
     private String generateToken(Map<String, Object> claims) {
         try {
@@ -67,7 +70,7 @@ public class TokenUtils {
     /**
      * token 过期时间
      *
-     * @return
+     * @return Date
      */
     private Date generateExpirationDate() {
         return new Date(System.currentTimeMillis() + this.expiration * 1000);
@@ -76,7 +79,7 @@ public class TokenUtils {
     /**
      * 获得当前时间
      *
-     * @return
+     * @return Date
      */
     private Date generateCurrentDate() {
         return new Date(System.currentTimeMillis());
@@ -84,9 +87,8 @@ public class TokenUtils {
 
     /**
      * 从 token 中拿到 username
-     *
-     * @param token
-     * @return
+     * @param token 传入的token
+     * @return username
      */
     public String getUsernameFromToken(String token) {
         String username;
@@ -102,8 +104,8 @@ public class TokenUtils {
     /**
      * 解析 token 的主体 Claims
      *
-     * @param token
-     * @return
+     * @param token 传入token
+     * @return Claims
      */
     private Claims getClaimsFromToken(String token) {
         Claims claims;
@@ -120,21 +122,20 @@ public class TokenUtils {
 
     /**
      * 检查 token 是否处于有效期内
-     * @param token
-     * @param root
-     * @return
+     * @param token 传入token
+     * @param root  传入校验对象
+     * @return Boolean
      */
     public Boolean validateToken(String token, Root root) {
 
         final String username = this.getUsernameFromToken(token);
-        final Date created = this.getCreatedDateFromToken(token);
-        return (username.equals(root.getEmail()) && !(this.isTokenExpired(token)) && !(this.isCreatedBeforeLastPasswordReset(created, new Date())));
+        return (username.equals(root.getEmail()) && !(this.isTokenExpired(token)));
     }
 
     /**
      * 获得我们封装在 token 中的 token 创建时间
-     * @param token
-     * @return
+     * @param token 传入token
+     * @return date
      */
     public Date getCreatedDateFromToken(String token) {
         Date created;
@@ -149,10 +150,10 @@ public class TokenUtils {
 
     /**
      * 获得我们封装在 token 中的 token 过期时间
-     * @param token
-     * @return
+     * @param token 传入token
+     * @return Date
      */
-    public Date getExpirationDateFromToken(String token) {
+    private Date getExpirationDateFromToken(String token) {
         Date expiration;
         try {
             final Claims claims = this.getClaimsFromToken(token);
@@ -165,8 +166,8 @@ public class TokenUtils {
 
     /**
      * 检查当前时间是否在封装在 token 中的过期时间之后，若是，则判定为 token 过期
-     * @param token
-     * @return
+     * @param token 传入token
+     * @return Boolean
      */
     private Boolean isTokenExpired(String token) {
         final Date expiration = this.getExpirationDateFromToken(token);
@@ -175,9 +176,9 @@ public class TokenUtils {
 
     /**
      * 检查 token 是否是在最后一次修改密码之前创建的（账号修改密码之后之前生成的 token 即使没过期也判断为无效）
-     * @param created
-     * @param lastPasswordReset
-     * @return
+     * @param created 创建时间
+     * @param lastPasswordReset 密码重置时间
+     * @return Boolean
      */
     private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
         return (lastPasswordReset != null && created.before(lastPasswordReset));

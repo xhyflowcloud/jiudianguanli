@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping("/student")
 public class StudentController {
 
-    @Autowired
+   /* @Autowired
     StudentMapper studentMapper;
     @Autowired
     RootMapper rootMapper;
@@ -50,9 +50,9 @@ public class StudentController {
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(4);     //无该用户
                 }
                 root = rootMapper.findRootByEmail(email);
-                /*if(root == null || root.getAuth() < 10){
+                *//*if(root == null || root.getAuth() < 10){
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(3);  //无权限
-                }*/
+                }*//*
                 subject = subjectMapper.selectSubjectById(studentExpand.getSubjectid());
                 if(subject.getBmendtime() < new Date().getTime()){
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(5);  //报名截止     //无该用户
@@ -83,11 +83,11 @@ public class StudentController {
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(4);     //无该用户
                 }
                 root = rootMapper.findRootByEmail(email);
-                /*if(root.getAuth() < 10){
+                *//*if(root.getAuth() < 10){
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(3);  //无权限
-                }*/
+                }*//*
                 studentInfoMapper.deleteStudentInfoByStudentId(studentExpand.getSid());
-                studentMapper.deleteStudent(studentExpand.getSid());
+                studentMapper.deleteStuden t(studentExpand.getSid());
             }else{
                 return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(2);
             }
@@ -111,9 +111,9 @@ public class StudentController {
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(4);     //无该用户
                 }
                 root = rootMapper.findRootByEmail(email);
-                /*if(root.getAuth() < 10){
+                *//*if(root.getAuth() < 10){
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(3);  //无权限
-                }*/
+                }*//*
                 studentMapper.updateStudent(studentExpand.getName(),studentExpand.getId(),studentExpand.getSid());
             }else{
                 return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(2);
@@ -137,7 +137,6 @@ public class StudentController {
             List<Student> students = studentMapper.findStudentByLimit(studentQuery);
             List<StudentExpand> studentExpands = new ArrayList<StudentExpand>();
             for (Student student: students) {
-                studentexamroominfo = studentexamroominfoMapper.findStuexamByStudentId(student.getSid());
 
             }
 
@@ -150,5 +149,5 @@ public class StudentController {
     }
 
 
-
+*/
 }

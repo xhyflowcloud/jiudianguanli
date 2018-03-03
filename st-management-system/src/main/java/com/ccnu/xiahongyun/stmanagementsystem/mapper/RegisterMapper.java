@@ -20,7 +20,7 @@ public interface RegisterMapper {
     Register findRegisterByEmail(@Param("email") String email);
 
     @Insert("insert into register (name,email,pwd) values (#{name}, #{email}, #{pwd}) ")
-    void insertRegister(@Param("name") String name,@Param("email") String email,@Param("pwd") String pwd);
+    void insertRegister(Register register);
 
     @Update("update register set name=#{name},email=#{email},pwd=#{pwd} where id= #{id}")
     void updateRegister(@Param("name") String name,@Param("email") String email,@Param("pwd") String pwd,@Param("id") Integer id );

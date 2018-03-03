@@ -68,11 +68,12 @@ CREATE TABLE `studentinformation` (
  );
 
 CREATE TABLE `studentexamroominfo` (
+  subjectId INT ,
   examroomId INT ,
   studentId int ,
   FOREIGN KEY (studentId) REFERENCES student(sid),
-  FOREIGN KEY (examroomId) REFERENCES examroom(id),
-  PRIMARY KEY (examroomId,studentId)
+  FOREIGN KEY (subjectId) REFERENCES subject(id),
+  PRIMARY KEY (subjectId,studentId)
 );
 
 CREATE TABLE `root` (

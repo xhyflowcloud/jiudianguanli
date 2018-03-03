@@ -13,28 +13,30 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-@Controller
+@RestController
 @RequestMapping("/classroom")
 public class ClassroomController {
+
+    private final ClassroomMapper classroomMapper;
+
     @Autowired
-    ClassroomMapper classroomMapper;
-    @Autowired
-    RootMapper rootMapper;
-    @Autowired
-    RegisterMapper registerMapper;
+    public ClassroomController(ClassroomMapper classroomMapper){
+        this.classroomMapper = classroomMapper;
+    }
+
+
 
     @PostMapping("/query")
     public ResponseEntity<QueryViewPage<ClassroomTime>> login(@RequestBody ClassroomQuery classroomQuery) {
 
         try {
             //目标分页对象
-            QueryViewPage<ClassroomTime> aimPage = new QueryViewPage<ClassroomTime>();
-            List<ClassroomTime> classroomsTime = new ArrayList<ClassroomTime>();
+            QueryViewPage<ClassroomTime> aimPage = new QueryViewPage<>();
+            List<ClassroomTime> classroomsTime = new ArrayList<>();
 
             List<Classroom> classrooms = classroomMapper.findClassroomByLimit(classroomQuery);
             for (Classroom c: classrooms) {
@@ -51,11 +53,11 @@ public class ClassroomController {
             aimPage.setTotalRecord(classroomMapper.findClassroomCount(classroomQuery));
             return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(aimPage);
         }catch (Exception e) {
-            throw e;
+            return null;
         }
     }
 
-    @PostMapping("/{email}/add")
+  /*  @PostMapping("/{email}/add")
     public ResponseEntity<Integer> add(@PathVariable String email, @RequestBody Classroom classroom) {
 
         Root root = null;
@@ -69,9 +71,9 @@ public class ClassroomController {
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(4);     //无该用户
                 }
                 root = rootMapper.findRootByEmail(email);
-                /*if(root == null || root.getAuth() < 10){
+                *//*if(root == null || root.getAuth() < 10){
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(3);  //无权限
-                }*/
+                }*//*
                 classroomMapper.insertClassroom(classroom.getSize(), new Date().getTime(),new Date().getTime(), classroom.getPosition(),true);
             }else{
                 return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(2);
@@ -96,9 +98,9 @@ public class ClassroomController {
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(4);     //无该用户
                 }
                 root = rootMapper.findRootByEmail(email);
-                /*if(root.getAuth() < 10){
+                *//*if(root.getAuth() < 10){
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(3);  //无权限
-                }*/
+                }*//*
                 classroomMapper.deleteClassroom(classroom.getId());
             }else{
                 return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(2);
@@ -124,9 +126,9 @@ public class ClassroomController {
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(4);     //无该用户
                 }
                 root = rootMapper.findRootByEmail(email);
-                /*if(root.getAuth() < 10){
+                *//*if(root.getAuth() < 10){
                     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(3);  //无权限
-                }*/
+                }*//*
                 classroom1 = classroomMapper.findClassroomById(classroom.getId());
                 if (classroom1.getEndtime() > new Date().getTime()) {
                     classroomMapper.updateClassroom(classroom.getSize(), new Date().getTime(), new Date().getTime(), classroom.getPosition(), classroom.getEnable(), classroom.getId());
@@ -141,5 +143,5 @@ public class ClassroomController {
         }
         return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(1);
 
-    }
+    }*/
 }

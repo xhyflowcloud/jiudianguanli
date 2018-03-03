@@ -1,53 +1,51 @@
 package com.ccnu.xiahongyun.stmanagementsystem.controller;
 
-import com.ccnu.xiahongyun.stmanagementsystem.mapper.RegisterMapper;
+import com.ccnu.xiahongyun.stmanagementsystem.Utils.TokenDetailImpl;
+import com.ccnu.xiahongyun.stmanagementsystem.Utils.TokenUtils;
+import com.ccnu.xiahongyun.stmanagementsystem.enums.XHttpStatus;
 import com.ccnu.xiahongyun.stmanagementsystem.model.Register;
-
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ccnu.xiahongyun.stmanagementsystem.model.ResponseData;
+import com.ccnu.xiahongyun.stmanagementsystem.services.RegisterService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("/index")
 public class RegisterController {
 
-    @Autowired
-    RegisterMapper registerMapper;
+    private final RegisterService registerService;
+    private final TokenUtils tokenUtils;
+
+    RegisterController(RegisterService registerService, TokenUtils tokenUtils){
+        this.registerService = registerService;
+        this.tokenUtils = tokenUtils;
+    }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody Register register) {
+    public ResponseEntity<ResponseData> register(@RequestBody Register register) {
         try {
-            if(null != registerMapper.findRegisterByEmail(register.getEmail())){
-                return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("该邮箱已经被注册");
-            }
-            else{
-                registerMapper.insertRegister(register.getName(), register.getEmail(), register.getPwd());
-                return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("注册成功");
-            }
+            registerService.addRegister(register);
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(new ResponseData.Builder().status(XHttpStatus.HTTP_SUCCESS.getCode()).build());
         } catch (Exception e) {
-            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("注册失败");
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(new ResponseData.Builder().buildFailureResponse());
         }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Register register){
-
+    public ResponseEntity<ResponseData> login(@RequestBody Register register){
+        String token = "";
         try {
-            Register register1 = registerMapper.findRegisterByEmail(register.getEmail());
-            if(null == register1){
-                return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("没有该用户");
-            }
-            else if(register1.getPwd().equals(register.getPwd())){
-                return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("登录成功");
+            Register registerTemp = registerService.findRegisterById(register.getEmail());
+            if(registerTemp.getPwd().equals(register.getPwd())){
+                tokenUtils.getUserList().add(register.getEmail());
+                token = tokenUtils.generateToken(new TokenDetailImpl(register.getEmail()));
+                return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(new ResponseData.Builder().status(XHttpStatus.HTTP_SUCCESS.getCode()).data(token).build());
             }else{
-                return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("密码错误");
+                return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(new ResponseData.Builder().status(XHttpStatus.HTTP_VERIFICATION.getCode()).data(XHttpStatus.HTTP_VERIFICATION.getMessage()).build());
             }
         }catch (Exception e){
-            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body("数据库异常");
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(new ResponseData.Builder().buildFailureResponse());
         }
     }
-
 }

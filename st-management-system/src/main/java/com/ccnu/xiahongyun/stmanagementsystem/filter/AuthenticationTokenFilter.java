@@ -70,5 +70,4 @@ public class AuthenticationTokenFilter extends GenericFilterBean {
 
         chain.doFilter(request, response);
     }
-
 }

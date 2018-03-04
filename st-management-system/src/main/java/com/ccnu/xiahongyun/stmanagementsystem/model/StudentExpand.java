@@ -17,6 +17,16 @@ public class StudentExpand {
 
     Integer examroomid;
 
+    public StudentExpand() {
+    }
+
+    public StudentExpand(Student student){
+        this.sid = student.getSid();
+        this.name = student.getName();
+        this.id = student.getId();
+        this.subjectid = student.getSubjectid();
+    }
+
     public String getName() {
         return name;
     }

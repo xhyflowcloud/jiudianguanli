@@ -12,16 +12,6 @@ import java.util.List;
 @Repository
 @Mapper
 public interface SubjectMapper {
- /*   id int AUTO_INCREMENT PRIMARY KEY ,
-    name VARCHAR(20),
-    starttime BIGINT,
-    endtime BIGINT,
-    bmstarttime BIGINT,
-    bmendtime BIGINT,
-    maxnumber int,
-    minnumber int*/
-
-
 
     @Insert("insert into subject(name, starttime,endtime,bmstarttime,bmendtime,maxnumber,minnumber) values(#{name}, #{starttime} , #{endtime}, #{bmstarttime}, #{bmendtime}, #{maxnumber}, #{minnumber})")
     void insertSubject(@Param("name") String name, @Param("starttime") Long starttime,

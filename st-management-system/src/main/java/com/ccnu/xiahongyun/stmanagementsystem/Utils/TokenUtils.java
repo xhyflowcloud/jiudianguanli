@@ -27,6 +27,12 @@ public class TokenUtils {
 
     private List<String> userList= new ArrayList<>();
 
+    private Integer sid = 10000;
+
+    public Integer getSid() {
+        return ++sid;
+    }
+
     public List<String> getUserList(){
         return this.userList;
     }

@@ -57,15 +57,17 @@ public class SQLProvider {
 
     public String selectStudent(StudentQuery student){
         StringBuffer sql = new StringBuffer("select * from  student where 1=1");
-        if(student.getId() != null){
+        if(student.getSid() != null){
             sql.append(" and sid = #{sid}");
         }
-        if(student.getId() != null){
+        if(student.getId() != null && StringUtils.isNotEmpty(student.getId())){
             sql.append(" and id = #{id}");
         }
-
         if(student.getName() != null && StringUtils.isNotEmpty(student.getName())){
             sql.append(" and name = #{name}");
+        }
+        if(student.getSubjectid() != null){
+            sql.append(" and subjectid = #{subjectid}");
         }
         Integer temp = (student.getPageIndex()-1)*student.getPageSize();
         sql.append(" LIMIT "+temp+", #{pageSize}");
@@ -74,26 +76,20 @@ public class SQLProvider {
 
     public String selectStudentCount(StudentQuery student){
         StringBuffer sql = new StringBuffer("select count(*) from  student where 1=1");
-        if(student.getId() != null){
+        if(student.getSid() != null){
             sql.append(" and sid = #{sid}");
         }
-        if(student.getId() != null){
+        if(student.getId() != null && StringUtils.isNotEmpty(student.getId())){
             sql.append(" and id = #{id}");
         }
         if(student.getName() != null && StringUtils.isNotEmpty(student.getName())){
             sql.append(" and name = #{name}");
         }
+        if(student.getSubjectid() != null){
+            sql.append(" and subjectid = #{subjectid}");
+        }
         return  sql.toString();
     }
-    private  Integer id ;
-    private String name ;
-    private Long starttime ;
-    private Long endtime ;
-    private Long bmstarttime;
-    private Long bmendtime ;
-    private Integer maxnumber;
-    private Integer minnumber ;
-
 
     public String selectSubject(SubjectQuery subject){
         StringBuffer sql = new StringBuffer("select * from  subject where 1=1");

@@ -96,7 +96,7 @@ public class ClassroomServiceImpl implements ClassroomService{
         try{
             count = classroomMapper.findClassroomCount(classroomQuery);
         }catch (Exception e){
-            count = -1;
+            count = 0;
         }
         return count;
     }

@@ -88,13 +88,14 @@ public class TeacherServiceImpl implements TeacherService{
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Integer findTeacherCountByTeacherQuery(TeacherQuery teacherQuery) {
         Integer count;
 
         try{
             count = teacherMapper.findTeacherCount(teacherQuery);
         }catch (Exception e){
-            count = -1;
+            count = 0;
         }
         return count;
     }

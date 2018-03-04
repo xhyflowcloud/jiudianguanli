@@ -1,3 +1,4 @@
+
 use test;
 /*科目*/
 CREATE TABLE `subject` (
@@ -53,19 +54,13 @@ CREATE TABLE `register` (
 );
 
 CREATE TABLE `student`(
+  sid INT,
   name VARCHAR(50) ,
   id VARCHAR(30),
-  sid INT AUTO_INCREMENT PRIMARY KEY
-);
-
-
-CREATE TABLE `studentinformation` (
   subjectId INT ,
-  studentId int ,
-  FOREIGN KEY (studentId) REFERENCES student(sid),
   FOREIGN KEY (subjectId) REFERENCES subject(id),
-  PRIMARY KEY (subjectId,studentId)
- );
+  PRIMARY KEY (sid)
+);
 
 CREATE TABLE `studentexamroominfo` (
   subjectId INT ,

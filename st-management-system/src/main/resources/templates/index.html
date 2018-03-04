@@ -373,6 +373,13 @@
                     </p-form-item>
                 </p-col>
             </p-row>
+            <p-row>
+                <p-col span="8">
+                    <p-form-item label="考试科目编号">
+                        <p-input :value.sync="studentQuery.subjectid" placeholder="请输入考试科目编号..." @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input>
+                    </p-form-item>
+                </p-col>
+            </p-row>
             <p style="text-align: center;margin-bottom: 15px;">
                 <p-button type="primary" @click="submitQuery" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;查询&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p-button>
                 <p-button type="ghost" @click="reset" style="margin-left: 8px" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p-button>
@@ -381,9 +388,9 @@
         <p style="text-align: right;">
             <p-button @click="addClick" type="primary" size="small">增加</p-button>
         </p>
-        <p-table size = "small" border :columns="columns6" :data="classrooms" v-ref:table></p-table>
+        <p-table size = "small" border :columns="columns6" :data="students" v-ref:table></p-table>
         <div style="float:right">
-            <p-page :total="studentQuery.totalRecord" :current.sync="studentQuery.pageIndex" :page-size.sync="studentQuery.pageSize" :page-size-opts="[5,10,20]"  @on-change="doClassroomQuery" @on-page-size-change="doClassroomQuery" class="pageClass" show-total show-elevator></p-page>
+            <p-page :total="studentQuery.totalRecord" :current.sync="studentQuery.pageIndex" :page-size.sync="studentQuery.pageSize" :page-size-opts="[5,10,20]"  @on-change="submitQuery" @on-page-size-change="submitQuery" class="pageClass" show-total show-elevator></p-page>
         </div>
         <p-button class="pageClass" type="primary" size="large" @click="exportData(1)" posi>
             <p-icon type="ios-download-outline"></p-icon> 导出原始数据</p-button>
@@ -394,7 +401,7 @@
     </div>
     <p-modal :visible.sync="modalAdd" @on-ok="addSubmit" @on-cancel="cancel">
         <p slot="header">
-            <span>增加考生信息</span>
+            <span>增加报名信息</span>
         </p>
         <div style="text-align:center;">
             <p-form label-position="right" :label-width="100">
@@ -402,51 +409,14 @@
                     <p-input style="width: 300px" type="text" :value.sync="student.name" placeholder="姓名">
                     </p-input>
                 </p-form-item>
-
                 <p-form-item label="身份证号">
                     <p-input style="width: 300px" type="text" :value.sync="student.id" placeholder="身份证号">
                     </p-input>
                 </p-form-item>
-
-                <p-form-item label="是否启用 ">
+                <p-form-item label="报名科目 ">
                     <p-select :model.sync="student.subjectid" style="width:300px; text-align: center">
                         <p-option clearable="false" v-for="item in subjects" :value="item.id">{{ item.name }}</p-option>
                     </p-select>
-                </p-form-item>
-
-            </p-form>
-        </div>
-    </p-modal>
-    <p-modal :visible.sync="modalDelete" @on-ok="deleteSubmit" @on-cancel="cancel">
-        <p slot="header">
-            <span>删除学生信息</span>
-        </p>
-        <div style="text-align:center;">
-            <p-form label-position="right" :label-width="100">
-                <p-form-item label="准考证号">
-                    <p-input style="width: 300px" type="text" :value.sync="student.sid" placeholder="准考证号">
-                    </p-input>
-                </p-form-item>
-            </p-form>
-        </div>
-    </p-modal>
-    <p-modal :visible.sync="modalUpdate" @on-ok="updateSubmit" @on-cancel="cancel">
-        <p slot="header">
-            <span>修改考生信息</span>
-        </p>
-        <div style="text-align:center;">
-            <p-form label-position="right" :label-width="100">
-                <p-form-item label="准考证号">
-                    <p-input style="width: 300px" type="text" :value.sync="student.sid" placeholder="准考证号">
-                    </p-input>
-                </p-form-item>
-                <p-form-item label="身份证号">
-                    <p-input style="width: 300px" type="text" :value.sync="student.id" placeholder="身份证号">
-                    </p-input>
-                </p-form-item>
-                <p-form-item label="姓名">
-                    <p-input style="width: 300px" type="text" :value.sync="student.name" placeholder="姓名">
-                    </p-input>
                 </p-form-item>
             </p-form>
         </div>
@@ -1200,14 +1170,13 @@
         data: function() {
             return{
                 modalAdd: false,
-                modalDelete: false,
-                modalUpdate: false,
-                subjects:[],
+                students:[],
                 email: '',
                 studentQuery: {
                     sid: '',
                     id: '',
                     name: '',
+                    subjectid: '',
                     pageIndex:1,
                     pageSize:10,
                     totalRecord:0
@@ -1248,8 +1217,8 @@
                     "key": "operate",
                     "sortable": false,
                     align: 'center',
-                    render: function (row,column,index) {
-                        return '<p-button @click="updateClick" style="margin-left: 8px" type="primary" size="small">修改</p-button><p-button @click="deleteClick" style="margin-left: 8px" type="error" size="small">删除</p-button>';
+                    render: function (row) {
+                        return '<p-button @click="deleteSubmit('+row.sid+','+row.subjectid+')" style="margin-left: 8px" type="error" size="small">删除</p-button>';
                     }
                 }],
             }
@@ -1259,100 +1228,45 @@
         },
         methods: {
             reset: function () {
-                this.studentQuery.sid='';
-                this.studentQuery.id= '';
-                this.studentQuery.name= '';
-                this.classroomQuery.pageIndex=1;
-                this.classroomQuery.pageSize=10;
-                this.classroomQuery.totalRecord=0;
+                this.studentQuery = {};
+                this.studentQuery.pageSize = 10;
+                this.studentQuery.pageIndex = 1;
+                this.studentQuery.totalRecord = 0;
             },
             addClick: function () {
-                this.$http.get('/subject/' + this.email + '/querysubjects').then(function (res) {
-                    this.subjects = res.body;
+                this.subjects = {};
+                this.$http.get('/subject/querysubjects').then(function (res) {
+                    this.subjects = res.body.data;
                     this.modalAdd = true;
                 });
             },
-            deleteClick: function(){
-                this.modalDelete = true;
-            },
-            updateClick: function(){
-                this.modalUpdate = true;
-            },
             addSubmit: function () {
-                this.$http.post('/student/' + this.email + '/add', this.student).then(function (res) {
-                    if(1 == res.body) {
-                        this.$Message.success("增加成功");
-                    }
-                    else if(0 == res.body){
-                        this.$Message.error("增加失败");
-                    }
-                    else if(2 == res.body){
-                        this.$Message.error("用户为空");
-                    }
-                    else if(3 == res.body){
-                        this.$Message.error("用户没有权限");
-                    }
-                    else if(4 == res.body){
-                        this.$Message.error("没有此用户");
+                this.$http.post('/student/add', this.student).then(function (res) {
+                    if(res.body.status == 200){
+                        this.$Message.success("报名成功");
+                    }else{
+                        this.$Message.error(res.body.data);
                     }
                     this.modalAdd = false;
                 });
             },
-            deleteSubmit: function () {
-                this.$http.post('/student/' + this.email + '/delete', this.student).then(function (res) {
-                    if(1 == res.body) {
+            deleteSubmit: function (sid, subjectid) {
+                this.student = {};
+                this.student.sid = sid;
+                this.student.subjectid = subjectid;
+                this.$http.post('/student/delete', this.student).then(function (res) {
+                    if(res.body.status == 200){
                         this.$Message.success("删除成功");
+                    }else{
+                        this.$Message.error(res.body.data);
                     }
-                    else if(0 == res.body){
-                        this.$Message.error("删除失败");
-                    }
-                    else if(2 == res.body){
-                        this.$Message.error("用户为空");
-                    }
-                    else if(3 == res.body){
-                        this.$Message.error("用户没有权限");
-                    }
-                    else if(4 == res.body){
-                        this.$Message.error("没有此用户");
-                    }
-                    this.modalDelete = false;
                 });
-            },
-            updateSubmit: function () {
-                this.$http.post('/student/' + this.email + '/update', this.student).then(function (res) {
-                    if(1 == res.body) {
-                        this.$Message.success("修改成功");
-                    }
-                    else if(0 == res.body){
-                        this.$Message.error("修改失败");
-                    }
-                    else if(2 == res.body){
-                        this.$Message.error("用户为空");
-                    }
-                    else if(3 == res.body){
-                        this.$Message.error("用户没有权限");
-                    }
-                    else if(4 == res.body){
-                        this.$Message.error("没有此用户");
-                    }
-                    else if(5 == res.body){
-                        this.$Message.error("该教室正在被使用，不能修改");
-                    }
-                    this.modalUpdate = false;
-                });
-            },
-            doClassroomQuery:function () {
-                this.classrooms = [];
-                this.$http.post("/student/query",this.studentQuery).then(function (response) {
-                    this.classrooms = response.body.results;
-                    this.classroomQuery.totalRecord = response.body.totalRecord;
-                })
             },
             submitQuery: function(){
-                this.classrooms = [];
-                this.$http.post('/classroom/query', this.studentQuery).then(function (res) {
-                    this.classrooms = res.body.results;
-                    this.classroomQuery.totalRecord = res.body.totalRecord;
+                this.students = [];
+                this.$http.post('/student/query', this.studentQuery).then(function (res) {
+                    this.students = res.body.data.results;
+                    this.studentQuery.totalRecord = res.body.data.totalRecord;
                 });
             },
             exportData: function(type) {

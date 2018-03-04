@@ -15,3 +15,9 @@
 .pageClass{
     margin: 10px;
 }
+.button-red{
+    background: red;
+    color: white;
+    float: right;
+    border-color: red;
+}

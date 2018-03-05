@@ -1607,10 +1607,14 @@
                 this.main = true;
                 this.detail = false;
             },
-            assignSumbit:function () {
-                this.$http.post('/subject/assign', this.xeamroom){
-                    
-                }
+            assignSubmit:function () {
+                this.$http.post('/subject/assign', this.examroom).then(function (res) {
+                    if(res.body.status == 200){
+                        this.$Message.success('分配成功');
+                    }else{
+                        this.$Message.error(res.body.data);
+                    }
+                });
             },
             exportData: function(type) {
                 if (type === 1) {

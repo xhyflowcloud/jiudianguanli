@@ -18,11 +18,14 @@ public interface ExamroomMapper {
     @Select("select * from examroom where id = #{id}")
     Examroom findExamroomById(@Param("id") Integer id);
 
-    @Insert("insert into examroom(rid,tid,number,sid) values(#{rid}, #{tid}, #{number} , #{sid})")
-    void insertExamroom(@Param("rid") Integer rid,@Param("tid") Integer tid,@Param("number") Integer number,@Param("sid") Integer sid);
+    @Select("select id from examroom where sid = #{sid} and tid = #{tid}")
+    Integer findIdBySubAndTea(@Param("sid") Integer sid, @Param("tid") Integer tid);
+
+    @Insert("insert into examroom(rid,tid,number,sid) values(#{rid}, #{tid}, #{number}, #{sid})")
+    void insertExamroom(Examroom examroom);
 
     @Update("update examroom set rid=#{rid},tid=#{tid},number=#{number},tid=#{tid} where id= #{id}")
-    void updateExamroom(@Param("rid") Integer rid,@Param("tid") Integer tid,@Param("number") Integer number,@Param("sid") Integer sid);
+    void updateExamroom(Examroom examroom);
 
     @Delete("delete from examroom where id = #{id}")
     void deleteExamroom(@Param("id") Integer id);

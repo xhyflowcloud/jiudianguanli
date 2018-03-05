@@ -1,5 +1,6 @@
 package com.ccnu.xiahongyun.stmanagementsystem.services;
 
+import com.ccnu.xiahongyun.stmanagementsystem.model.Examroom;
 import com.ccnu.xiahongyun.stmanagementsystem.model.Subject;
 import com.ccnu.xiahongyun.stmanagementsystem.model.SubjectString;
 import com.ccnu.xiahongyun.stmanagementsystem.model.SubjectTest;
@@ -13,4 +14,5 @@ public interface SubjectService {
     Boolean deleteSubject(SubjectTest subjectTest);
     List<SubjectString> findSubjectBySubjectQuery(SubjectQuery subjectQuery);
     Integer countSubjectBySubjectQuery(SubjectQuery subjectQuery);
+    Boolean assignExamroom(Examroom examroom);
 }

@@ -12,6 +12,9 @@ import java.util.List;
 @Repository
 public interface ClassroomMapper {
 
+    @Select("select * from classroom")
+    List<Classroom> selectAllClassroom();
+
     @Insert("insert into classroom( size,starttime, endtime,position, isEnable) values(#{size},#{starttime} ,#{endtime},#{position}, #{isEnable})")
     void insertClassroom(Classroom classroom);
 

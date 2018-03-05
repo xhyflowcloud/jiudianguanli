@@ -1,6 +1,5 @@
 package com.ccnu.xiahongyun.stmanagementsystem.services.Impl;
 
-import com.ccnu.xiahongyun.stmanagementsystem.Utils.InUtils.TokenDetail;
 import com.ccnu.xiahongyun.stmanagementsystem.Utils.TokenUtils;
 import com.ccnu.xiahongyun.stmanagementsystem.mapper.StudentMapper;
 import com.ccnu.xiahongyun.stmanagementsystem.mapper.StudentExamroominfoMapper;
@@ -94,6 +93,7 @@ public class StudentServiceImpl implements StudentService{
             if(student.getSid() == null || student.getSubjectid() == null){
                 return false;
             }
+            studentExamroominfoMapper.deleteStudentExamroomById(student.getSid(),student.getSubjectid());
             studentMapper.deleteStudent(student.getSid());
             isSuccess = true;
         }catch (Exception e){

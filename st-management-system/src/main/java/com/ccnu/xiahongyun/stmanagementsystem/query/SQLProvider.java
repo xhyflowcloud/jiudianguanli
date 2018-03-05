@@ -18,7 +18,7 @@ public class SQLProvider {
         if(classroom.getPosition() != null && StringUtils.isNotEmpty(classroom.getPosition())){
             sql.append(" and position = #{position}");
         }
-        if(classroom.getEnable() != null){
+        if(classroom.getIsEnable() != null){
             sql.append(" and isEnable = #{isEnable}");
         }
         if(classroom.getStarttime() != null){
@@ -43,7 +43,7 @@ public class SQLProvider {
         if(classroom.getPosition() != null && StringUtils.isNotEmpty(classroom.getPosition())){
             sql.append(" and position = #{position}");
         }
-        if(classroom.getEnable() != null){
+        if(classroom.getIsEnable() != null){
             sql.append(" and isEnable = #{isEnable}");
         }
         if(classroom.getStarttime() != null){
@@ -54,7 +54,6 @@ public class SQLProvider {
         }
         return  sql.toString();
     }
-
     public String selectStudent(StudentQuery student){
         StringBuffer sql = new StringBuffer("select * from  student where 1=1");
         if(student.getSid() != null){
@@ -132,7 +131,7 @@ public class SQLProvider {
             sql.append(" and endtime = #{endtime}");
         }
 
-        if(teacher.getInvigilator() != null){
+        if(teacher.getIsInvigilator() != null){
             sql.append(" and isInvigilator = #{isInvigilator}");
         }
         if(teacher.getAccInvigilator() != null){
@@ -162,7 +161,7 @@ public class SQLProvider {
             sql.append(" and endtime = #{endtime}");
         }
 
-        if(teacher.getInvigilator() != null){
+        if(teacher.getIsInvigilator() != null){
             sql.append(" and isInvigilator = #{isInvigilator}");
         }
         if(teacher.getAccInvigilator() != null){
@@ -173,28 +172,6 @@ public class SQLProvider {
         }
         return  sql.toString();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public String selectExamroom(ExamroomQuery examroom){
         StringBuffer sql = new StringBuffer("select * from  examroom where 1=1");
         if(examroom.getId() != null){

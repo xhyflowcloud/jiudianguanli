@@ -174,6 +174,7 @@ public class SubjectServiceImpl implements SubjectService{
                         throw new Exception();
                     }
                     classroomMapper.updateClassroom(classroom);
+
                     teacher = selectTeacher(subject, teachers);
                     if (teacher == null) {
                         throw new Exception();
@@ -182,6 +183,9 @@ public class SubjectServiceImpl implements SubjectService{
                     examroom.setRid(classroom.getId());
                     examroom.setTid(teacher.getId());
                     examroomMapper.insertExamroom(examroom);
+
+                    classrooms.remove(classroom);
+                    teachers.remove(teacher);
                 }
 
                 Integer examroomid = examroomMapper.findIdBySubAndTea(examroom.getSid(), examroom.getTid());
@@ -199,7 +203,7 @@ public class SubjectServiceImpl implements SubjectService{
 
         try {
             for(Classroom classroom1: classrooms){
-                if(classroom1.getEnable() && (subject.getStarttime() > classroom1.getEndtime() || subject.getEndtime() < classroom1.getStarttime())){
+                if(classroom1.getIsEnable() && (subject.getStarttime() > classroom1.getEndtime() || subject.getEndtime() < classroom1.getStarttime())){
                     if(classroom != null && classroom.getSize() > classroom1.getSize()){
                         classroom = classroom1;
                     }else{
@@ -219,10 +223,10 @@ public class SubjectServiceImpl implements SubjectService{
             for(Teacher teacher1: teachers){
                 if(subject.getStarttime() > teacher1.getEndtime() || subject.getEndtime() < teacher1.getStarttime()){
                     if(teacher != null){
-                        if(teacher.getInvigilator() && !teacher.getAccInvigilator() && teacher1.getInvigilator() && !teacher1.getAccInvigilator() && teacher.getNumInvigilator() < teacher1.getNumInvigilator()){
+                        if(teacher.getIsInvigilator() && !teacher.getAccInvigilator() && teacher1.getIsInvigilator() && !teacher1.getAccInvigilator() && teacher.getNumInvigilator() < teacher1.getNumInvigilator()){
                             teacher = teacher1;
                         }
-                        else if(teacher.getAccInvigilator() && teacher1.getInvigilator() && (!teacher1.getAccInvigilator() || teacher.getNumInvigilator() < teacher1.getNumInvigilator())){
+                        else if(teacher.getAccInvigilator() && teacher1.getIsInvigilator() && (!teacher1.getAccInvigilator() || teacher.getNumInvigilator() < teacher1.getNumInvigilator())){
                             teacher = teacher1;
                         }
                     }else{

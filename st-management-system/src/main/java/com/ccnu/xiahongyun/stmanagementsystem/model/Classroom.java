@@ -60,12 +60,12 @@ public class Classroom {
         this.position = position;
     }
 
-    public Boolean getEnable() {
+    public Boolean getIsEnable() {
         return isEnable;
     }
 
-    public void setEnable(Boolean enable) {
-        isEnable = enable;
+    public void setIsEnable(Boolean enable) {
+        this.isEnable = enable;
     }
 
     @Override

@@ -44,12 +44,12 @@ public class TeacherTime {
         this.endtime = endtime;
     }
 
-    public Boolean getInvigilator() {
+    public Boolean getIsInvigilator() {
         return isInvigilator;
     }
 
-    public void setInvigilator(Boolean invigilator) {
-        isInvigilator = invigilator;
+    public void setIsInvigilator(Boolean invigilator) {
+        this.isInvigilator = invigilator;
     }
 
     public Integer getNumInvigilator() {

@@ -28,7 +28,7 @@ public class ClassroomServiceImpl implements ClassroomService{
         try{
             classroom.setStarttime(new Date().getTime());
             classroom.setEndtime(new Date().getTime());
-            classroom.setEnable(true);
+            classroom.setIsEnable(true);
             classroomMapper.insertClassroom(classroom);
             isSuccess = true;
         }catch (Exception e){

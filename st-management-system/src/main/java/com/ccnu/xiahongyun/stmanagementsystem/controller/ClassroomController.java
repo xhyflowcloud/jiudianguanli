@@ -38,7 +38,7 @@ public class ClassroomController {
                 classroomTime.setId(c.getId());
                 classroomTime.setSize(c.getSize());
                 classroomTime.setPosition(c.getPosition());
-                classroomTime.setEnable(c.getEnable());
+                classroomTime.setIsEnable(c.getIsEnable());
                 classroomTime.setStarttime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(c.getStarttime())));
                 classroomTime.setEndtime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(c.getEndtime())));
                 classroomsTime.add(classroomTime);

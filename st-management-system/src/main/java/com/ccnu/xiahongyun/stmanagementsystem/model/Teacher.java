@@ -55,12 +55,12 @@ public class Teacher {
         this.endtime = endtime;
     }
 
-    public Boolean getInvigilator() {
+    public Boolean getIsInvigilator() {
         return isInvigilator;
     }
 
-    public void setInvigilator(Boolean invigilator) {
-        isInvigilator = invigilator;
+    public void setIsInvigilator(Boolean invigilator) {
+        this.isInvigilator = invigilator;
     }
 
     public Integer getNumInvigilator() {
@@ -79,48 +79,4 @@ public class Teacher {
         this.accInvigilator = accInvigilator;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Teacher)) return false;
-
-        Teacher teacher = (Teacher) o;
-
-        if (getId() != null ? !getId().equals(teacher.getId()) : teacher.getId() != null) return false;
-        if (getName() != null ? !getName().equals(teacher.getName()) : teacher.getName() != null) return false;
-        if (getStarttime() != null ? !getStarttime().equals(teacher.getStarttime()) : teacher.getStarttime() != null)
-            return false;
-        if (getEndtime() != null ? !getEndtime().equals(teacher.getEndtime()) : teacher.getEndtime() != null)
-            return false;
-        if (isInvigilator != null ? !isInvigilator.equals(teacher.isInvigilator) : teacher.isInvigilator != null)
-            return false;
-        if (getNumInvigilator() != null ? !getNumInvigilator().equals(teacher.getNumInvigilator()) : teacher.getNumInvigilator() != null)
-            return false;
-        return getAccInvigilator() != null ? getAccInvigilator().equals(teacher.getAccInvigilator()) : teacher.getAccInvigilator() == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = getId() != null ? getId().hashCode() : 0;
-        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
-        result = 31 * result + (getStarttime() != null ? getStarttime().hashCode() : 0);
-        result = 31 * result + (getEndtime() != null ? getEndtime().hashCode() : 0);
-        result = 31 * result + (isInvigilator != null ? isInvigilator.hashCode() : 0);
-        result = 31 * result + (getNumInvigilator() != null ? getNumInvigilator().hashCode() : 0);
-        result = 31 * result + (getAccInvigilator() != null ? getAccInvigilator().hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Teacher{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", starttime=" + starttime +
-                ", endtime=" + endtime +
-                ", isInvigilator=" + isInvigilator +
-                ", numInvigilator=" + numInvigilator +
-                ", accInvigilator=" + accInvigilator +
-                '}';
-    }
 }

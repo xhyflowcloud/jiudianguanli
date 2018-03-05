@@ -89,7 +89,7 @@ public class TeacherController {
                 teacherTime.setName(c.getName());
                 if(c.getStarttime() != null)teacherTime.setStarttime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(c.getStarttime())));
                 if(c.getEndtime() != null)teacherTime.setEndtime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(c.getEndtime())));
-                teacherTime.setInvigilator(c.getInvigilator());
+                teacherTime.setIsInvigilator(c.getIsInvigilator());
                 teacherTime.setNumInvigilator(c.getNumInvigilator());
                 teacherTime.setAccInvigilator(c.getAccInvigilator());
 

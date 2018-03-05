@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -38,8 +39,8 @@ public class ClassroomController {
                 classroomTime.setSize(c.getSize());
                 classroomTime.setPosition(c.getPosition());
                 classroomTime.setEnable(c.getEnable());
-                if(c.getStarttime() != null)classroomTime.setStarttime(new Date(c.getStarttime()).toString());
-                if(c.getEndtime() != null)classroomTime.setEndtime(new Date(c.getEndtime()).toString());
+                classroomTime.setStarttime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(c.getStarttime())));
+                classroomTime.setEndtime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(c.getEndtime())));
                 classroomsTime.add(classroomTime);
             }
             aimPage.setResults(classroomsTime);

@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -86,8 +87,8 @@ public class TeacherController {
                 TeacherTime teacherTime = new TeacherTime();
                 teacherTime.setId(c.getId());
                 teacherTime.setName(c.getName());
-                if(c.getStarttime() != null)teacherTime.setStarttime(new Date(c.getStarttime()).toString());
-                if(c.getEndtime() != null)teacherTime.setEndtime(new Date(c.getEndtime()).toString());
+                if(c.getStarttime() != null)teacherTime.setStarttime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(c.getStarttime())));
+                if(c.getEndtime() != null)teacherTime.setEndtime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(c.getEndtime())));
                 teacherTime.setInvigilator(c.getInvigilator());
                 teacherTime.setNumInvigilator(c.getNumInvigilator());
                 teacherTime.setAccInvigilator(c.getAccInvigilator());

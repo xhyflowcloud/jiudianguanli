@@ -23,12 +23,21 @@ public interface StudentMapper {
     @Select("select sid from student where id = #{id}")
     List<Integer> findSidBysId(@Param("id") String id);
 
+    @Select("select subjectid from student where id = #{id}")
+    List<Integer> findSubjectidBysId(@Param("id") String id);
+
+    @Select("select sid from student where subjectid = #{subjectid}")
+    List<Integer> findSidBySubjectId(@Param("subjectid") Integer subjectid);
+
     @Insert("insert into student (name,id,sid,subjectid) values ( #{name}, #{id},#{sid},#{subjectid}) ")
     void insertStudent(Student student);
 
 
     @Update("update student set name=#{name},id=#{id},subjectid=#{subjectid} where sid= #{sid}")
     void updateStudent(Student student);
+
+    @Select("select * from  student where subjectid = #{subjectid} and sid not in (select studentid from studentexamroominfo)")
+    List<Student> selectStudentNoExamroom(@Param("subjectid") Integer subjectid);
 
     @Delete("delete from student where sid = #{sid}")
     void deleteStudent(@Param("sid") Integer sid);

@@ -97,25 +97,7 @@ public class SQLProvider {
             sql.append(" and id = #{id}");
         }
         if(subject.getName() != null && StringUtils.isNotEmpty(subject.getName())){
-            sql.append(" and name = #{id}");
-        }
-        if(subject.getStarttime()!= null){
-            sql.append(" and starttime = #{starttime}");
-        }
-        if(subject.getEndtime()!= null){
-            sql.append(" and endtime = #{endtime}");
-        }
-        if(subject.getBmstarttime()!= null){
-            sql.append(" and bmstarttime = #{bmstarttime}");
-        }
-        if(subject.getBmendtime()!= null){
-            sql.append(" and bmendtime = #{bmendtime}");
-        }
-        if(subject.getMaxnumber()!= null){
-            sql.append(" and maxnumber = #{maxnumber}");
-        }
-        if(subject.getMinnumber()!= null){
-            sql.append(" and minnumber = #{number}");
+            sql.append(" and name = #{name}");
         }
 
         Integer temp = (subject.getPageIndex()-1)*subject.getPageSize();
@@ -129,25 +111,7 @@ public class SQLProvider {
             sql.append(" and id = #{id}");
         }
         if(subject.getName() != null && StringUtils.isNotEmpty(subject.getName())){
-            sql.append(" and name = #{id}");
-        }
-        if(subject.getStarttime()!= null){
-            sql.append(" and starttime = #{starttime}");
-        }
-        if(subject.getEndtime()!= null){
-            sql.append(" and endtime = #{endtime}");
-        }
-        if(subject.getBmstarttime()!= null){
-            sql.append(" and bmstarttime = #{bmstarttime}");
-        }
-        if(subject.getBmendtime()!= null){
-            sql.append(" and bmendtime = #{bmendtime}");
-        }
-        if(subject.getMaxnumber()!= null){
-            sql.append(" and maxnumber = #{maxnumber}");
-        }
-        if(subject.getMinnumber()!= null){
-            sql.append(" and minnumber = #{number}");
+            sql.append(" and name = #{name}");
         }
         return  sql.toString();
     }

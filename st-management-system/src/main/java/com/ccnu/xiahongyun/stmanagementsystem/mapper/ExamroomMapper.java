@@ -27,6 +27,9 @@ public interface ExamroomMapper {
     @Delete("delete from examroom where id = #{id}")
     void deleteExamroom(@Param("id") Integer id);
 
+    @Delete("delete from examroom where sid = #{sid}")
+    void deleteExamroomBySubjectId(@Param("sid") Integer sid);
+
     @SelectProvider(type = SQLProvider.class, method = "selectExamroom")
     List<Examroom> findExamroomByLimit(ExamroomQuery examroom);
 

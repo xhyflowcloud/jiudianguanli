@@ -4,10 +4,13 @@ import com.ccnu.xiahongyun.stmanagementsystem.Utils.InUtils.TokenDetail;
 import com.ccnu.xiahongyun.stmanagementsystem.Utils.TokenUtils;
 import com.ccnu.xiahongyun.stmanagementsystem.mapper.StudentMapper;
 import com.ccnu.xiahongyun.stmanagementsystem.mapper.StudentExamroominfoMapper;
+import com.ccnu.xiahongyun.stmanagementsystem.mapper.SubjectMapper;
 import com.ccnu.xiahongyun.stmanagementsystem.model.Student;
 import com.ccnu.xiahongyun.stmanagementsystem.model.StudentExpand;
+import com.ccnu.xiahongyun.stmanagementsystem.model.Subject;
 import com.ccnu.xiahongyun.stmanagementsystem.query.StudentQuery;
 import com.ccnu.xiahongyun.stmanagementsystem.services.StudentService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -20,23 +23,26 @@ import java.util.List;
 @Service
 public class StudentServiceImpl implements StudentService{
 
+    private final SubjectMapper subjectMapper;
     private final StudentMapper studentMapper;
     private final StudentExamroominfoMapper studentExamroominfoMapper;
     private final TokenUtils tokenUtils;
 
     @Autowired
-    public StudentServiceImpl(StudentMapper studentMapper, StudentExamroominfoMapper studentExamroominfoMapper, TokenUtils tokenUtils) {
+    public StudentServiceImpl(StudentMapper studentMapper, StudentExamroominfoMapper studentExamroominfoMapper, TokenUtils tokenUtils, SubjectMapper subjectMapper) {
         this.studentMapper = studentMapper;
         this.studentExamroominfoMapper = studentExamroominfoMapper;
         this.tokenUtils = tokenUtils;
+        this.subjectMapper = subjectMapper;
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public boolean insertStudent(Student student) {
         Boolean isSuccess;
+        List<Integer> subjectids;
         try{
-            if(student.getId() == null || student.getSubjectid() == null){
+            if(student.getId() == null || !StringUtils.isNotEmpty(student.getId()) || student.getSubjectid() == null){
                 return false;
             }
 
@@ -46,6 +52,19 @@ public class StudentServiceImpl implements StudentService{
             else{
                 student.setSid(studentMapper.findSidBysId(student.getId()).get(0));
             }
+            subjectids = studentMapper.findSubjectidBysId(student.getId());
+            Subject subjectTemp = subjectMapper.selectSubjectById(student.getSubjectid());
+            if(subjectids.size() != 0){
+                for(Integer subjectid: subjectids){
+                    Subject subject = subjectMapper.selectSubjectById(subjectid);
+                    if((subjectTemp.getEndtime() >= subject.getStarttime() && subjectTemp.getStarttime() <= subject.getStarttime()) ||
+                            (subjectTemp.getEndtime() >= subject.getEndtime() && subjectTemp.getStarttime() <= subject.getEndtime())){
+                        return false;
+                    }
+                }
+            }
+            subjectTemp.setMinnumber(subjectTemp.getMinnumber()+1);
+            subjectMapper.updateSubjectMinnumber(subjectTemp);
             studentMapper.insertStudent(student);
             isSuccess = true;
         }catch (Exception e){
@@ -117,5 +136,17 @@ public class StudentServiceImpl implements StudentService{
             count = 0;
         }
         return count;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    public List<Student> findStudentNoExamroom(Integer subjectid) {
+        List<Student> studentList;
+        try{
+            studentList = studentMapper.selectStudentNoExamroom(subjectid);
+        }catch (Exception e){
+            studentList = new ArrayList<>();
+        }
+        return studentList;
     }
 }

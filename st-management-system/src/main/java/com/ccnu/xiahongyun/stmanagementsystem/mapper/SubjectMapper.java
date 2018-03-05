@@ -14,30 +14,10 @@ import java.util.List;
 public interface SubjectMapper {
 
     @Insert("insert into subject(name, starttime,endtime,bmstarttime,bmendtime,maxnumber,minnumber) values(#{name}, #{starttime} , #{endtime}, #{bmstarttime}, #{bmendtime}, #{maxnumber}, #{minnumber})")
-    void insertSubject(@Param("name") String name, @Param("starttime") Long starttime,
-                       @Param("endtime") Long endtime, @Param("bmstarttime") Long bmstarttime,
-                       @Param("bmendtime") Long bmendtime,@Param("maxnumber") Integer maxnumber,
-                       @Param("minnumber") Integer minnumber);
+    void insertSubject(Subject subject);
 
-    @Update("update subject set starttime=#{starttime}, endtime=#{endtime}  where id = #{id}")
-    void updateSubjectForTime( @Param("starttime") Long starttime,
-                              @Param("endtime") Long endtime,@Param("id") Integer id);
-
-
-
-    @Update("update subject set bmstarttime=#{bmstarttime} ,bmendtime=#{bmendtime} where id = #{id}")
-    void updateSubjectForBMTime( @Param("bmstarttime") Long bmstarttime,
-                                 @Param("bmendtime") Long bmendtime,@Param("id") Integer id);
-
-
-    @Update("update subject set maxnumber=#{maxnumber},minnumber=#{minnumber} where id = #{id}")
-    void updateSubjectForNumber( @Param("maxnumber") Long maxnumber,
-                                 @Param("minnumber") Long minnumber,@Param("id") Integer id);
-
-    @Update("update subject set name=#{name} where id = #{id}")
-    void updateSubjectForName( @Param("name") Long name
-                                 ,@Param("id") Integer id);
-
+    @Update("update subject set minnumber = #{minnumber} where id = #{id}")
+    void updateSubjectMinnumber(Subject subject);
 
     @Delete("delete from subject where id = #{id}")
     void deleteSubject(@Param("id") Integer id);
@@ -45,13 +25,13 @@ public interface SubjectMapper {
     @Select("select * from subject")
     List<Subject> selectAllSubject();
 
-    @Select("select * from where id = #{id}")
+    @Select("select * from subject where id = #{id}")
     Subject selectSubjectById(@Param("id") Integer id);
 
 
     @SelectProvider(type = SQLProvider.class, method = "selectSubject")
-    List<Subject> findStudentByLimit(SubjectQuery subjectQuery);
+    List<Subject> findSubjectByLimit(SubjectQuery subjectQuery);
 
     @SelectProvider(type = SQLProvider.class, method = "selectSubjectCount")
-    Integer findStudentCount(SubjectQuery subjectQuery);
+    Integer findSubjectCount(SubjectQuery subjectQuery);
 }

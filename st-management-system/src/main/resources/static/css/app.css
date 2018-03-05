@@ -15,9 +15,14 @@
 .pageClass{
     margin: 10px;
 }
-.button-red{
+.button-left{
+    margin-left: 15px;
     background: red;
     color: white;
-    float: right;
+    float: left;
     border-color: red;
+}
+.button-right{
+    margin-right: 15px;
+    float: right;
 }

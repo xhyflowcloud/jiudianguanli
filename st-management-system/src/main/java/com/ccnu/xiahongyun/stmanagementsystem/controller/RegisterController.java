@@ -53,7 +53,6 @@ public class RegisterController {
 
     @PostMapping("/quit")
     public void quit(@RequestBody String email){
-
         if(tokenUtils.getUserList().contains(email)){
             tokenUtils.getUserList().remove(email);
         }

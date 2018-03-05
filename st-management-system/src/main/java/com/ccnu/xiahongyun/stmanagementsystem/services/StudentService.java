@@ -13,4 +13,5 @@ public interface StudentService {
     boolean deleteStudent(Student student);
     List<StudentExpand> selectStudentByStudentQuery(StudentQuery studentQuery);
     Integer countStudentByStudentQuery(StudentQuery studentQuery);
+    List<Student> findStudentNoExamroom(Integer subjectid);
 }

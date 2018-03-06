@@ -96,11 +96,11 @@
     <div id="app">
 
         <p-menu mode="horizontal" :theme="theme" active-key="1">
-            <p-menu-item key="1">
+            <p-menu-item key="1" @click="indexQuery">
                 <p-icon type="ios-paper"></p-icon>
                 首页
             </p-menu-item>
-            <p-menu-item key="2">
+            <p-menu-item key="2" @click="userAdminQuery">
                 <p-icon type="ios-people"></p-icon>
                 用户管理
             </p-menu-item>
@@ -584,6 +584,39 @@
         </p-modal>
     </div>
 
+</script>
+<script type="text/x-template" id="userAdmin">
+    <div class="shopweb-card-body" style="margin-top: 30px; padding: 5px">
+        <p-form :label-width="120" label-position="right">
+            <p-row :gutter="10">
+                <p-col span="8">
+                    <p-form-item label="用户邮箱">
+                        <p-input :value.sync="root.email" placeholder="请输入用户邮箱..." @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input>
+                    </p-form-item>
+                </p-col>
+            </p-row>
+            <p style="text-align: center;margin-bottom: 15px;">
+                <p-button type="primary" @click="submitQuery" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;查询&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p-button>
+                <p-button type="ghost" @click="reset" style="margin-left: 8px" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p-button>
+            </p>
+        </p-form >
+        <p style="text-align: right;">
+            <p-button @click="addClick" type="primary" size="small">增加</p-button>
+        </p>
+        <p-table size = "small" border :columns="columns6" :data="roots" v-ref:table></p-table>
+        <p-modal :visible.sync="modalAdd" @on-ok="addSubmit" @on-cancel="cancel">
+            <p slot="header">
+                <span>增加ROOT用户</span>
+            </p>
+            <div >
+                <p-form label-position="right" :label-width="150">
+                    <p-form-item label="用户邮箱">
+                        <p-input style="width: 240px" type="text" :value.sync="root.email" placeholder="报名人数"></p-input>
+                    </p-form-item>
+                </p-form>
+            </div>
+        </p-modal>
+    </div>
 </script>
 <script>
     var LoginView = Vue.extend({
@@ -1534,6 +1567,112 @@
             }
         }
     });
+    var userAdmin = Vue.extend({
+        template: '#userAdmin',
+        data: function() {
+            return{
+                modalAdd: false,
+
+                email: '',
+                root:{
+                    email: '',
+                },
+                roots:[],
+                columns6: [{
+                    "title": "权限编号",
+                    "key": "id",
+                    align: 'center',
+                }, {
+                    "title": "用户邮箱",
+                    "key": "email",
+                    align: 'center',
+                    "sortable": false,
+                }, {
+                    "title": "权限等级",
+                    "key": "auth",
+                    "sortable": false,
+                    align: 'center'
+                }, {
+                    "title": "是否启用",
+                    "key": "enable",
+                    "sortable": false,
+                    align: 'center',
+                },{
+                    "title": "操作",
+                    "key": "operate",
+                    "sortable": false,
+                    align: 'center',
+                    render: function (row) {
+                        return '<p-button @click="deleteSubmit('+row.id+')" style="margin-left: 8px" type="error" size="small">删除</p-button>';
+                    }
+                }],
+            }
+        },
+        created:function () {
+            this.email=this.$route.query.email;
+        },
+        methods: {
+            reset: function () {
+                this.root = {};
+            },
+            addClick: function () {
+                this.modalAdd = true;
+            },
+            addSubmit: function () {
+                this.$http.post('/root/add', this.root).then(function (res) {
+                    if(res.body.status == 200){
+                        this.$Message.success("添加成功");
+                    }else{
+                        this.$Message.error(res.body.data);
+                    }
+                    this.modalAdd = false;
+                });
+            },
+            deleteSubmit: function (id) {
+                this.root = {};
+                this.root.id = id;
+                this.$http.post('/root/delete', this.root).then(function (res) {
+                    if(res.body.status == 200){
+                        this.$Message.success("删除成功");
+                    }else{
+                        this.$Message.error(res.body.data);
+                    }
+                });
+            },
+            submitQuery: function(){
+                this.roots = [];
+                this.$http.post('/root/query', this.root).then(function (res) {
+                    if (res.body.status == 200) {
+                        this.roots = res.body.data;
+                    }else{
+                        this.$Message.error(res.body.data);
+                    }
+                });
+            },
+            exportData: function(type) {
+                if (type === 1) {
+                    this.$refs.table.exportCsv({
+                        filename: '原始数据'
+                    });
+                } else if (type === 2) {
+                    this.$refs.table.exportCsv({
+                        filename: '排序和过滤后的数据',
+                        original: false
+                    });
+                } else if (type === 3) {
+                    this.$refs.table.exportCsv({
+                        filename: '自定义数据',
+                        columns: this.columns4.filter(function(col, index) {
+                            return index < 4
+                        }),
+                        data: this.classrooms.filter(function(data, index) {
+                            return index < 4
+                        })
+                    });
+                }
+            }
+        }
+    });
     var App = Vue.extend({
         template: '#index',
         data: function() {
@@ -1554,6 +1693,16 @@
                 this.$router.go({
                     path:'/index/examroom',
                     query: {email: this.register.email}
+                });
+            },
+            indexQuery: function () {
+                this.$router.go({
+                    path:'/index'
+                });
+            },
+            userAdminQuery: function () {
+                this.$router.go({
+                    path:'/index/userAdmin'
                 });
             },
             classroomQuery: function () {
@@ -1600,6 +1749,7 @@
                 '/student': {name: 'student', component: student},
                 '/teacher': {name: 'teacher', component: teacher},
                 '/subject': {name: 'subject', component: subject},
+                '/userAdmin':{name: 'userAdmin', component: userAdmin},
             }
         },
     });

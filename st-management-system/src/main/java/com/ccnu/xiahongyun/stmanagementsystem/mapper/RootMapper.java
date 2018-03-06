@@ -21,7 +21,7 @@ public interface RootMapper {
     Root findRootByEmail(@Param("email") String email);
 
     @Insert("insert into root(email,auth,enable) values(#{email},#{auth},#{enable})")
-    void insertRoot(@Param("email") String email, @Param("auth") Integer auth, @Param("enable") Boolean enable);
+    void insertRoot(Root root);
 
     @Update("update root set email=#{email},auth=#{auth},enable=#{enable} where id= #{id}")
     void updateRoot(@Param("id") Integer id,@Param("email") String email, @Param("auth") Integer auth,@Param("enable") Boolean enable);

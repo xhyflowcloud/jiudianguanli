@@ -38,7 +38,8 @@ public class WebConfig extends WebMvcConfigurerAdapter{
                 .addPathPatterns("/student/**")
                 .addPathPatterns("/teacher/**")
                 .addPathPatterns("/examroom/**")
-                .addPathPatterns("/subject/**");
+                .addPathPatterns("/subject/**")
+                .addPathPatterns("/root/**");
         super.addInterceptors(registry);
     }
 

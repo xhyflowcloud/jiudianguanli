@@ -50,7 +50,12 @@ public class StudentServiceImpl implements StudentService{
             }
 
             if(studentMapper.findSidBysId(student.getId()).size() == 0 || studentMapper.findSidBysId(student.getId()).get(0) == null){
-                student.setSid(tokenUtils.getSid());
+                if(studentMapper.findMaxStudentSid()== null ||studentMapper.findMaxStudentSid() == 0) {
+                    student.setSid(tokenUtils.getSid());
+                }
+                else{
+                    student.setSid(studentMapper.findMaxStudentSid() + 1);
+                }
             }
             else{
                 student.setSid(studentMapper.findSidBysId(student.getId()).get(0));
@@ -97,6 +102,10 @@ public class StudentServiceImpl implements StudentService{
             if(student.getSid() == null || student.getSubjectid() == null){
                 return false;
             }
+
+            Subject subjectTemp = subjectMapper.selectSubjectById(student.getSubjectid());
+            subjectTemp.setMinnumber(subjectTemp.getMinnumber() > 0 ? subjectTemp.getMinnumber() - 1 : 0);
+            subjectMapper.updateSubjectMinnumber(subjectTemp);
             studentExamroominfoMapper.deleteStudentExamroomById(student.getSid(),student.getSubjectid());
             studentMapper.deleteStudent(student.getSid());
             isSuccess = true;

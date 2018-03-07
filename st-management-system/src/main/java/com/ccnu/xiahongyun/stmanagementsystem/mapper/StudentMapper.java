@@ -17,6 +17,9 @@ public interface StudentMapper {
     @Select("select * from student")
     List<Student> findAllStudent();
 
+    @Select("select max(sid) from student")
+    Integer findMaxStudentSid();
+
     @Select("select * from student where id = #{id}")
     List<Student> findStudentById(@Param("id") String id);
 

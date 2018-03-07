@@ -41,6 +41,12 @@
                     </p-input>
                 </p-form-item>
 
+                <p-form-item rule-key="identy" :value="user.identy">
+                    <p-input style="width: 300px" type="text" :value.sync="user.identy" placeholder="请输入身份证号">
+                        <p-icon type="ios-person-outline" slot="prepend"></p-icon>
+                    </p-input>
+                </p-form-item>
+
                 <p-form-item rule-key="password" :value="user.pwd">
                     <p-input style="width: 300px" type="password" :value.sync="user.pwd" placeholder="请输入用密码">
                         <p-icon type="ios-locked-outline" slot="prepend"></p-icon>
@@ -100,7 +106,7 @@
                 <p-icon type="ios-paper"></p-icon>
                 首页
             </p-menu-item>
-            <p-menu-item key="2" @click="userAdminQuery">
+            <p-menu-item v-if="root" key="2" @click="userAdminQuery">
                 <p-icon type="ios-people"></p-icon>
                 用户管理
             </p-menu-item>
@@ -118,11 +124,13 @@
             <p-col span="4" style="height:660px;">
                 <div id="menubar" style="display: inline-block; float: left; width:100%;height: 100%;background-color: #464c5b">
                     <p-menu class="width" :theme="theme">
-                        <p-menu-item key="1" @click="examroomQuery"><p-icon type="stats-bars"></p-icon>考场信息管理</p-menu-item>
-                        <p-menu-item key="2" @click="studentQuery"><p-icon type="stats-bars"></p-icon>考生信息管理</p-menu-item>
-                        <p-menu-item key="3" @click="teacherQuery"><p-icon type="stats-bars"></p-icon>监考人员信息管理</p-menu-item>
-                        <p-menu-item key="4" @click="classroomQuery"><p-icon type="stats-bars"></p-icon>教室信息管理</p-menu-item>
-                        <p-menu-item key="5" @click="subjectQuery"><p-icon type="stats-bars"></p-icon>考试科目信息管理</p-menu-item>
+                        <p-menu-item key="1" @click="examroomQuery"><p-icon type="stats-bars"></p-icon>考场信息</p-menu-item>
+                        <p-menu-item v-if="root" key="2" @click="studentQuery"><p-icon type="stats-bars"></p-icon>考生信息</p-menu-item>
+                        <p-menu-item v-if="root" key="3" @click="teacherQuery"><p-icon type="stats-bars"></p-icon>监考人员信息管理</p-menu-item>
+                        <p-menu-item v-if="root" key="4" @click="classroomQuery"><p-icon type="stats-bars"></p-icon>教室信息管理</p-menu-item>
+                        <p-menu-item v-if="root" key="5" @click="subjectQuery"><p-icon type="stats-bars"></p-icon>考试科目信息</p-menu-item>
+                        <p-menu-item v-if="root == false" key="6" @click="subjectRegister"><p-icon type="stats-bars"></p-icon>科目报名</p-menu-item>
+                        <p-menu-item v-if="root == false" key="7" @click="subject1Query"><p-icon type="stats-bars"></p-icon>考试科目信息</p-menu-item>
                     </p-menu>
                 </div>
             </p-col>
@@ -516,7 +524,7 @@
                 <p-button type="ghost" @click="reset" style="margin-left: 8px" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p-button>
             </p>
         </p-form >
-        <p style="text-align: right;">
+        <p  style="text-align: right;">
             <p-button @click="addClick" type="primary" size="small">增加</p-button>
         </p>
         <p-table size = "small" border :columns="columns6" :data="subjects" v-ref:table></p-table>
@@ -585,6 +593,92 @@
     </div>
 
 </script>
+<script type="text/x-template" id="subject1">
+    <div v-if="main" class="shopweb-card-body" style="margin-top: 30px; padding: 5px">
+        <p-form :label-width="120" label-position="right">
+            <p-row :gutter="10">
+                <p-col span="8">
+                    <p-form-item label="考试科目编号">
+                        <p-input :value.sync="subjectQuery.id" placeholder="请输入考试科目编号..." @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input>
+                    </p-form-item>
+                </p-col>
+                <p-col span="8">
+                    <p-form-item label="考试科目名称">
+                        <p-input :value.sync="subjectQuery.name" placeholder="请输入考试科目名称..." @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input>
+                    </p-form-item>
+                </p-col>
+            </p-row>
+            <p style="text-align: center;margin-bottom: 15px;">
+                <p-button type="primary" @click="submitQuery" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;查询&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p-button>
+                <p-button type="ghost" @click="reset" style="margin-left: 8px" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p-button>
+            </p>
+        </p-form >
+        <p-table size = "small" border :columns="columns6" :data="subjects" v-ref:table></p-table>
+        <div style="float:right">
+            <p-page :total="studentQuery.totalRecord" :current.sync="studentQuery.pageIndex" :page-size.sync="studentQuery.pageSize" :page-size-opts="[5,10,20]"  @on-change="submitQuery" @on-page-size-change="submitQuery" class="pageClass" show-total show-elevator></p-page>
+        </div>
+        <p-button class="pageClass" type="primary" size="large" @click="exportData(1)" posi>
+            <p-icon type="ios-download-outline"></p-icon> 导出原始数据</p-button>
+        <p-button type="primary" size="large" @click="exportData(2)">
+            <p-icon type="ios-download-outline"></p-icon> 导出排序和过滤后的数据</p-button>
+        <p-button type="primary" size="large" @click="exportData(3)">
+            <p-icon type="ios-download-outline"></p-icon> 导出自定义数据</p-button>
+
+        <p-modal :visible.sync="modalAdd" @on-ok="addSubmit" @on-cancel="cancel">
+            <p slot="header">
+                <span>增加考试科目信息</span>
+            </p>
+            <div >
+                <p-form label-position="right" :label-width="150">
+                    <p-form-item label="报名开始日期">
+                        <p-date-picker :value.sync="subject.bmstarttime" type="datetime" placeholder="报名开始日期" style="width: 240px;" ></p-date-picker>
+                    </p-form-item>
+                    <p-form-item label="报名结束日期">
+                        <p-date-picker :value.sync="subject.bmendtime" type="datetime" placeholder="报名结束日期" style="width: 240px" ></p-date-picker>
+                    </p-form-item>
+                    <p-form-item label="考试开始日期">
+                        <p-date-picker :value.sync="subject.starttime" type="datetime" placeholder="考试开始日期" style="width: 240px" ></p-date-picker>
+                    </p-form-item>
+                    <p-form-item label="考试结束日期">
+                        <p-date-picker :value.sync="subject.endtime" type="datetime" placeholder="考试结束日期" style="width: 240px" ></p-date-picker>
+                    </p-form-item>
+                    <p-form-item label="考试科目名称">
+                        <p-input style="width: 240px" type="text" :value.sync="subject.name" placeholder="考试科目名称">
+                        </p-input>
+                    </p-form-item>
+                    <p-form-item label="报名人数">
+                        <p-input style="width: 240px" type="text" :value.sync="subject.maxnumber" placeholder="报名人数"></p-input>
+                    </p-form-item>
+                </p-form>
+            </div>
+        </p-modal>
+    </div>
+    <div v-if="detail" class="shopweb-card-body" style="margin-top: 30px; padding: 5px">
+        <p-form :label-width="120" label-position="right" style="margin-bottom: 20px">
+                <span>
+                    <p-button type="primary" @click="assignClick" style="margin-left: 8px" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;分配考场&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p-button>
+                </span>
+            <span style="float: right">
+                    <p-button type="ghost" @click="goback" style="margin-left: 8px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;返回&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p-button>
+                </span>
+        </p-form >
+
+        <p-table size = "small" border :columns="columns4" :data="students"></p-table>
+        <p-modal :visible.sync="modalAssign" @on-ok="assignSubmit" @on-cancel="cancel">
+            <p slot="header">
+                <span>分配考场</span>
+            </p>
+            <div >
+                <p-form label-position="right" :label-width="150">
+                    <p-form-item label="考场大小">
+                        <p-input style="width: 240px" type="text" :value.sync="examroom.number" placeholder="考场大小"></p-input>
+                    </p-form-item>
+                </p-form>
+            </div>
+        </p-modal>
+    </div>
+
+</script>
 <script type="text/x-template" id="userAdmin">
     <div class="shopweb-card-body" style="margin-top: 30px; padding: 5px">
         <p-form :label-width="120" label-position="right">
@@ -618,6 +712,21 @@
         </p-modal>
     </div>
 </script>
+<script type="text/x-template" id="subjectRegister">
+    <div style="margin-top: 50px; margin-bottom: 70px; text-align: center">
+        <p-form label-position="right" :label-width="100">
+            <p-form-item label="">
+                <p-select :model.sync="student.subjectid" style="width:300px; text-align: center">
+                    <p-option clearable="false" v-for="item in subjects" :value="item.id">{{ item.name }}</p-option>
+                </p-select>
+            </p-form-item>
+            <p-form-item label="">
+                    <p-button style="width: 300px" type="primary" @click="addSubmit" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;报名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p-button>
+            </p-form-item>
+        </p-form>
+    </div>
+    <p-table size = "small" border :columns="columns6" :data="students" v-ref:table></p-table>
+</script>
 <script>
     var LoginView = Vue.extend({
         template: '#register',
@@ -647,6 +756,10 @@
                     user: [{
                         required: true,
                         message: '请填写用户名',
+                    }],
+                    identy: [{
+                        required: true,
+                        message: '请填写身份证号',
                     }],
                     password: [{
                         required: true,
@@ -679,6 +792,7 @@
                     name: '',
                     pwd: '',
                     email: '',
+                    identy: '',
                 },
                 repassword: '',
                 theme: 'dark',
@@ -741,6 +855,7 @@
               this.user.name = '';
               this.user.email = '';
               this.user.pwd = '';
+              this.user.identy = '';
             }
         },
     });
@@ -1444,8 +1559,200 @@
                     "sortable": false,
                     align: 'center',
                     render: function (row) {
-                        return '<p-button @click="querySubmit('+row.id+')" style="margin-left: 8px" type="primary" size="small">详情</p-button><p-button @click="deleteSubmit('+row.id+')" style="margin-left: 8px" type="error" size="small">删除</p-button>';
+                        return '<p-button  @click="querySubmit('+row.id+')" style="margin-left: 8px" type="primary" size="small">详情</p-button><p-button  @click="deleteSubmit('+row.id+')" style="margin-left: 8px" type="error" size="small">删除</p-button>';
                     }
+                }],
+                columns4: [{
+                    "title": "准考证号",
+                    "key": "sid",
+                    align: 'center',
+                }, {
+                    "title": "姓名",
+                    "key": "name",
+                    align: 'center',
+                    "sortable": false,
+                }, {
+                    "title": "身份证号",
+                    "key": "id",
+                    "sortable": false,
+                    align: 'center'
+                }, {
+                    "title": "考试科目",
+                    "key": "subjectid",
+                    "sortable": false,
+                    align: 'center',
+                }],
+            }
+        },
+        created:function () {
+            this.email=this.$route.query.email;
+        },
+        methods: {
+            reset: function () {
+                this.subjectQuery = {};
+                this.subjectQuery.pageSize = 10;
+                this.subjectQuery.pageIndex = 1;
+                this.subjectQuery.totalRecord = 0;
+            },
+            assignClick: function () {
+                this.modalAssign = true;
+            },
+            addClick: function () {
+                this.modalAdd = true;
+            },
+            addSubmit: function () {
+                this.$http.post('/subject/add', this.subject).then(function (res) {
+                    if(res.body.status == 200){
+                        this.$Message.success("添加成功");
+                    }else{
+                        this.$Message.error(res.body.data);
+                    }
+                    this.modalAdd = false;
+                });
+            },
+            deleteSubmit: function (id) {
+                this.subject = {};
+                this.subject.id = id;
+                this.$http.post('/subject/delete', this.subject).then(function (res) {
+                    if(res.body.status == 200){
+                        this.$Message.success("删除成功");
+                    }else{
+                        this.$Message.error(res.body.data);
+                    }
+                });
+            },
+            submitQuery: function(){
+                this.students = [];
+                this.$http.post('/subject/query', this.subjectQuery).then(function (res) {
+                    if (res.body.status == 200) {
+                        this.subjects = res.body.data.results;
+                        this.subjectQuery.totalRecord = res.body.data.totalRecord;
+                    }else{
+                        this.$Message.error(res.body.data);
+                    }
+                });
+            },
+            querySubmit: function (id) {
+                this.examroom.sid = id;
+                this.$http.get('/student/query/'+id).then(function (res) {
+                    if(res.body.status == 200){
+                        this.students = res.body.data;
+                        this.main = false;
+                        this.detail = true;
+                    }else{
+                        this.$Message.error(res.body.data);
+                    }
+                });
+
+            },
+            goback: function () {
+                this.main = true;
+                this.detail = false;
+            },
+            assignSubmit:function () {
+                this.$http.post('/subject/assign', this.examroom).then(function (res) {
+                    if(res.body.status == 200){
+                        this.$Message.success('分配成功');
+                    }else{
+                        this.$Message.error(res.body.data);
+                    }
+                });
+            },
+            exportData: function(type) {
+                if (type === 1) {
+                    this.$refs.table.exportCsv({
+                        filename: '原始数据'
+                    });
+                } else if (type === 2) {
+                    this.$refs.table.exportCsv({
+                        filename: '排序和过滤后的数据',
+                        original: false
+                    });
+                } else if (type === 3) {
+                    this.$refs.table.exportCsv({
+                        filename: '自定义数据',
+                        columns: this.columns4.filter(function(col, index) {
+                            return index < 4
+                        }),
+                        data: this.classrooms.filter(function(data, index) {
+                            return index < 4
+                        })
+                    });
+                }
+            }
+        }
+    });
+    var subject1 = Vue.extend({
+        template: '#subject1',
+        data: function() {
+            return{
+                main: true,
+                detail: false,
+                modalAdd: false,
+                modalAssign: false,
+                email: '',
+                examroom:{
+                    sid: '',
+                    number: '',
+                },
+                subjectQuery: {
+                    id: '',
+                    name: '',
+                    pageIndex: 1,
+                    pageSize:10,
+                    totalRecord:0
+                },
+                subject:{
+                    id: '',
+                    name: '',
+                    starttime: '',
+                    endtime: '',
+                    bmstarttime: '',
+                    bmendtime: '',
+                    maxnumber: '',
+                    minnumber: '0',
+                },
+                subjects: [],
+                students:[],
+                columns6: [{
+                    "title": "科目编号",
+                    "key": "id",
+                    align: 'center',
+                }, {
+                    "title": "科目名称",
+                    "key": "name",
+                    align: 'center',
+                    "sortable": false,
+                }, {
+                    "title": "报名开始时间",
+                    "key": "bmstarttime",
+                    "sortable": false,
+                    align: 'center'
+                }, {
+                    "title": "报名截止时间",
+                    "key": "bmendtime",
+                    "sortable": false,
+                    align: 'center',
+                },{
+                    "title": "考试开始时间",
+                    "key": "starttime",
+                    "sortable": false,
+                    align: 'center',
+                },{
+                    "title": "考试结束时间",
+                    "key": "endtime",
+                    "sortable": false,
+                    align: 'center',
+                },{
+                    "title": "最大报名人数",
+                    "key": "maxnumber",
+                    "sortable": false,
+                    align: 'center',
+                },{
+                    "title": "报名人数",
+                    "key": "minnumber",
+                    "sortable": false,
+                    align: 'center',
                 }],
                 columns4: [{
                     "title": "准考证号",
@@ -1673,10 +1980,117 @@
             }
         }
     });
+    var subjectRegister = Vue.extend({
+        template: '#subjectRegister',
+        data: function() {
+            return{
+                student:{
+                    sid: '',
+                    id: '',
+                    name: '',
+                    subjectid: '',
+                },
+                register:{
+                  identy: '',
+                  name: '',
+                },
+                email: '',
+                students: [],
+                subjects:[],
+                columns6: [{
+                    "title": "准考证号",
+                    "key": "sid",
+                    align: 'center',
+                }, {
+                    "title": "姓名",
+                    "key": "name",
+                    align: 'center',
+                    "sortable": false,
+                }, {
+                    "title": "身份证号",
+                    "key": "id",
+                    "sortable": false,
+                    align: 'center'
+                }, {
+                    "title": "考试科目",
+                    "key": "subjectid",
+                    "sortable": false,
+                    align: 'center',
+                }],
+            }
+        },
+        created:function () {
+            this.email=this.$route.query.email;
+            this.addClick();
+            this.querySubmit();
+            this.query();
+        },
+        methods: {
+            addSubmit: function () {
+                this.student.id = this.register.identy;
+                this.student.name = this.register.name;
+                this.$http.post('/student/add', this.student).then(function (res) {
+                    if(res.body.status == 200){
+                        this.$Message.success("报名成功");
+                        this.querySubmit();
+                    }else{
+                        this.$Message.error(res.body.data);
+                    }
+                });
+            },
+            querySubmit: function () {
+                this.$http.post('/student/query/id/', this.email).then(function (res) {
+                    if(res.body.status == 200){
+                        this.students = res.body.data;
+                    }else{
+                        this.$Message.error(res.body.data);
+                    }
+                });
+            },
+            addClick: function () {
+                this.subjects = [];
+                this.$http.get('/subject/querysubjects').then(function (res) {
+                    this.subjects = res.body.data;
+                });
+            },
+            query: function () {
+                this.$http.post('/index/identy/', this.email).then(function (res) {
+                    if(res.body.status == 200){
+                        this.register = res.body.data;
+                    }else{
+                        this.$router.go('/');
+                    }
+                });
+            },
+            exportData: function(type) {
+                if (type === 1) {
+                    this.$refs.table.exportCsv({
+                        filename: '原始数据'
+                    });
+                } else if (type === 2) {
+                    this.$refs.table.exportCsv({
+                        filename: '排序和过滤后的数据',
+                        original: false
+                    });
+                } else if (type === 3) {
+                    this.$refs.table.exportCsv({
+                        filename: '自定义数据',
+                        columns: this.columns4.filter(function(col, index) {
+                            return index < 4
+                        }),
+                        data: this.classrooms.filter(function(data, index) {
+                            return index < 4
+                        })
+                    });
+                }
+            }
+        }
+    });
     var App = Vue.extend({
         template: '#index',
         data: function() {
             return {
+                root: false,
                 theme: 'dark',
                 register:{
                     name: '',
@@ -1687,8 +2101,21 @@
         },
         created:function () {
             this.register.email=this.$route.query.email;
+            this.checkRoles();
+        },
+        mounted: function(){
+
         },
         methods: {
+            checkRoles: function () {
+                this.$http.post('/index/roles/', this.register.email).then(function (res) {
+                    if(res.body.status == 200){
+                        this.root = res.body.data;
+                    }else{
+                        this.root = false;
+                    }
+                });
+            },
             examroomQuery: function () {
                 this.$router.go({
                     path:'/index/examroom',
@@ -1729,6 +2156,18 @@
                     query: {email: this.register.email}
                 });
             },
+            subject1Query: function () {
+                this.$router.go({
+                    path:'/index/subject1',
+                    query: {email: this.register.email}
+                });
+            },
+            subjectRegister: function (){
+                this.$router.go({
+                    path:'/index/subjectRegister',
+                    query: {email: this.register.email}
+                });
+            },
             quitQuery: function () {
                 this.$http.post('/index/quit', this.register.email);
                 this.$router.go({
@@ -1749,7 +2188,9 @@
                 '/student': {name: 'student', component: student},
                 '/teacher': {name: 'teacher', component: teacher},
                 '/subject': {name: 'subject', component: subject},
+                '/subject1': {name: 'subject1', component: subject1},
                 '/userAdmin':{name: 'userAdmin', component: userAdmin},
+                '/subjectRegister': {name: 'subjectRegister', component: subjectRegister},
             }
         },
     });

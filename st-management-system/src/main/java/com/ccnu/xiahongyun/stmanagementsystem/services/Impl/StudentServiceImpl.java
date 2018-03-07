@@ -1,9 +1,11 @@
 package com.ccnu.xiahongyun.stmanagementsystem.services.Impl;
 
 import com.ccnu.xiahongyun.stmanagementsystem.Utils.TokenUtils;
+import com.ccnu.xiahongyun.stmanagementsystem.mapper.RegisterMapper;
 import com.ccnu.xiahongyun.stmanagementsystem.mapper.StudentMapper;
 import com.ccnu.xiahongyun.stmanagementsystem.mapper.StudentExamroominfoMapper;
 import com.ccnu.xiahongyun.stmanagementsystem.mapper.SubjectMapper;
+import com.ccnu.xiahongyun.stmanagementsystem.model.Register;
 import com.ccnu.xiahongyun.stmanagementsystem.model.Student;
 import com.ccnu.xiahongyun.stmanagementsystem.model.StudentExpand;
 import com.ccnu.xiahongyun.stmanagementsystem.model.Subject;
@@ -26,13 +28,15 @@ public class StudentServiceImpl implements StudentService{
     private final StudentMapper studentMapper;
     private final StudentExamroominfoMapper studentExamroominfoMapper;
     private final TokenUtils tokenUtils;
+    private final RegisterMapper registerMapper;
 
     @Autowired
-    public StudentServiceImpl(StudentMapper studentMapper, StudentExamroominfoMapper studentExamroominfoMapper, TokenUtils tokenUtils, SubjectMapper subjectMapper) {
+    public StudentServiceImpl(StudentMapper studentMapper, StudentExamroominfoMapper studentExamroominfoMapper, TokenUtils tokenUtils, SubjectMapper subjectMapper, RegisterMapper registerMapper) {
         this.studentMapper = studentMapper;
         this.studentExamroominfoMapper = studentExamroominfoMapper;
         this.tokenUtils = tokenUtils;
         this.subjectMapper = subjectMapper;
+        this.registerMapper = registerMapper;
     }
 
     @Override
@@ -144,6 +148,19 @@ public class StudentServiceImpl implements StudentService{
         List<Student> studentList;
         try{
             studentList = studentMapper.selectStudentNoExamroom(subjectid);
+        }catch (Exception e){
+            studentList = new ArrayList<>();
+        }
+        return studentList;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    public List<Student> findStudentByID(String email) {
+        List<Student> studentList;
+        try{
+            Register register = registerMapper.findRegisterByEmail(email);
+            studentList = studentMapper.findStudentById(register.getIdenty());
         }catch (Exception e){
             studentList = new ArrayList<>();
         }

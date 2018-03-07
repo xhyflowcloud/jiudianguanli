@@ -6,4 +6,6 @@ public interface RegisterService {
 
     void addRegister(Register register);
     Register findRegisterById(String email);
+    Boolean checkRoles(String email);
+    Register queryIdenty(String email);
 }

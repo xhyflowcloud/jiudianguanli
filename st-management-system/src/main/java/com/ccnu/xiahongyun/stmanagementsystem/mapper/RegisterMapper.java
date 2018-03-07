@@ -19,7 +19,7 @@ public interface RegisterMapper {
     @Select("select * from register where email = #{email}")
     Register findRegisterByEmail(@Param("email") String email);
 
-    @Insert("insert into register (name,email,pwd) values (#{name}, #{email}, #{pwd}) ")
+    @Insert("insert into register (name,email,identy,pwd) values (#{name}, #{email}, #{identy}, #{pwd}) ")
     void insertRegister(Register register);
 
     @Update("update register set name=#{name},email=#{email},pwd=#{pwd} where id= #{id}")

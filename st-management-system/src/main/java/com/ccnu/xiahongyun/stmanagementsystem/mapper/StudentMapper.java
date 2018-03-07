@@ -17,6 +17,9 @@ public interface StudentMapper {
     @Select("select * from student")
     List<Student> findAllStudent();
 
+    @Select("select * from student where id = #{id}")
+    List<Student> findStudentById(@Param("id") String id);
+
     @Select("select * from student where sid = #{sid}")
     Student findStudentBysId(@Param("sid") Integer sid);
 

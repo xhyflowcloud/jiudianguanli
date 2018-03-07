@@ -14,4 +14,5 @@ public interface StudentService {
     List<StudentExpand> selectStudentByStudentQuery(StudentQuery studentQuery);
     Integer countStudentByStudentQuery(StudentQuery studentQuery);
     List<Student> findStudentNoExamroom(Integer subjectid);
+    List<Student> findStudentByID(String email);
 }

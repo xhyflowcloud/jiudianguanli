@@ -57,4 +57,22 @@ public class RegisterController {
             tokenUtils.getUserList().remove(email);
         }
     }
+
+    @PostMapping("/roles")
+    public ResponseEntity<ResponseData> register(@RequestBody String email) {
+        try {
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(new ResponseData.Builder().status(XHttpStatus.HTTP_SUCCESS.getCode()).data(registerService.checkRoles(email)).build());
+        } catch (Exception e) {
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(new ResponseData.Builder().buildFailureResponse());
+        }
+    }
+
+    @PostMapping("/identy")
+    public ResponseEntity<ResponseData> identy(@RequestBody String email) {
+        try {
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(new ResponseData.Builder().status(XHttpStatus.HTTP_SUCCESS.getCode()).data(registerService.queryIdenty(email)).build());
+        } catch (Exception e) {
+            return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain;charset=UTF-8")).body(new ResponseData.Builder().buildFailureResponse());
+        }
+    }
 }

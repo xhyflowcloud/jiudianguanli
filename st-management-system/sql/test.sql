@@ -50,6 +50,7 @@ CREATE TABLE `register` (
   id int AUTO_INCREMENT PRIMARY KEY ,
   name VARCHAR(20),
   email VARCHAR(50),
+  identy VARCHAR(15) NOT NULL ,
   pwd VARCHAR(50)
 );
 

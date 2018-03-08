@@ -10,7 +10,7 @@ CREATE TABLE `subject` (
   bmendtime BIGINT,
   maxnumber int,
   minnumber int
-);
+)character set = utf8;
 
 /*教室*/
 CREATE TABLE `classroom`(
@@ -31,7 +31,7 @@ CREATE TABLE  `teacher`(
   isInvigilator BOOL,
   numInvigilator INT,
   accInvigilator BOOL
-);
+)character set = utf8;
 
 /*考场*/
 CREATE TABLE `examroom` (
@@ -43,7 +43,7 @@ CREATE TABLE `examroom` (
   FOREIGN KEY (rid) REFERENCES classroom(id),
   FOREIGN KEY (tid) REFERENCES teacher(id),
   FOREIGN KEY (sid) REFERENCES subject(id)
-);
+)character set = utf8;
 
 /*登录注册*/
 CREATE TABLE `register` (
@@ -52,7 +52,7 @@ CREATE TABLE `register` (
   email VARCHAR(50),
   identy VARCHAR(15) NOT NULL ,
   pwd VARCHAR(50)
-);
+)character set = utf8;
 
 CREATE TABLE `student`(
   sid INT,
@@ -61,7 +61,7 @@ CREATE TABLE `student`(
   subjectId INT ,
   FOREIGN KEY (subjectId) REFERENCES subject(id),
   PRIMARY KEY (sid)
-);
+)character set = utf8;
 
 CREATE TABLE `studentexamroominfo` (
   subjectId INT ,
@@ -70,11 +70,11 @@ CREATE TABLE `studentexamroominfo` (
   FOREIGN KEY (studentId) REFERENCES student(sid),
   FOREIGN KEY (subjectId) REFERENCES subject(id),
   PRIMARY KEY (subjectId,studentId)
-);
+)character set = utf8;;
 
 CREATE TABLE `root` (
   id int AUTO_INCREMENT PRIMARY KEY ,
   email VARCHAR(50),
   auth INTEGER,
   enable BOOL
-)
+)character set = utf8;

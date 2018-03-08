@@ -20,7 +20,7 @@ CREATE TABLE `classroom`(
   endtime BIGINT,
   position VARCHAR(50),
   isEnable BOOL
-);
+)character set = utf8;
 
 /*监考人员*/
 CREATE TABLE  `teacher`(
@@ -55,12 +55,11 @@ CREATE TABLE `register` (
 )character set = utf8;
 
 CREATE TABLE `student`(
-  sid INT,
+  sid INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(50) ,
   id VARCHAR(30),
   subjectId INT ,
-  FOREIGN KEY (subjectId) REFERENCES subject(id),
-  PRIMARY KEY (sid)
+  FOREIGN KEY (subjectId) REFERENCES subject(id)
 )character set = utf8;
 
 CREATE TABLE `studentexamroominfo` (

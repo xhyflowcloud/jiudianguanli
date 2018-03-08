@@ -49,17 +49,6 @@ public class StudentServiceImpl implements StudentService{
                 return false;
             }
 
-            if(studentMapper.findSidBysId(student.getId()).size() == 0 || studentMapper.findSidBysId(student.getId()).get(0) == null){
-                if(studentMapper.findMaxStudentSid()== null ||studentMapper.findMaxStudentSid() == 0) {
-                    student.setSid(tokenUtils.getSid());
-                }
-                else{
-                    student.setSid(studentMapper.findMaxStudentSid() + 1);
-                }
-            }
-            else{
-                student.setSid(studentMapper.findSidBysId(student.getId()).get(0));
-            }
             subjectids = studentMapper.findSubjectidBysId(student.getId());
             Subject subjectTemp = subjectMapper.selectSubjectById(student.getSubjectid());
             if(subjectids.size() != 0){

@@ -2,7 +2,6 @@ package com.ccnu.xiahongyun.stmanagementsystem.interceptor.verification;
 
 import com.ccnu.xiahongyun.stmanagementsystem.Utils.TokenUtils;
 import com.ccnu.xiahongyun.stmanagementsystem.model.Root;
-import com.ccnu.xiahongyun.stmanagementsystem.services.AuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -16,12 +15,10 @@ import java.util.List;
 @Component
 public class LoginInterceptor implements HandlerInterceptor{
     private final TokenUtils tokenUtils;
-    private final AuthorityService authorityService;
 
     @Autowired
-    public LoginInterceptor(TokenUtils tokenUtils, AuthorityService authorityService){
+    public LoginInterceptor(TokenUtils tokenUtils){
         this.tokenUtils = tokenUtils;
-        this.authorityService = authorityService;
     }
 
     @Override
@@ -52,25 +49,9 @@ public class LoginInterceptor implements HandlerInterceptor{
 
         //验证username和token的正确性
         List<String> userList = tokenUtils.getUserList();
-        String email = tokenUtils.getUsernameFromToken(token);
-        if (userList.contains(email)){
-            if(uri.contains("delete") || uri.contains("update") || uri.contains("root") || uri.contains("assign")){
-                Root root= null;
-                try{
-                    root = authorityService.getRootByEmail(email);
-                    if(root != null && root.getAuth() != null && root.getAuth() > 10){
-                        return true;
-                    }else{
-                        httpServletResponse.sendRedirect("/exception/authority");
-                        return false;
-                    }
-                }catch (Exception e){
-                    httpServletResponse.sendRedirect("/exception/exception");
-                }
-            }
-            else{
-                return true;
-            }
+        String username = tokenUtils.getUsernameFromToken(token);
+        if (userList.contains(username)){
+           return true;
         }
 
         httpServletResponse.sendRedirect("/exception/verification");

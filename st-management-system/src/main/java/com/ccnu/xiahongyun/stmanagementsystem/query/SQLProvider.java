@@ -1,13 +1,11 @@
 package com.ccnu.xiahongyun.stmanagementsystem.query;
 
-import com.ccnu.xiahongyun.stmanagementsystem.model.Classroom;
-import com.ccnu.xiahongyun.stmanagementsystem.model.Subject;
-import com.ccnu.xiahongyun.stmanagementsystem.query.ClassroomQuery;
+
 import org.apache.commons.lang.StringUtils;
 
 public class SQLProvider {
 
-    public String selectClassroom(ClassroomQuery classroom){
+   /* public String selectClassroom(ClassroomQuery classroom){
         StringBuffer sql = new StringBuffer("select * from  classroom where 1=1");
         if(classroom.getId() != null){
             sql.append(" and id = #{id}");
@@ -221,6 +219,6 @@ public class SQLProvider {
 
 
 
-
+*/
 
 }

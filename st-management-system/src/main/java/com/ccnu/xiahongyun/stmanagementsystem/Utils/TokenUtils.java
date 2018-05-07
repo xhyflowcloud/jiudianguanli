@@ -2,7 +2,7 @@ package com.ccnu.xiahongyun.stmanagementsystem.Utils;
 
 
 import com.ccnu.xiahongyun.stmanagementsystem.Utils.InUtils.TokenDetail;
-import com.ccnu.xiahongyun.stmanagementsystem.model.Root;
+import com.ccnu.xiahongyun.stmanagementsystem.model.Admin;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -129,13 +129,13 @@ public class TokenUtils {
     /**
      * 检查 token 是否处于有效期内
      * @param token 传入token
-     * @param root  传入校验对象
+     * @param admin  传入校验对象
      * @return Boolean
      */
-    public Boolean validateToken(String token, Root root) {
+    public Boolean validateToken(String token, Admin admin) {
 
         final String username = this.getUsernameFromToken(token);
-        return (username.equals(root.getEmail()) && !(this.isTokenExpired(token)));
+        return (username.equals(admin.getUsername()) && !(this.isTokenExpired(token)));
     }
 
     /**

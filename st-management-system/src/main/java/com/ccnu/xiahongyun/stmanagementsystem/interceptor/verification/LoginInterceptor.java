@@ -1,7 +1,6 @@
 package com.ccnu.xiahongyun.stmanagementsystem.interceptor.verification;
 
 import com.ccnu.xiahongyun.stmanagementsystem.Utils.TokenUtils;
-import com.ccnu.xiahongyun.stmanagementsystem.model.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;

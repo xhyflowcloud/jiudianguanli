@@ -73,11 +73,9 @@
             <p-col span="4" style="height:660px;">
                 <div id="menubar" style="display: inline-block; float: left; width:100%;height: 100%;background-color: #464c5b">
                     <p-menu class="width" :theme="theme">
-                        <p-menu-item key="1" @click="examroomQuery"><p-icon type="stats-bars"></p-icon>考场信息</p-menu-item>
-                        <p-menu-item v-if="root" key="2" @click="studentQuery"><p-icon type="stats-bars"></p-icon>考生信息</p-menu-item>
-                        <p-menu-item v-if="root" key="3" @click="teacherQuery"><p-icon type="stats-bars"></p-icon>监考人员信息管理</p-menu-item>
-                        <p-menu-item v-if="root" key="4" @click="classroomQuery"><p-icon type="stats-bars"></p-icon>教室信息管理</p-menu-item>
-                        <p-menu-item v-if="root" key="5" @click="subjectQuery"><p-icon type="stats-bars"></p-icon>考试科目信息</p-menu-item>
+                        <p-menu-item key="1" @click="CheckInSection"><p-icon type="stats-bars"></p-icon>已入住管理</p-menu-item>
+                        <p-menu-item key="2" @click="UnCheckInSection"><p-icon type="stats-bars"></p-icon>未入住管理</p-menu-item>
+                        <p-menu-item key="3" @click="RoomSection"><p-icon type="stats-bars"></p-icon>房间管理</p-menu-item>
                     </p-menu>
                 </div>
             </p-col>
@@ -87,6 +85,66 @@
                 </div>
             </p-col>
         </p-row>
+    </div>
+</script>
+
+<script type="text/x-template" id="checkinsection">
+    <div>
+        <p-menu mode="horizontal" :theme="theme" active-key="1">
+            <p-menu-item key="1" @click="indexQuery">
+                <p-icon type="ios-paper"></p-icon>
+                首页
+            </p-menu-item>
+            <p-menu-item key="4" style="float: right" @click="quitQuery">
+                <p-icon type="log-out"></p-icon>
+                退出
+            </p-menu-item>
+            <p-menu-item key="5" style="float: right">
+                <p-icon type="settings"></p-icon>
+                {{register.username}}
+            </p-menu-item>
+
+        </p-menu>
+    </div>
+</script>
+<script type="text/x-template" id="uncheckinsection">
+    <div>
+
+        <p-menu mode="horizontal" :theme="theme" active-key="1">
+            <p-menu-item key="1" @click="indexQuery">
+                <p-icon type="ios-paper"></p-icon>
+                首页
+            </p-menu-item>
+            <p-menu-item key="4" style="float: right" @click="quitQuery">
+                <p-icon type="log-out"></p-icon>
+                退出
+            </p-menu-item>
+            <p-menu-item key="5" style="float: right">
+                <p-icon type="settings"></p-icon>
+                {{register.username}}
+            </p-menu-item>
+
+        </p-menu>
+    </div>
+</script>
+<script type="text/x-template" id="roomsection">
+    <div>
+
+        <p-menu mode="horizontal" :theme="theme" active-key="1">
+            <p-menu-item key="1" @click="indexQuery">
+                <p-icon type="ios-paper"></p-icon>
+                首页
+            </p-menu-item>
+            <p-menu-item key="4" style="float: right" @click="quitQuery">
+                <p-icon type="log-out"></p-icon>
+                退出
+            </p-menu-item>
+            <p-menu-item key="5" style="float: right">
+                <p-icon type="settings"></p-icon>
+                {{register.username}}
+            </p-menu-item>
+
+        </p-menu>
     </div>
 </script>
 <script>
@@ -167,7 +225,6 @@
                 theme: 'dark',
                 register:{
                     username: '',
-                    password: '',
                 }
             }
         },
@@ -175,10 +232,22 @@
             this.register.username=this.$route.query.username;
         },
         methods: {
-            examroomQuery: function () {
+            CheckInSection: function () {
                 this.$router.go({
-                    path:'/index/examroom',
-                    query: {email: this.register.email}
+                    path:'/index/checkinsection',
+                    query: {username: this.register.username}
+                });
+            },
+            UnCheckInSection: function () {
+                this.$router.go({
+                    path:'/index/uncheckinsection',
+                    query: {username: this.register.username}
+                });
+            },
+            RoomSection: function () {
+                this.$router.go({
+                    path:'/index/roomsection',
+                    query: {username: this.register.username}
                 });
             },
             indexQuery: function () {
@@ -186,49 +255,146 @@
                     path:'/index'
                 });
             },
-            userAdminQuery: function () {
+            quitQuery: function () {
+                this.$http.post('/index/quit', this.register.username);
                 this.$router.go({
-                    path:'/index/userAdmin'
+                    path:'/'
                 });
             },
-            classroomQuery: function () {
+        }
+    });
+    var checkinsection = Vue.extend({
+        template: '#checkinsection',
+        data: function() {
+            return {
+                root: false,
+                theme: 'dark',
+                register:{
+                    username: '',
+                }
+            }
+        },
+        created:function () {
+            this.register.username=this.$route.query.username;
+        },
+        methods: {
+            CheckInSection: function () {
                 this.$router.go({
-                    path:'/index/classroom',
-                    query: {email: this.register.email}
+                    path:'/index/checkinsection',
+                    query: {username: this.register.username}
                 });
             },
-            teacherQuery: function () {
+            UnCheckInSection: function () {
                 this.$router.go({
-                    path:'/index/teacher',
-                    query: {email: this.register.email}
+                    path:'/index/uncheckinsection',
+                    query: {username: this.register.username}
                 });
             },
-            studentQuery: function () {
+            RoomSection: function () {
                 this.$router.go({
-                    path:'/index/student',
-                    query: {email: this.register.email}
+                    path:'/index/roomsection',
+                    query: {username: this.register.username}
                 });
             },
-            subjectQuery: function () {
+            indexQuery: function () {
                 this.$router.go({
-                    path:'/index/subject',
-                    query: {email: this.register.email}
-                });
-            },
-            subject1Query: function () {
-                this.$router.go({
-                    path:'/index/subject1',
-                    query: {email: this.register.email}
-                });
-            },
-            subjectRegister: function (){
-                this.$router.go({
-                    path:'/index/subjectRegister',
-                    query: {email: this.register.email}
+                    path:'/index'
                 });
             },
             quitQuery: function () {
-                this.$http.post('/index/quit', this.register.email);
+                this.$http.post('/index/quit', this.register.username);
+                this.$router.go({
+                    path:'/'
+                });
+            },
+        }
+    });
+    var uncheckinsection = Vue.extend({
+        template: '#uncheckinsection',
+        data: function() {
+            return {
+                root: false,
+                theme: 'dark',
+                register:{
+                    username: '',
+                }
+            }
+        },
+        created:function () {
+            this.register.username=this.$route.query.username;
+        },
+        methods: {
+            CheckInSection: function () {
+                this.$router.go({
+                    path:'/index/checkinsection',
+                    query: {username: this.register.username}
+                });
+            },
+            UnCheckInSection: function () {
+                this.$router.go({
+                    path:'/index/uncheckinsection',
+                    query: {username: this.register.username}
+                });
+            },
+            RoomSection: function () {
+                this.$router.go({
+                    path:'/index/roomsection',
+                    query: {username: this.register.username}
+                });
+            },
+            indexQuery: function () {
+                this.$router.go({
+                    path:'/index'
+                });
+            },
+            quitQuery: function () {
+                this.$http.post('/index/quit', this.register.username);
+                this.$router.go({
+                    path:'/'
+                });
+            },
+        }
+    });
+    var roomsection = Vue.extend({
+        template: '#roomsection',
+        data: function() {
+            return {
+                root: false,
+                theme: 'dark',
+                register:{
+                    username: '',
+                }
+            }
+        },
+        created:function () {
+            this.register.username=this.$route.query.username;
+        },
+        methods: {
+            CheckInSection: function () {
+                this.$router.go({
+                    path:'/index/checkinsection',
+                    query: {username: this.register.username}
+                });
+            },
+            UnCheckInSection: function () {
+                this.$router.go({
+                    path:'/index/uncheckinsection',
+                    query: {username: this.register.username}
+                });
+            },
+            RoomSection: function () {
+                this.$router.go({
+                    path:'/index/roomsection',
+                    query: {username: this.register.username}
+                });
+            },
+            indexQuery: function () {
+                this.$router.go({
+                    path:'/index'
+                });
+            },
+            quitQuery: function () {
+                this.$http.post('/index/quit', this.register.username);
                 this.$router.go({
                     path:'/'
                 });
@@ -240,18 +406,12 @@
     router.map({
         '/': {name: 'main', component: LoginView},
         '/index': {
-            name: 'index', component: App
-            /*component: App,
+            component: App,
             subRoutes: {
-                '/examroom': {name: 'examroom', component: examroom},
-                '/classroom': {name: 'classroom', component: classroom},
-                '/student': {name: 'student', component: student},
-                '/teacher': {name: 'teacher', component: teacher},
-                '/subject': {name: 'subject', component: subject},
-                '/subject1': {name: 'subject1', component: subject1},
-                '/userAdmin':{name: 'userAdmin', component: userAdmin},
-                '/subjectRegister': {name: 'subjectRegister', component: subjectRegister},
-            }*/
+                '/checkinsection': {name: 'checkinsection', component: checkinsection},
+                '/uncheckinsection': {name: 'uncheckinsection', component: uncheckinsection},
+                '/roomsection': {name: 'roomsection', component: roomsection},
+            }
         },
     });
     router.start(Root, '#root');

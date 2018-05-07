@@ -2,8 +2,6 @@ package com.ccnu.xiahongyun.stmanagementsystem.services.Impl;
 
 import com.ccnu.xiahongyun.stmanagementsystem.mapper.AdminMapper;
 import com.ccnu.xiahongyun.stmanagementsystem.model.Admin;
-import com.ccnu.xiahongyun.stmanagementsystem.model.Register;
-import com.ccnu.xiahongyun.stmanagementsystem.model.Root;
 import com.ccnu.xiahongyun.stmanagementsystem.services.RegisterService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;

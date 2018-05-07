@@ -4,7 +4,6 @@ import com.ccnu.xiahongyun.stmanagementsystem.Utils.TokenDetailImpl;
 import com.ccnu.xiahongyun.stmanagementsystem.Utils.TokenUtils;
 import com.ccnu.xiahongyun.stmanagementsystem.enums.XHttpStatus;
 import com.ccnu.xiahongyun.stmanagementsystem.model.Admin;
-import com.ccnu.xiahongyun.stmanagementsystem.model.Register;
 import com.ccnu.xiahongyun.stmanagementsystem.model.ResponseData;
 import com.ccnu.xiahongyun.stmanagementsystem.services.RegisterService;
 import org.springframework.http.MediaType;

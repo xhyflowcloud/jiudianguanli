@@ -90,61 +90,43 @@
 
 <script type="text/x-template" id="checkinsection">
     <div>
-        <p-menu mode="horizontal" :theme="theme" active-key="1">
-            <p-menu-item key="1" @click="indexQuery">
-                <p-icon type="ios-paper"></p-icon>
-                首页
-            </p-menu-item>
-            <p-menu-item key="4" style="float: right" @click="quitQuery">
-                <p-icon type="log-out"></p-icon>
-                退出
-            </p-menu-item>
-            <p-menu-item key="5" style="float: right">
-                <p-icon type="settings"></p-icon>
-                {{register.username}}
-            </p-menu-item>
+        checkinsection
 
-        </p-menu>
+
     </div>
 </script>
 <script type="text/x-template" id="uncheckinsection">
-    <div>
-
-        <p-menu mode="horizontal" :theme="theme" active-key="1">
-            <p-menu-item key="1" @click="indexQuery">
-                <p-icon type="ios-paper"></p-icon>
-                首页
-            </p-menu-item>
-            <p-menu-item key="4" style="float: right" @click="quitQuery">
-                <p-icon type="log-out"></p-icon>
-                退出
-            </p-menu-item>
-            <p-menu-item key="5" style="float: right">
-                <p-icon type="settings"></p-icon>
-                {{register.username}}
-            </p-menu-item>
-
-        </p-menu>
+    <div class="shopweb-card-body" style="margin-top: 20px; padding: 5px">
+        <p-form :label-width="120" label-position="right">
+            <p-row :gutter="10">
+                <p-col span="8">
+                    <p-form-item label="房间类型">
+                        <p-select :model.sync="UnCheckInQuery.type" clearable="false" style="width: 240px">
+                            <p-option v-for="item in types" :value="item.value">{{ item.label }}</p-option>
+                        </p-select></p-input>
+                    </p-form-item>
+                </p-col>
+                <p-col span="8">
+                    <p-form-item label="入住时间">
+                    <p-date-picker :value.sync="times" type="datetimerange" format="yyyy-MM-dd" placeholder="选择日期和时间（不含秒）" style="width: 300px" ></p-date-picker>
+                </p-form-item>
+                </p-col>
+            </p-row>
+            <p style="text-align: center;margin-bottom: 15px;">
+                <p-button type="primary" @click="submitQuery" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;查询&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p-button>
+                <p-button type="ghost" @click="reset" style="margin-left: 8px" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p-button>
+            </p>
+        </p-form >
+        <p-table size = "small" border :columns="columns3" :data="rooms" v-ref:table></p-table>
+        <div style="float:right">
+            <p-page :total="UnCheckInQuery.totalRecord" :current.sync="UnCheckInQuery.pageIndex" :page-size.sync="UnCheckInQuery.pageSize" :page-size-opts="[5,10,20]"  @on-change="submitQuery" @on-page-size-change="submitQuery" class="pageClass" show-total show-elevator></p-page>
+        </div>
     </div>
 </script>
 <script type="text/x-template" id="roomsection">
     <div>
+        roomsection
 
-        <p-menu mode="horizontal" :theme="theme" active-key="1">
-            <p-menu-item key="1" @click="indexQuery">
-                <p-icon type="ios-paper"></p-icon>
-                首页
-            </p-menu-item>
-            <p-menu-item key="4" style="float: right" @click="quitQuery">
-                <p-icon type="log-out"></p-icon>
-                退出
-            </p-menu-item>
-            <p-menu-item key="5" style="float: right">
-                <p-icon type="settings"></p-icon>
-                {{register.username}}
-            </p-menu-item>
-
-        </p-menu>
     </div>
 </script>
 <script>
@@ -278,35 +260,7 @@
             this.register.username=this.$route.query.username;
         },
         methods: {
-            CheckInSection: function () {
-                this.$router.go({
-                    path:'/index/checkinsection',
-                    query: {username: this.register.username}
-                });
-            },
-            UnCheckInSection: function () {
-                this.$router.go({
-                    path:'/index/uncheckinsection',
-                    query: {username: this.register.username}
-                });
-            },
-            RoomSection: function () {
-                this.$router.go({
-                    path:'/index/roomsection',
-                    query: {username: this.register.username}
-                });
-            },
-            indexQuery: function () {
-                this.$router.go({
-                    path:'/index'
-                });
-            },
-            quitQuery: function () {
-                this.$http.post('/index/quit', this.register.username);
-                this.$router.go({
-                    path:'/'
-                });
-            },
+
         }
     });
     var uncheckinsection = Vue.extend({
@@ -317,42 +271,71 @@
                 theme: 'dark',
                 register:{
                     username: '',
-                }
+                },
+                columns3: [{
+                    "title": "房间ID",
+                    "key": "roomId",
+                    "sortable": false,
+                    align: 'center',
+                },{
+                    "title": "房间类型",
+                    "key": "type",
+                    "sortable": false,
+                    align: 'center',
+                },{
+                    "title": "操作",
+                    "key": "operate",
+                    "sortable": false,
+                    align: 'center',
+                    render: function (row) {
+                        return '<p-button @click="detailClick('+row.id+')" style="margin-left: 8px" type="primary" size="small">详情</p-button>';
+                    }
+                }],
+                UnCheckInQuery: {
+                    type: '',
+                    timeBegin: '',
+                    timeEnd: '',
+                    totalRecord: '',
+                    pageIndex: '',
+                    pageSize: ''
+                },
+                times:[],
+                types: [{
+                    value: '1',
+                    label: 'Master room'
+                },{
+                    value: '2',
+                    label: 'Twin room'
+                },{
+                    value: '3',
+                    label: 'Single room'
+                }],
+                rooms: [],
             }
         },
         created:function () {
             this.register.username=this.$route.query.username;
         },
         methods: {
-            CheckInSection: function () {
-                this.$router.go({
-                    path:'/index/checkinsection',
-                    query: {username: this.register.username}
+            submitQuery: function(){
+                this.UnCheckInQuery.timeBegin = this.times[0];
+                this.UnCheckInQuery.timeEnd = this.times[1];
+                this.$http.post('/uncheckin/query', this.UnCheckInQuery).then(function (res) {
+                    if(res.body.status == 200){
+                        this.rooms = res.body.data;
+                    }
                 });
             },
-            UnCheckInSection: function () {
-                this.$router.go({
-                    path:'/index/uncheckinsection',
-                    query: {username: this.register.username}
-                });
+            detailClick: function(id){
+
             },
-            RoomSection: function () {
-                this.$router.go({
-                    path:'/index/roomsection',
-                    query: {username: this.register.username}
-                });
-            },
-            indexQuery: function () {
-                this.$router.go({
-                    path:'/index'
-                });
-            },
-            quitQuery: function () {
-                this.$http.post('/index/quit', this.register.username);
-                this.$router.go({
-                    path:'/'
-                });
-            },
+            reset: function(){
+                this.type = '';
+                this.timeRange = '';
+                this.totalRecord = '';
+                this.pageIndex = '';
+                this.pageSize = '';
+            }
         }
     });
     var roomsection = Vue.extend({
@@ -370,35 +353,7 @@
             this.register.username=this.$route.query.username;
         },
         methods: {
-            CheckInSection: function () {
-                this.$router.go({
-                    path:'/index/checkinsection',
-                    query: {username: this.register.username}
-                });
-            },
-            UnCheckInSection: function () {
-                this.$router.go({
-                    path:'/index/uncheckinsection',
-                    query: {username: this.register.username}
-                });
-            },
-            RoomSection: function () {
-                this.$router.go({
-                    path:'/index/roomsection',
-                    query: {username: this.register.username}
-                });
-            },
-            indexQuery: function () {
-                this.$router.go({
-                    path:'/index'
-                });
-            },
-            quitQuery: function () {
-                this.$http.post('/index/quit', this.register.username);
-                this.$router.go({
-                    path:'/'
-                });
-            },
+
         }
     });
     var Root = Vue.extend({});

@@ -1,11 +1,11 @@
 package com.ccnu.xiahongyun.stmanagementsystem.mapper;
 
 import com.ccnu.xiahongyun.stmanagementsystem.model.Room;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Update;
+import com.ccnu.xiahongyun.stmanagementsystem.query.RoomQuery;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 @Mapper
@@ -19,5 +19,11 @@ public interface RoomMapper {
 
  @Update( "update Room set roomName = #{roomName},pURL=#{pURL},type=#{type} where roomId = #{roomId}")
  void updateRoom(Room room);
+
+ @Select("select * from Room A, RoomCheckIn B where A.roomId = B.roomId and A.roomId not in(select roomId from RoomCheckIn C where C.timeEnd > CURRENT_DATE and (C.timeBegin < #{timeEnd} and C.timeBegin > #{timeBegin}) or (C.timeEnd < #{timeEnd} and C.timeEnd > #{timeBegin}) or (C.timeEnd > #{timeEnd} and C.timeBegin < #{timeBegin})) limit #{total}, #{pageSize}")
+ List<Room> selectRoomByQuery(RoomQuery roomQuery);
+
+ @Select("select count(*) from Room A, RoomCheckIn B where A.roomId = B.roomId and A.roomId not in(select roomId from RoomCheckIn C where C.timeEnd > CURRENT_DATE and (C.timeBegin < #{timeEnd} and C.timeBegin > #{timeBegin}) or (C.timeEnd < #{timeEnd} and C.timeEnd > #{timeBegin}) or (C.timeEnd > #{timeEnd} and C.timeBegin < #{timeBegin})) limit #{total}, #{pageSize}")
+ Integer selectRoomByQueryCount(RoomQuery roomQuery);
 
 }

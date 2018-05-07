@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface UnCheckInService {
 
-    List<Room> getRoomByQuery(RoomQuery roomQuery);
+    List<Room> getRoomByQuery(RoomQuery roomQuery) throws Exception;
 }

@@ -108,7 +108,7 @@
                 </p-col>
                 <p-col span="8">
                     <p-form-item label="入住时间">
-                    <p-date-picker :value.sync="times" type="datetimerange" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 300px" ></p-date-picker>
+                    <p-date-picker :value.sync="times" type="datetimerange" format="yyyy-MM-dd" placeholder="选择日期和时间（不含秒）" style="width: 300px" ></p-date-picker>
                 </p-form-item>
                 </p-col>
             </p-row>
@@ -288,7 +288,7 @@
                     "sortable": false,
                     align: 'center',
                     render: function (row) {
-                        return '<p-button @click="detailSubmit('+row.id+')" style="margin-left: 8px" type="primary" size="small">详情</p-button>';
+                        return '<p-button @click="detailClick('+row.id+')" style="margin-left: 8px" type="primary" size="small">详情</p-button>';
                     }
                 }],
                 UnCheckInQuery: {
@@ -300,7 +300,16 @@
                     pageSize: ''
                 },
                 times:[],
-                types: [],
+                types: [{
+                    value: '1',
+                    label: 'Master room'
+                },{
+                    value: '2',
+                    label: 'Twin room'
+                },{
+                    value: '3',
+                    label: 'Single room'
+                }],
                 rooms: [],
             }
         },
@@ -313,9 +322,12 @@
                 this.UnCheckInQuery.timeEnd = this.times[1];
                 this.$http.post('/uncheckin/query', this.UnCheckInQuery).then(function (res) {
                     if(res.body.status == 200){
-                        this.rooms = res.body.result;
+                        this.rooms = res.body.data;
                     }
                 });
+            },
+            detailClick: function(id){
+
             },
             reset: function(){
                 this.type = '';

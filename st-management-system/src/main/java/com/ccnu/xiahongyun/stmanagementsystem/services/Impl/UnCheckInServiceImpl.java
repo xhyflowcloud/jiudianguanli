@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -23,7 +25,10 @@ public class UnCheckInServiceImpl implements UnCheckInService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public List<Room> getRoomByQuery(RoomQuery roomQuery) {
+    public List<Room> getRoomByQuery(RoomQuery roomQuery) throws Exception{
+        SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd");
+        roomQuery.setTimeBegin(time.parse(time.format(roomQuery.getTimeBegin())));
+        roomQuery.setTimeEnd(time.parse(time.format(roomQuery.getTimeEnd())));
         return roomMapper.selectRoomByQuery(roomQuery);
     }
 }

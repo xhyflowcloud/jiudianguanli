@@ -5,7 +5,7 @@ public class User {
     private Integer userId;
 
     private String UserName;
-    
+
     /*身份证*/
     private String userIDNum;
 

@@ -11,13 +11,13 @@ import java.util.List;
 @Mapper
 public interface RoomMapper {
 
- @Insert(" insert into Room(roomId, roomName, pURL, type )  values (roomId=#{roomId},roomName= #{roomName}, pURL=#{pURL},type=#{type} ) ")
+ @Insert(" insert into Room( roomName, pURL, type )  values ( roomName= #{roomName}, pURL=#{pURL},type=#{type} ) ")
  void insertRoom(Room room);
 
  @Delete("delete from Room where roomId = #{roomId} ")
  void deleteRoom(Room room);
 
- @Update( "update Room set roomName = #{roomName},pURL=#{pURL},type=#{type} ")
+ @Update( "update Room set roomName = #{roomName},pURL=#{pURL},type=#{type} where roomId = #{roomId}")
  void updateRoom(Room room);
 
  @Select("select * from Room A, RoomCheckIn B where A.roomId = B.roomId and A.roomId not in(select roomId from B where B.timeEnd > CURRENT_DATE and (B.timeBegin < #{timeEnd} and B.timeBegin > #{timeBegin}) or (B.timeEnd < #{timeEnd} and B.timeEnd > #{timeBegin}) or B.timeEnd > #{timeEnd} and B.timeBegin < #{timeBegin})")

@@ -119,7 +119,7 @@
         </p-form >
         <p-table size = "small" border :columns="columns3" :data="rooms" v-ref:table></p-table>
         <div style="float:right">
-            <p-page :total="UnCheckInQuery.totalRecord" :current.sync="UnCheckInQuery.pageIndex" :page-size.sync="UnCheckInQuery.pageSize" :page-size-opts="[5,10,20]"  @on-change="submitQuery" @on-page-size-change="submitQuery" class="pageClass" show-total show-elevator></p-page>
+            <p-page :total="UnCheckInQuery.totalPage" :current.sync="UnCheckInQuery.pageIndex" :page-size.sync="UnCheckInQuery.pageSize" :page-size-opts="[5,10,20]"  @on-change="submitQuery" @on-page-size-change="submitQuery" class="pageClass" show-total show-elevator></p-page>
         </div>
     </div>
 </script>
@@ -295,19 +295,19 @@
                     type: '',
                     timeBegin: '',
                     timeEnd: '',
-                    totalRecord: '',
-                    pageIndex: '',
-                    pageSize: ''
+                    totalPage: '0',
+                    pageIndex: '1',
+                    pageSize: '10',
                 },
                 times:[],
                 types: [{
-                    value: '1',
+                    value: 'Master room',
                     label: 'Master room'
                 },{
-                    value: '2',
+                    value: 'Twin room',
                     label: 'Twin room'
                 },{
-                    value: '3',
+                    value: 'Single room',
                     label: 'Single room'
                 }],
                 rooms: [],
@@ -322,7 +322,8 @@
                 this.UnCheckInQuery.timeEnd = this.times[1];
                 this.$http.post('/uncheckin/query', this.UnCheckInQuery).then(function (res) {
                     if(res.body.status == 200){
-                        this.rooms = res.body.data;
+                        this.rooms = res.body.data.results;
+                        this.UnCheckInQuery.totalPage = res.body.data.totalPage;
                     }
                 });
             },
@@ -330,11 +331,12 @@
 
             },
             reset: function(){
-                this.type = '';
-                this.timeRange = '';
-                this.totalRecord = '';
-                this.pageIndex = '';
-                this.pageSize = '';
+                this.UnCheckInQuery.type = '';
+                this.UnCheckInQuery.timeBegin = '';
+                this.UnCheckInQuery.timeEnd='';
+                this.UnCheckInQuery.totalPage = '0';
+                this.UnCheckInQuery.pageIndex = '1';
+                this.UnCheckInQuery.pageSize = '10';
             }
         }
     });

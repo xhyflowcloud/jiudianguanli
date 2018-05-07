@@ -108,7 +108,7 @@
                 </p-col>
                 <p-col span="8">
                     <p-form-item label="入住时间">
-                    <p-date-picker :value.sync="UnCheckInQuery.timeRange" type="datetimerange" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 300px" ></p-date-picker>
+                    <p-date-picker :value.sync="times" type="datetimerange" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 300px" ></p-date-picker>
                 </p-form-item>
                 </p-col>
             </p-row>
@@ -293,11 +293,13 @@
                 }],
                 UnCheckInQuery: {
                     type: '',
-                    timeRange: '',
+                    timeBegin: '',
+                    timeEnd: '',
                     totalRecord: '',
                     pageIndex: '',
                     pageSize: ''
                 },
+                times:[],
                 types: [],
                 rooms: [],
             }
@@ -307,6 +309,8 @@
         },
         methods: {
             submitQuery: function(){
+                this.UnCheckInQuery.timeBegin = this.times[0];
+                this.UnCheckInQuery.timeEnd = this.times[1];
                 this.$http.post('/uncheckin/query', this.UnCheckInQuery).then(function (res) {
                     if(res.body.status == 200){
                         this.rooms = res.body.result;

@@ -4,6 +4,7 @@ import com.ccnu.xiahongyun.stmanagementsystem.mapper.RoomMapper;
 import com.ccnu.xiahongyun.stmanagementsystem.model.Room;
 import com.ccnu.xiahongyun.stmanagementsystem.query.RoomQuery;
 import com.ccnu.xiahongyun.stmanagementsystem.services.UnCheckInService;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Set;
 
+@Service
 public class UnCheckInServiceImpl implements UnCheckInService {
 
     private final RoomMapper roomMapper;

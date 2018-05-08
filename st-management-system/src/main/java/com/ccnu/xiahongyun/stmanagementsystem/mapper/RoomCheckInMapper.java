@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface RoomCheckInMapper {
     @Insert("insert into RoomCheckIn (timeBegin,timeEnd,userId,roomId,swimming,gym,freeDinks,totPrice)" +
-            " values(timebegin=#{timeBegin},timeEnd=#{timeEnd},userId=#{userId},roomId=#{roomId},swimming=#{swimming},gym=#{gym},freeDinks=#{freeDinks},totPrice=#{totPrice} )")
+            " values(#{timeBegin},#{timeEnd},#{userId},#{roomId},#{swimming},#{gym},#{freeDinks},#{totPrice} )")
     void insertRoomCheckIn(RoomCheckIn roomCheckIn);
 
     @Delete("delete from RoomCheckIn where roomCheckInId =#{roomCheckInId }")

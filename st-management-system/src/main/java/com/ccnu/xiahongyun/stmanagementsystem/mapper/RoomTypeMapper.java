@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface RoomTypeMapper {
 
-    @Insert("insert into RoomType (type,price) values(type=#{type},price=#{price})")
+    @Insert("insert into RoomType (type,price) values(#{type},#{price})")
     void insertRoomType(RoomType roomType);
 
     @Delete("delete from RoomType where RoomTypeId = #{RoomTypeId}")

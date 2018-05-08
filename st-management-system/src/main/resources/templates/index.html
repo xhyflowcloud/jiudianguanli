@@ -138,30 +138,33 @@
             <p-form-item label="房间号">
                 <p-input readonly="true" :value.sync="room.roomName"></p-input>
             </p-form-item>
-            <p-form-item label="入住时间">
+            <p-form-item label="入住时间:">
                 {{checkintime}}
+            </p-form-item>
+            <p-form-item label="退房时间:">
+                {{checkouttime}}
             </p-form-item>
             <p-form-item label="姓名">
-                <p-input style="width: 240px" type="text" :value.sync="subject.maxnumber" placeholder="姓名"></p-input>
+                <p-input style="width: 240px" type="text" :value.sync="CheckInEntity.userName" placeholder="姓名"></p-input>
             </p-form-item>
             <p-form-item label="手机号">
-                <p-input style="width: 240px" type="text" :value.sync="subject.maxnumber" placeholder="手机号"></p-input>
+                <p-input style="width: 240px" type="text" :value.sync="CheckInEntity.phone" placeholder="手机号"></p-input>
             </p-form-item>
             <p-form-item label="身份证号">
-                <p-input style="width: 240px" type="text" :value.sync="subject.maxnumber" placeholder="身份证号"></p-input>
+                <p-input style="width: 240px" type="text" :value.sync="CheckInEntity.userIDNum" placeholder="身份证号"></p-input>
             </p-form-item>
 
-            <p-form-item label="游泳套餐">
-                <p-input-number :value.sync="subjectQuery.name" @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input-number>
+            <p-form-item label="游泳套餐(800¥／7hours)"><!--     -->
+                <p-input-number :value.sync="CheckInEntity.swimming" @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input-number>
             </p-form-item>
-            <p-form-item label="健身套餐">
-                <p-input-number :value.sync="subjectQuery.name" @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input-number>
+            <p-form-item label="健身套餐(700¥／week)">
+                <p-input-number :value.sync="CheckInEntity.gym" @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input-number>
             </p-form-item>
             <p-form-item label="总价">
-                {{checkintime}}
+                {{totPrice}}
             </p-form-item>
             <p-form-item>
-                <p-button type="primary">提交</p-button>
+                <p-button type="primary" @click="submitFrom">提交</p-button>
             </p-form-item>
         </p-form>
     </div>
@@ -362,6 +365,18 @@
                     price: '',
                 },
                 mainModal: true,
+                CheckInEntity:{
+                    userName: '',
+                    userIDNum: '',
+                    phone: '',
+                    timeBegin: '',
+                    timeEnd: '',
+                    roomId: '',
+                    swimming: 0,
+                    gym: 0,
+                    totPrice: '',
+
+                },
             }
         },
         created:function () {
@@ -369,7 +384,50 @@
         },
         computed:{
             checkintime: function(){
-                return this.times[0].toString() + '-' + this.times[1].toString();
+                var date;
+                if(this.times[0].getDate()<10){
+                    date ='0'+ this.times[0].getDate();
+                }
+                else{
+                    date =''+this.times[0].getDate();
+                }
+                var month;
+                if(this.times[0].getMonth()<9){
+                    month = '0'+( this.times[0].getMonth()+1);
+                }
+                else {
+                    month =''+ (this.times[0].getMonth()+1);
+                }
+
+                var bTime =this.times[0].getFullYear()+"-"+ month+"-" + date;
+                return bTime ;
+            },
+            checkouttime: function(){
+                var date;
+                if(this.times[1].getDate()<10){
+                    date ='0'+ this.times[1].getDate();
+                }
+                else {
+                    date =''+this.times[1].getDate();
+                }
+                var month;
+                if(this.times[1].getMonth()<9){
+                    month = '0'+( this.times[1].getMonth()+1);
+                }
+                else {
+                    month =''+ (this.times[1].getMonth()+1);
+                }
+                 var eTime =this.times[1].getFullYear()+"-"+ month+"-" + date;
+                     //this.times[1].getFullYear()+"-"+(Number(this.times[1].getMonth())+1)+"-"+this.times[1].getDate();
+                return eTime ;
+            },
+            totPrice: function () {
+                var days = (this.times[1].getTime()-this.times[0].getTime())/1000/60/60/24;
+                var totSwimPrice = this.CheckInEntity.swimming * 800;
+                var totGymPrice =  this.CheckInEntity.gym * 700;
+                this.CheckInEntity.totPrice = this.room.price*days+totGymPrice+totSwimPrice;
+                return this.room.price*days+totGymPrice+totSwimPrice;
+              //return this.room.price*;
             }
         },
         methods: {
@@ -403,6 +461,18 @@
             },
             goback: function () {
                 this.mainModal = true;
+            },
+            submitFrom: function () {
+                this.CheckInEntity.roomId = this.room.roomId;
+                this.CheckInEntity.timeBegin = this.times[0];
+                this.CheckInEntity.timeEnd = this.times[1];
+                this.$http.post('/uncheckin/checkin', this.CheckInEntity).then(function (res) {
+                    if(res.body.status == 200){
+                        this.$Message.success(res.body.data);
+                    }else{
+                        this.$Message.error(res.body.data);
+                    }
+                });
             }
         }
     });

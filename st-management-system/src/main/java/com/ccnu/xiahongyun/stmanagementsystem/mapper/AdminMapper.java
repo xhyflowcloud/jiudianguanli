@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface AdminMapper {
 
-    @Insert("insert into Admin(username, password) values(username=#{username}, password=#{password})")
+    @Insert("insert into Admin(username, password) values(#{username}, #{password})")
     void InsertAdmin(Admin admin);
 
     @Select("select id, username, password from Admin where username=#{username}")

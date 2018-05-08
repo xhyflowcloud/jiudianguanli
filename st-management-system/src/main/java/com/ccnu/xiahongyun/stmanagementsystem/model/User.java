@@ -4,7 +4,7 @@ public class User {
     /*自增主键*/
     private Integer userId;
 
-    private String UserName;
+    private String userName;
 
     /*身份证*/
     private String userIDNum;
@@ -14,10 +14,8 @@ public class User {
     public User() {
     }
 
-    public User(Integer userId, String userName, String userIDNum, String phone) {
-
-        this.userId = userId;
-        UserName = userName;
+    public User(String userName, String userIDNum, String phone) {
+        userName = userName;
         this.userIDNum = userIDNum;
         this.phone = phone;
     }
@@ -26,7 +24,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "userId=" + userId +
-                ", UserName='" + UserName + '\'' +
+                ", userName='" + userName + '\'' +
                 ", userIDNum='" + userIDNum + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';
@@ -66,11 +64,11 @@ public class User {
     }
 
     public String getUserName() {
-        return UserName;
+        return userName;
     }
 
     public void setUserName(String userName) {
-        UserName = userName;
+        this.userName = userName;
     }
 
     public String getUserIDNum() {

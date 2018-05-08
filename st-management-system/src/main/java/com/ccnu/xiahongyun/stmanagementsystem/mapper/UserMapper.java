@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 @Mapper
 public interface UserMapper {
-    @Insert("insert into Users (userName,userIDNum,phone) values(userName=#{userName},userIDNum=#{userIDNum},phone=#{phone} )")
+    @Insert("insert into Users (userName,userIDNum,phone) values(#{userName},#{userIDNum},#{phone} )")
     void insertUsers(User user);
 
     @Delete("delete from Users where UserId =#{UserId}")

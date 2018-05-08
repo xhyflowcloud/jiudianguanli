@@ -2,6 +2,7 @@ package com.ccnu.xiahongyun.stmanagementsystem.services.Impl;
 
 import com.ccnu.xiahongyun.stmanagementsystem.mapper.RoomMapper;
 import com.ccnu.xiahongyun.stmanagementsystem.model.Room;
+import com.ccnu.xiahongyun.stmanagementsystem.query.RoomsQuery;
 import com.ccnu.xiahongyun.stmanagementsystem.services.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import java.util.List;
 
 @Service
 public class RoomServiceImpl implements RoomService {
@@ -47,5 +50,10 @@ public class RoomServiceImpl implements RoomService {
         roomInfo.put("type", room.getType());
         roomInfo.put("price", price);
         return roomInfo;
+    }
+
+    @Override
+    public List<RoomsQuery> selectRooms(RoomsQuery roomsQuery) {
+       return roomMapper.selectRooms(roomsQuery);
     }
 }

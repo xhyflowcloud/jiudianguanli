@@ -2,6 +2,7 @@ package com.ccnu.xiahongyun.stmanagementsystem.mapper;
 
 import com.ccnu.xiahongyun.stmanagementsystem.model.Room;
 import com.ccnu.xiahongyun.stmanagementsystem.query.RoomQuery;
+import com.ccnu.xiahongyun.stmanagementsystem.query.RoomsQuery;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -26,6 +27,8 @@ public interface RoomMapper {
  @Select("select count(*) from Room A, RoomCheckIn B where A.roomId = B.roomId and A.roomId not in(select roomId from RoomCheckIn C where C.timeEnd > CURRENT_DATE and (C.timeBegin < #{timeEnd} and C.timeBegin > #{timeBegin}) or (C.timeEnd < #{timeEnd} and C.timeEnd > #{timeBegin}) or (C.timeEnd > #{timeEnd} and C.timeBegin < #{timeBegin})) limit #{total}, #{pageSize}")
  Integer selectRoomByQueryCount(RoomQuery roomQuery);
 
+ @Select("select roomId,roomName,pURL,type,price from Room,RoomType where type=#{type} limit #{total} ,#{pageSize}")
+ List<RoomsQuery> selectRooms(RoomsQuery roomsQuery);
  @Select("select * from Room where roomId=#{roomId}")
  Room selectRoomById(Integer roomId);
 

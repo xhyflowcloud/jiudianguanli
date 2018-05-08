@@ -128,22 +128,34 @@
                     <p-button type="ghost" @click="goback" style="margin-left: 8px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;返回&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p-button>
                 </span>
         </p-form >
-        <p-form :label-width="80">
+        <p-form :label-width="80" style="margin-top: 20px; padding: 5px;">
             <p-form-item>
-                <img src="room.pURL" style="width: 100%; height: 200px; background: #464c5b"/>
+                <img src="room.pURL" style="width: 80%; height: 100px; background: #464c5b"/>
             </p-form-item>
-            <p-form-item label="房间类型">
-                <p-input readonly="true" :value.sync="room.type"></p-input>
-            </p-form-item>
-            <p-form-item label="房间号">
-                <p-input readonly="true" :value.sync="room.roomName"></p-input>
-            </p-form-item>
-            <p-form-item label="入住时间:">
-                {{checkintime}}
-            </p-form-item>
-            <p-form-item label="退房时间:">
-                {{checkouttime}}
-            </p-form-item>
+            <p-row :gutter="10">
+                <p-col span="8">
+                    <p-form-item label="房间类型">
+                        <p-input style="width: 240px" readonly :value.sync="room.type"></p-input>
+                    </p-form-item>
+                </p-col>
+                <p-col span="8">
+                    <p-form-item label="房间号">
+                        <p-input style="width: 240px" readonly :value.sync="room.roomName"></p-input>
+                    </p-form-item>
+                </p-col>
+            </p-row>
+            <p-row :gutter="10">
+                <p-col span="8">
+                    <p-form-item label="入住时间:">
+                        {{checkintime}}
+                    </p-form-item>
+                </p-col>
+                <p-col span="8">
+                    <p-form-item label="退房时间:">
+                        {{checkouttime}}
+                    </p-form-item>
+                </p-col>
+            </p-row>
             <p-form-item label="姓名">
                 <p-input style="width: 240px" type="text" :value.sync="CheckInEntity.userName" placeholder="姓名"></p-input>
             </p-form-item>
@@ -153,19 +165,30 @@
             <p-form-item label="身份证号">
                 <p-input style="width: 240px" type="text" :value.sync="CheckInEntity.userIDNum" placeholder="身份证号"></p-input>
             </p-form-item>
-
-            <p-form-item label="游泳套餐(800¥／7hours)"><!--     -->
-                <p-input-number :value.sync="CheckInEntity.swimming" @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input-number>
-            </p-form-item>
-            <p-form-item label="健身套餐(700¥／week)">
-                <p-input-number :value.sync="CheckInEntity.gym" @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input-number>
-            </p-form-item>
-            <p-form-item label="总价">
-                {{totPrice}}
-            </p-form-item>
-            <p-form-item>
-                <p-button type="primary" @click="submitFrom">提交</p-button>
-            </p-form-item>
+            <p-row :gutter="10">
+                <p-col span="8">
+                    <p-form-item label="游泳套餐(800¥／7hours)"><!--     -->
+                        <p-input-number :value.sync="CheckInEntity.swimming" @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input-number>
+                    </p-form-item>
+                </p-col>
+                <p-col span="8">
+                    <p-form-item label="健身套餐(700¥／week)">
+                        <p-input-number :value.sync="CheckInEntity.gym" @keyup="digitalCheck" @blur="digitalCheck" style="width:240px"></p-input-number>
+                    </p-form-item>
+                </p-col>
+            </p-row>
+            <p-row :gutter="10">
+                <p-col span="8">
+                    <p-form-item label="总价">
+                        {{totPrice}}
+                    </p-form-item>
+                </p-col>
+                <p-col span="8">
+                    <p-form-item>
+                        <p-button type="primary" @click="submitFrom">提交</p-button>
+                    </p-form-item>
+                </p-col>
+            </p-row>
         </p-form>
     </div>
 </script>

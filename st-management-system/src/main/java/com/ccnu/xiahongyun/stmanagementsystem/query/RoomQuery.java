@@ -32,7 +32,7 @@ public class RoomQuery {
     /*住房总费用*/
     private Double totPrice;
 
-    private Integer totalRecord;
+    private Integer totalPage;
     private Integer pageIndex;
     private Integer pageSize;
 
@@ -134,12 +134,12 @@ public class RoomQuery {
         this.totPrice = totPrice;
     }
 
-    public Integer getPageRecord() {
-        return totalRecord;
+    public Integer getTotalPage() {
+        return totalPage;
     }
 
-    public void setPageRecord(Integer totalRecord) {
-        this.totalRecord = totalRecord;
+    public void setTotalPage(Integer totalPage) {
+        this.totalPage = totalPage;
     }
 
     public Integer getPageIndex() {
@@ -161,7 +161,6 @@ public class RoomQuery {
     public Integer getTotal() {
         return (this.pageIndex-1) * this.pageSize;
     }
-
     public RoomQuery() {
     }
 }

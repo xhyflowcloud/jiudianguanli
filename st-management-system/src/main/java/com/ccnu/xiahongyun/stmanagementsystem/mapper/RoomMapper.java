@@ -26,4 +26,10 @@ public interface RoomMapper {
  @Select("select count(*) from Room A, RoomCheckIn B where A.roomId = B.roomId and A.roomId not in(select roomId from RoomCheckIn C where C.timeEnd > CURRENT_DATE and (C.timeBegin < #{timeEnd} and C.timeBegin > #{timeBegin}) or (C.timeEnd < #{timeEnd} and C.timeEnd > #{timeBegin}) or (C.timeEnd > #{timeEnd} and C.timeBegin < #{timeBegin})) limit #{total}, #{pageSize}")
  Integer selectRoomByQueryCount(RoomQuery roomQuery);
 
+ @Select("select * from Room where roomId=#{roomId}")
+ Room selectRoomById(Integer roomId);
+
+ @Select("select price from RoomType where type = #{type}")
+ Double getPriceByType(String type);
+
 }

@@ -2,12 +2,15 @@ package com.ccnu.xiahongyun.stmanagementsystem.services.Impl;
 
 import com.ccnu.xiahongyun.stmanagementsystem.mapper.UserMapper;
 import com.ccnu.xiahongyun.stmanagementsystem.model.User;
+import com.ccnu.xiahongyun.stmanagementsystem.query.CheckInInfo;
 import com.ccnu.xiahongyun.stmanagementsystem.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -29,5 +32,10 @@ public class UserServiceImpl implements UserService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public void updateUsers(User user) {
         userMapper.updateUsers(user);
+    }
+
+    @Override
+    public List<CheckInInfo> selectCheckInInfo(CheckInInfo checkInInfo) {
+        return userMapper.selectCheckInInfo(checkInInfo);
     }
 }

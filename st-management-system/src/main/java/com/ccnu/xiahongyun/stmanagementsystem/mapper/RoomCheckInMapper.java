@@ -20,4 +20,6 @@ public interface RoomCheckInMapper {
     @Update("update RoomCheckIn set timebegin=#{timeBegin},timeEnd=#{timeEnd},userId=#{userId},roomId=#{roomId},swimming=#{swimming},gym=#{gym},freeDinks=#{freeDinks},totPrice=#{totPrice} " +
             "where RoomCheckInId=#{RoomCheckInId}")
     void updateRoomCheckIn(RoomCheckIn roomCheckIn);
+
+
 }
